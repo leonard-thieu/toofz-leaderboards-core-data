@@ -232,11 +232,11 @@
     <Compile Include="Migrations\201707172139340_LimeZinc﻿AfghanHound.Designer.cs">
       <DependentUpon>201707172139340_LimeZinc﻿AfghanHound.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\CodeCoverageExclusions1.cs">
+    <None Include="Migrations\CodeCoverageExclusions1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CodeCoverageExclusions.tt</DependentUpon>
-    </Compile>
+    </None>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PlayerConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -355,10 +355,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Migrations\CodeCoverageExclusions.tt">
+    <None Include="Migrations\CodeCoverageExclusions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CodeCoverageExclusions1.cs</LastGenOutput>
-    </Content>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
