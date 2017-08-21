@@ -1,1 +1,1 @@
-# toofz Leaderboards Core (Entity Framework)
+# toofz Leaderboards Core (Entity Framework) [![Build status](https://ci.appveyor.com/api/projects/status/belqgh64mubwul1u/branch/master?svg=true)](https://ci.appveyor.com/project/leonard-thieu/toofz-necrodancer-leaderboards-entityframework/branch/master)
