@@ -1,1 +1,1 @@
-# toofz-necrodancer-leaderboards-entityframework
+# toofz Leaderboards Core (Entity Framework)

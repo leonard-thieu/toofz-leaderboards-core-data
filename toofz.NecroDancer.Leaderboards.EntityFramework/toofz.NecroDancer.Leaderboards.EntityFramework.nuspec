@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>toofz.NecroDancer.Leaderboards.EntityFramework</id>
+    <version>1.0.0</version>
+    <title>toofz Leaderboards Core (Entity Framework)</title>
+    <authors>Leonard Thieu</authors>
+    <owners>Leonard Thieu</owners>
+    <licenseUrl>https://github.com/leonard-thieu/toofz-necrodancer-leaderboards-entityframework/blob/913fcf87652dcbcdaf4d56731e00ad6d8a03d678/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/leonard-thieu/toofz-necrodancer-leaderboards-entityframework</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Provides a context for working with types from toofz.NecroDancer.Leaderboards in a database.</description>
+    <copyright>Copyright 2017</copyright>
+    <tags>toofz necrodancer leaderboards entityframework</tags>
+  </metadata>
+</package>
