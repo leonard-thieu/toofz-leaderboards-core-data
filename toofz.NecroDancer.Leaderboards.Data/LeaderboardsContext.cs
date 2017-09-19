@@ -1,5 +1,4 @@
 ﻿using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 
 namespace toofz.NecroDancer.Leaderboards
 {
@@ -22,12 +21,12 @@ namespace toofz.NecroDancer.Leaderboards
             Configuration.ProxyCreationEnabled = false;
         }
 
-        public virtual DbQuery<Leaderboard> Leaderboards => Set<Leaderboard>().AsNoTracking();
-        public virtual DbQuery<Entry> Entries => Set<Entry>().AsNoTracking();
-        public virtual DbSet<DailyLeaderboard> DailyLeaderboards => Set<DailyLeaderboard>();
-        public virtual DbQuery<DailyEntry> DailyEntries => Set<DailyEntry>().AsNoTracking();
-        public virtual DbQuery<Player> Players => Set<Player>().AsNoTracking();
-        public virtual DbQuery<Replay> Replays => Set<Replay>().AsNoTracking();
+        public virtual DbSet<Leaderboard> Leaderboards { get; set; }
+        public virtual DbSet<Entry> Entries { get; set; }
+        public virtual DbSet<DailyLeaderboard> DailyLeaderboards { get; set; }
+        public virtual DbSet<DailyEntry> DailyEntries { get; set; }
+        public virtual DbSet<Player> Players { get; set; }
+        public virtual DbSet<Replay> Replays { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
