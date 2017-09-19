@@ -23,7 +23,7 @@ namespace toofz.NecroDancer.Leaderboards.EntityFramework.Migrations
                             select l.LeaderboardId)
                             .ToList();
             var newDailies = from h in dailyLeaderboardHeaders
-                             where !existing.Contains(h.id)
+                             where !existing.Contains(h.Id)
                              select h;
             var leaderboardCategories = LeaderboardsResources.ReadLeaderboardCategories();
             var products = leaderboardCategories["products"];
@@ -32,12 +32,12 @@ namespace toofz.NecroDancer.Leaderboards.EntityFramework.Migrations
             {
                 var leaderboard = new DailyLeaderboard
                 {
-                    LeaderboardId = newDaily.id,
+                    LeaderboardId = newDaily.Id,
                     LastUpdate = new DateTime(2000, 1, 1),
-                    Date = newDaily.date,
-                    IsProduction = newDaily.production,
+                    Date = newDaily.Date,
+                    IsProduction = newDaily.IsProduction,
                 };
-                leaderboard.ProductId = products[newDaily.product].Id;
+                leaderboard.ProductId = products[newDaily.Product].Id;
                 context.DailyLeaderboards.AddOrUpdate(leaderboard);
             }
 
