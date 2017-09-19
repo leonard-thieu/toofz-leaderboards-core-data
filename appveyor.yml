@@ -7,6 +7,8 @@ environment:
   PROJECT: toofz.NecroDancer.Leaderboards.Data
   MYGET_API_KEY:
     secure: XZmbJDCK5oiqhbLt1y7UXM6aCYPpF2tm/bJMUJzBsCe1fd2TuwXyaz99RN+bDpHw
+  CODECOV_TOKEN:
+    secure: vLBrHAcXXorq1IINAIm+LJ5nYxVaIP60rTjH6SvlCFMxOf2jOs9KtfK7XEp8cWjy
 cache:
   - packages -> **\packages.config
 notifications:
@@ -30,7 +32,7 @@ build:
 test_script:
   - ps: .\Scripts\Test-Project.ps1
 after_test:
-  - ps: .\Scripts\Submit-CodeCoverageResults.ps1
+  - ps: .\Scripts\Submit-CodeCoverageResults.ps1 -Token $env:CODECOV_TOKEN
 
 deploy_script:
   - ps: .\Scripts\Deploy-NuGetPackage.ps1
