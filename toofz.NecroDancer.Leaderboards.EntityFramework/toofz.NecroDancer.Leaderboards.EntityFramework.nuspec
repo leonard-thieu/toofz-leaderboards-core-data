@@ -8,9 +8,10 @@
     <owners>Leonard Thieu</owners>
     <licenseUrl>https://github.com/leonard-thieu/toofz-necrodancer-leaderboards-entityframework/blob/913fcf87652dcbcdaf4d56731e00ad6d8a03d678/LICENSE</licenseUrl>
     <projectUrl>https://github.com/leonard-thieu/toofz-necrodancer-leaderboards-entityframework</projectUrl>
+    <iconUrl>https://user-images.githubusercontent.com/5265970/29717713-27e1a95c-897e-11e7-9d28-dae64be705b5.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Provides a context for working with types from toofz.NecroDancer.Leaderboards in a database.</description>
     <copyright>Copyright 2017</copyright>
-    <tags>toofz necrodancer leaderboards entityframework</tags>
+    <tags>toofz necrodancer leaderboards entity framework</tags>
   </metadata>
 </package>
