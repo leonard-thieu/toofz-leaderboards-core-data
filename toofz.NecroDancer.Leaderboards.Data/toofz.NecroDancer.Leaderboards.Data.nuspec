@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<package >
+<package>
   <metadata>
     <id>toofz.NecroDancer.Leaderboards.Data</id>
-    <version>1.0.2</version>
+    <version>2.0.0</version>
     <title>toofz Leaderboards Core (Data)</title>
     <authors>Leonard Thieu</authors>
     <owners>Leonard Thieu</owners>
@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/leonard-thieu/toofz-leaderboards-core-data</projectUrl>
     <iconUrl>https://user-images.githubusercontent.com/5265970/29717713-27e1a95c-897e-11e7-9d28-dae64be705b5.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Provides a context for working with types from toofz.NecroDancer.Leaderboards in a database.</description>
+    <description>Provides a context for working with types from toofz Leaderboards Core in a database.</description>
     <copyright>Copyright 2017</copyright>
     <tags>toofz necrodancer leaderboards entity framework</tags>
   </metadata>
