@@ -80,8 +80,11 @@
     <Compile Include="DailyEntryConfiguration.cs" />
     <Compile Include="DailyLeaderboardConfiguration.cs" />
     <Compile Include="EntryConfiguration.cs" />
+    <Compile Include="ILeaderboardsContext.cs" />
     <Compile Include="LeaderboardConfiguration.cs" />
-    <Compile Include="LeaderboardsContext.cs" />
+    <Compile Include="LeaderboardsContext.cs">
+      <DependentUpon>ILeaderboardsContext.cs</DependentUpon>
+    </Compile>
     <Compile Include="LeaderboardsContext.Views.cs">
       <DependentUpon>LeaderboardsContext.cs</DependentUpon>
     </Compile>

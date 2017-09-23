@@ -2,7 +2,7 @@
 
 namespace toofz.NecroDancer.Leaderboards
 {
-    public class LeaderboardsContext : DbContext
+    public class LeaderboardsContext : DbContext, ILeaderboardsContext
     {
         public LeaderboardsContext()
         {
