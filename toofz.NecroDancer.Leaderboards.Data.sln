@@ -1,12 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A92CAC3D-5C81-48BE-9A9E-BC8717D3B054}"
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
-		codecov.yaml = codecov.yaml
 		NuGet.Config = NuGet.Config
 		README.md = README.md
 	EndProjectSection
@@ -34,7 +33,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {1888CCE5-5C61-4ABA-9AA3-9A496D46CBF4}
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8
+		SolutionGuid = {1888CCE5-5C61-4ABA-9AA3-9A496D46CBF4}
 	EndGlobalSection
 EndGlobal
