@@ -71,5 +71,5 @@ namespace toofz.NecroDancer.Leaderboards.Migrations
     [ExcludeFromCodeCoverage]
     partial class BluePlatinumBloodhound { }
     [ExcludeFromCodeCoverage]
-    partial class LimeZinc﻿AfghanHound { }
+    partial class LimeZincAfghanHound { }
 }

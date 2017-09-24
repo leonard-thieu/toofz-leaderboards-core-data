@@ -3,7 +3,7 @@ namespace toofz.NecroDancer.Leaderboards.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class _LimeZinc﻿AfghanHound : DbMigration
+    public partial class LimeZincAfghanHound : DbMigration
     {
         public override void Up()
         {

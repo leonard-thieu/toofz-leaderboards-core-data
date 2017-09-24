@@ -23,7 +23,7 @@ namespace toofz.NecroDancer.Leaderboards.Migrations
     var classNames = from path in paths
                      let fileName = Path.GetFileNameWithoutExtension(path)
                      where !fileName.EndsWith(".designer", StringComparison.OrdinalIgnoreCase)
-                     where fileName.Length> timestampUnderscoreLength 
+                     where fileName.Length > timestampUnderscoreLength 
                      select fileName.Substring(timestampUnderscoreLength);
 
     foreach(var className in classNames)
