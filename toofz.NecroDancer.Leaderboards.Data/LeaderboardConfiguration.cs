@@ -12,8 +12,6 @@ namespace toofz.NecroDancer.Leaderboards
             this.HasKey(c => c.LeaderboardId);
             this.Property(c => c.LeaderboardId)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
-
-            this.Ignore(c => c.EntriesCount);
         }
     }
 }

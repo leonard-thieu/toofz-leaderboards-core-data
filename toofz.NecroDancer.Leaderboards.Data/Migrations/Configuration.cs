@@ -1,4 +1,3 @@
-using System;
 using System.Data.Entity.Migrations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -33,12 +32,11 @@ namespace toofz.NecroDancer.Leaderboards.Migrations
                 var leaderboard = new DailyLeaderboard
                 {
                     LeaderboardId = newDaily.Id,
-                    LastUpdate = new DateTime(2000, 1, 1),
                     Date = newDaily.Date,
                     IsProduction = newDaily.IsProduction,
                 };
                 leaderboard.ProductId = products[newDaily.Product].Id;
-                context.DailyLeaderboards.AddOrUpdate(leaderboard);
+                context.DailyLeaderboards.Add(leaderboard);
             }
 
             context.SaveChanges();

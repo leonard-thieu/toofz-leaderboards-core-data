@@ -84,25 +84,27 @@
     <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
-    <Reference Include="toofz, Version=7.1.0.180, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\toofz.7.1.0\lib\net45\toofz.dll</HintPath>
+    <Reference Include="toofz, Version=7.2.0.182, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\toofz.7.2.0\lib\net45\toofz.dll</HintPath>
     </Reference>
-    <Reference Include="toofz.NecroDancer.Leaderboards, Version=8.0.1.161, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\toofz.NecroDancer.Leaderboards.8.0.1\lib\net45\toofz.NecroDancer.Leaderboards.dll</HintPath>
+    <Reference Include="toofz.NecroDancer.Leaderboards, Version=10.0.0.178, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\toofz.NecroDancer.Leaderboards.10.0.0\lib\net45\toofz.NecroDancer.Leaderboards.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\toofz.NecroDancer.Leaderboards.Data\toofz.NecroDancer.Leaderboards.Data.csproj">
       <Project>{1a47f783-9cf2-48b5-b477-c393f07626bf}</Project>
       <Name>toofz.NecroDancer.Leaderboards.Data</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LeaderboardsContextTests.cs" />

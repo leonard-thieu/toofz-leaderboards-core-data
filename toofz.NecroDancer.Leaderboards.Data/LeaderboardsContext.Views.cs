@@ -11,7 +11,7 @@ using System.Data.Entity.Infrastructure.MappingViews;
 
 [assembly: DbMappingViewCacheTypeAttribute(
     typeof(toofz.NecroDancer.Leaderboards.LeaderboardsContext),
-    typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsb152501c851e3ab5be2991f3e05a77d19c615d6b06474de96ca6c171b83fd2d4))]
+    typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsec7aa160e5db3f303bfbbfc008e9a31f74fbdc288aaf322a16b1d2c1f61616d0))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -23,14 +23,14 @@ namespace Edm_EntityMappingGeneratedViews
     /// Implements a mapping view cache.
     /// </summary>
     [GeneratedCode("Entity Framework 6 Power Tools", "0.9.2.0")]
-    internal sealed class ViewsForBaseEntitySetsb152501c851e3ab5be2991f3e05a77d19c615d6b06474de96ca6c171b83fd2d4 : DbMappingViewCache
+    internal sealed class ViewsForBaseEntitySetsec7aa160e5db3f303bfbbfc008e9a31f74fbdc288aaf322a16b1d2c1f61616d0 : DbMappingViewCache
     {
         /// <summary>
         /// Gets a hash value computed over the mapping closure.
         /// </summary>
         public override string MappingHashValue
         {
-            get { return "b152501c851e3ab5be2991f3e05a77d19c615d6b06474de96ca6c171b83fd2d4"; }
+            get { return "ec7aa160e5db3f303bfbbfc008e9a31f74fbdc288aaf322a16b1d2c1f61616d0"; }
         }
 
         /// <summary>
@@ -141,14 +141,14 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing DailyLeaderboard
-        [CodeFirstDatabaseSchema.DailyLeaderboard](T1.DailyLeaderboard_LeaderboardId, T1.DailyLeaderboard_LastUpdate, T1.DailyLeaderboard_Date, T1.DailyLeaderboard_ProductId, T1.DailyLeaderboard_IsProduction)
+        [CodeFirstDatabaseSchema.DailyLeaderboard](T1.DailyLeaderboard_LeaderboardId, T1.DailyLeaderboard_LastUpdate, T1.DailyLeaderboard_Date, T1.DailyLeaderboard_IsProduction, T1.DailyLeaderboard_ProductId)
     FROM (
         SELECT 
             T.LeaderboardId AS DailyLeaderboard_LeaderboardId, 
             T.LastUpdate AS DailyLeaderboard_LastUpdate, 
             T.Date AS DailyLeaderboard_Date, 
-            T.ProductId AS DailyLeaderboard_ProductId, 
             T.IsProduction AS DailyLeaderboard_IsProduction, 
+            T.ProductId AS DailyLeaderboard_ProductId, 
             True AS _from0
         FROM LeaderboardsContext.DailyLeaderboards AS T
     ) AS T1");
@@ -162,14 +162,14 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing Player
-        [CodeFirstDatabaseSchema.Player](T1.Player_SteamId, T1.Player_Exists, T1.Player_Name, T1.Player_Avatar, T1.Player_LastUpdate)
+        [CodeFirstDatabaseSchema.Player](T1.Player_SteamId, T1.Player_LastUpdate, T1.Player_Exists, T1.Player_Name, T1.Player_Avatar)
     FROM (
         SELECT 
             T.SteamId AS Player_SteamId, 
+            T.LastUpdate AS Player_LastUpdate, 
             T.[Exists] AS Player_Exists, 
             T.Name AS Player_Name, 
             T.Avatar AS Player_Avatar, 
-            T.LastUpdate AS Player_LastUpdate, 
             True AS _from0
         FROM LeaderboardsContext.Players AS T
     ) AS T1");
@@ -206,14 +206,16 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing Leaderboard
-        [CodeFirstDatabaseSchema.Leaderboard](T1.Leaderboard_LeaderboardId, T1.Leaderboard_LastUpdate, T1.Leaderboard_CharacterId, T1.Leaderboard_RunId, T1.Leaderboard_Date)
+        [CodeFirstDatabaseSchema.Leaderboard](T1.Leaderboard_LeaderboardId, T1.Leaderboard_LastUpdate, T1.Leaderboard_IsProduction, T1.Leaderboard_ProductId, T1.Leaderboard_ModeId, T1.Leaderboard_RunId, T1.Leaderboard_CharacterId)
     FROM (
         SELECT 
             T.LeaderboardId AS Leaderboard_LeaderboardId, 
             T.LastUpdate AS Leaderboard_LastUpdate, 
-            T.CharacterId AS Leaderboard_CharacterId, 
+            T.IsProduction AS Leaderboard_IsProduction, 
+            T.ProductId AS Leaderboard_ProductId, 
+            T.ModeId AS Leaderboard_ModeId, 
             T.RunId AS Leaderboard_RunId, 
-            T.Date AS Leaderboard_Date, 
+            T.CharacterId AS Leaderboard_CharacterId, 
             True AS _from0
         FROM LeaderboardsContext.Leaderboards AS T
     ) AS T1");
@@ -250,14 +252,14 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing DailyLeaderboards
-        [toofz.NecroDancer.Leaderboards.DailyLeaderboard](T1.DailyLeaderboard_LeaderboardId, T1.DailyLeaderboard_LastUpdate, T1.DailyLeaderboard_Date, T1.DailyLeaderboard_ProductId, T1.DailyLeaderboard_IsProduction)
+        [toofz.NecroDancer.Leaderboards.DailyLeaderboard](T1.DailyLeaderboard_LeaderboardId, T1.DailyLeaderboard_LastUpdate, T1.DailyLeaderboard_Date, T1.DailyLeaderboard_IsProduction, T1.DailyLeaderboard_ProductId)
     FROM (
         SELECT 
             T.LeaderboardId AS DailyLeaderboard_LeaderboardId, 
             T.LastUpdate AS DailyLeaderboard_LastUpdate, 
             T.Date AS DailyLeaderboard_Date, 
-            T.ProductId AS DailyLeaderboard_ProductId, 
             T.IsProduction AS DailyLeaderboard_IsProduction, 
+            T.ProductId AS DailyLeaderboard_ProductId, 
             True AS _from0
         FROM CodeFirstDatabase.DailyLeaderboard AS T
     ) AS T1");
@@ -271,14 +273,14 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing Players
-        [toofz.NecroDancer.Leaderboards.Player](T1.Player_SteamId, T1.Player_Exists, T1.Player_Name, T1.Player_Avatar, T1.Player_LastUpdate)
+        [toofz.NecroDancer.Leaderboards.Player](T1.Player_SteamId, T1.Player_LastUpdate, T1.Player_Exists, T1.Player_Name, T1.Player_Avatar)
     FROM (
         SELECT 
             T.SteamId AS Player_SteamId, 
+            T.LastUpdate AS Player_LastUpdate, 
             T.[Exists] AS Player_Exists, 
             T.Name AS Player_Name, 
             T.Avatar AS Player_Avatar, 
-            T.LastUpdate AS Player_LastUpdate, 
             True AS _from0
         FROM CodeFirstDatabase.Player AS T
     ) AS T1");
@@ -315,14 +317,16 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing Leaderboards
-        [toofz.NecroDancer.Leaderboards.Leaderboard](T1.Leaderboard_LeaderboardId, T1.Leaderboard_LastUpdate, T1.Leaderboard_CharacterId, T1.Leaderboard_RunId, T1.Leaderboard_Date)
+        [toofz.NecroDancer.Leaderboards.Leaderboard](T1.Leaderboard_LeaderboardId, T1.Leaderboard_LastUpdate, T1.Leaderboard_IsProduction, T1.Leaderboard_ProductId, T1.Leaderboard_ModeId, T1.Leaderboard_RunId, T1.Leaderboard_CharacterId)
     FROM (
         SELECT 
             T.LeaderboardId AS Leaderboard_LeaderboardId, 
             T.LastUpdate AS Leaderboard_LastUpdate, 
-            T.CharacterId AS Leaderboard_CharacterId, 
+            T.IsProduction AS Leaderboard_IsProduction, 
+            T.ProductId AS Leaderboard_ProductId, 
+            T.ModeId AS Leaderboard_ModeId, 
             T.RunId AS Leaderboard_RunId, 
-            T.Date AS Leaderboard_Date, 
+            T.CharacterId AS Leaderboard_CharacterId, 
             True AS _from0
         FROM CodeFirstDatabase.Leaderboard AS T
     ) AS T1");
@@ -336,7 +340,7 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing Replay
-        [CodeFirstDatabaseSchema.Replay](T1.Replay_ReplayId, T1.Replay_ErrorCode, T1.Replay_Seed, T1.Replay_Version, T1.Replay_KilledBy)
+        [CodeFirstDatabaseSchema.Replay](T1.Replay_ReplayId, T1.Replay_ErrorCode, T1.Replay_Seed, T1.Replay_Version, T1.Replay_KilledBy, T1.Replay_Uri)
     FROM (
         SELECT 
             T.ReplayId AS Replay_ReplayId, 
@@ -344,6 +348,7 @@ namespace Edm_EntityMappingGeneratedViews
             T.Seed AS Replay_Seed, 
             T.Version AS Replay_Version, 
             T.KilledBy AS Replay_KilledBy, 
+            T.Uri AS Replay_Uri, 
             True AS _from0
         FROM LeaderboardsContext.Replays AS T
     ) AS T1");
@@ -357,7 +362,7 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing Replays
-        [toofz.NecroDancer.Leaderboards.Replay](T1.Replay_ReplayId, T1.Replay_ErrorCode, T1.Replay_Seed, T1.Replay_Version, T1.Replay_KilledBy)
+        [toofz.NecroDancer.Leaderboards.Replay](T1.Replay_ReplayId, T1.Replay_ErrorCode, T1.Replay_Seed, T1.Replay_Version, T1.Replay_KilledBy, T1.Replay_Uri)
     FROM (
         SELECT 
             T.ReplayId AS Replay_ReplayId, 
@@ -365,6 +370,7 @@ namespace Edm_EntityMappingGeneratedViews
             T.Seed AS Replay_Seed, 
             T.Version AS Replay_Version, 
             T.KilledBy AS Replay_KilledBy, 
+            T.Uri AS Replay_Uri, 
             True AS _from0
         FROM CodeFirstDatabase.Replay AS T
     ) AS T1");
