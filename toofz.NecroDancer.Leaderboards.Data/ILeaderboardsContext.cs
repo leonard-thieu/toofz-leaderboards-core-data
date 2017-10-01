@@ -11,5 +11,9 @@ namespace toofz.NecroDancer.Leaderboards
         DbSet<DailyEntry> DailyEntries { get; set; }
         DbSet<Player> Players { get; set; }
         DbSet<Replay> Replays { get; set; }
+        DbSet<Product> Products { get; set; }
+        DbSet<Mode> Modes { get; set; }
+        DbSet<Run> Runs { get; set; }
+        DbSet<Character> Characters { get; set; }
     }
 }
