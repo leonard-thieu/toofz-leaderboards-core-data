@@ -137,5 +137,73 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 Assert.IsInstanceOfType(replays, typeof(DbSet<Replay>));
             }
         }
+
+        [TestClass]
+        public class ProductsProperty
+        {
+            [TestMethod]
+            public void ReturnsDBSet()
+            {
+                // Arrange
+                var db = new LeaderboardsContext();
+
+                // Act
+                var products = db.Products;
+
+                // Assert
+                Assert.IsInstanceOfType(products, typeof(DbSet<Product>));
+            }
+        }
+
+        [TestClass]
+        public class ModesProperty
+        {
+            [TestMethod]
+            public void ReturnsDBSet()
+            {
+                // Arrange
+                var db = new LeaderboardsContext();
+
+                // Act
+                var modes = db.Modes;
+
+                // Assert
+                Assert.IsInstanceOfType(modes, typeof(DbSet<Mode>));
+            }
+        }
+
+        [TestClass]
+        public class RunsProperty
+        {
+            [TestMethod]
+            public void ReturnsDBSet()
+            {
+                // Arrange
+                var db = new LeaderboardsContext();
+
+                // Act
+                var runs = db.Runs;
+
+                // Assert
+                Assert.IsInstanceOfType(runs, typeof(DbSet<Run>));
+            }
+        }
+
+        [TestClass]
+        public class CharactersProperty
+        {
+            [TestMethod]
+            public void ReturnsDBSet()
+            {
+                // Arrange
+                var db = new LeaderboardsContext();
+
+                // Act
+                var characters = db.Characters;
+
+                // Assert
+                Assert.IsInstanceOfType(characters, typeof(DbSet<Character>));
+            }
+        }
     }
 }
