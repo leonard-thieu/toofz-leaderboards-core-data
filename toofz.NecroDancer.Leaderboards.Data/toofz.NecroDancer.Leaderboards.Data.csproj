@@ -72,8 +72,8 @@
     <Reference Include="toofz, Version=7.2.0.182, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\toofz.7.2.0\lib\net45\toofz.dll</HintPath>
     </Reference>
-    <Reference Include="toofz.NecroDancer.Leaderboards, Version=10.0.0.178, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\toofz.NecroDancer.Leaderboards.10.0.0\lib\net45\toofz.NecroDancer.Leaderboards.dll</HintPath>
+    <Reference Include="toofz.NecroDancer.Leaderboards, Version=10.1.0.180, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\toofz.NecroDancer.Leaderboards.10.1.0\lib\net45\toofz.NecroDancer.Leaderboards.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -342,6 +342,13 @@
     <EmbeddedResource Include="Migrations\201709281450070_PurpleMercuryAiredaleTerrier.resx">
       <DependentUpon>201709281450070_PurpleMercuryAiredaleTerrier.cs</DependentUpon>
     </EmbeddedResource>
+    <Compile Include="Migrations\201710011905553_AquaPlatinumSpitz.cs" />
+    <Compile Include="Migrations\201710011905553_AquaPlatinumSpitz.Designer.cs">
+      <DependentUpon>201710011905553_AquaPlatinumSpitz.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Migrations\201710011905553_AquaPlatinumSpitz.resx">
+      <DependentUpon>201710011905553_AquaPlatinumSpitz.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Migrations\CodeCoverageExclusions.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CodeCoverageExclusions1.cs</LastGenOutput>
@@ -354,6 +361,7 @@
     <Compile Include="Migrations\Configuration.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CharacterConfiguration.cs" />
     <Compile Include="DailyEntryConfiguration.cs" />
     <Compile Include="DailyLeaderboardConfiguration.cs" />
     <Compile Include="EntryConfiguration.cs" />
@@ -365,8 +373,11 @@
       <DependentUpon>LeaderboardsContext.cs</DependentUpon>
     </Compile>
     <Compile Include="LeaderboardConfiguration.cs" />
+    <Compile Include="ModeConfiguration.cs" />
     <Compile Include="PlayerConfiguration.cs" />
+    <Compile Include="ProductConfiguration.cs" />
     <Compile Include="ReplayConfiguration.cs" />
+    <Compile Include="RunConfiguration.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

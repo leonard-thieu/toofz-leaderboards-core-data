@@ -11,7 +11,7 @@ using System.Data.Entity.Infrastructure.MappingViews;
 
 [assembly: DbMappingViewCacheTypeAttribute(
     typeof(toofz.NecroDancer.Leaderboards.LeaderboardsContext),
-    typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsec7aa160e5db3f303bfbbfc008e9a31f74fbdc288aaf322a16b1d2c1f61616d0))]
+    typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets4e5103bafb9222d96f35b42b723f1963d0a879793136684699760e176b60d607))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -23,14 +23,14 @@ namespace Edm_EntityMappingGeneratedViews
     /// Implements a mapping view cache.
     /// </summary>
     [GeneratedCode("Entity Framework 6 Power Tools", "0.9.2.0")]
-    internal sealed class ViewsForBaseEntitySetsec7aa160e5db3f303bfbbfc008e9a31f74fbdc288aaf322a16b1d2c1f61616d0 : DbMappingViewCache
+    internal sealed class ViewsForBaseEntitySets4e5103bafb9222d96f35b42b723f1963d0a879793136684699760e176b60d607 : DbMappingViewCache
     {
         /// <summary>
         /// Gets a hash value computed over the mapping closure.
         /// </summary>
         public override string MappingHashValue
         {
-            get { return "ec7aa160e5db3f303bfbbfc008e9a31f74fbdc288aaf322a16b1d2c1f61616d0"; }
+            get { return "4e5103bafb9222d96f35b42b723f1963d0a879793136684699760e176b60d607"; }
         }
 
         /// <summary>
@@ -47,74 +47,133 @@ namespace Edm_EntityMappingGeneratedViews
 
             var extentName = extent.EntityContainer.Name + "." + extent.Name;
 
-            if (extentName == "CodeFirstDatabase.DailyEntry")
+            if (extentName == "CodeFirstDatabase.Character")
             {
                 return GetView0();
             }
 
-            if (extentName == "CodeFirstDatabase.DailyLeaderboard")
+            if (extentName == "CodeFirstDatabase.DailyEntry")
             {
                 return GetView1();
             }
 
-            if (extentName == "CodeFirstDatabase.Player")
+            if (extentName == "CodeFirstDatabase.DailyLeaderboard")
             {
                 return GetView2();
             }
 
-            if (extentName == "CodeFirstDatabase.Entry")
+            if (extentName == "CodeFirstDatabase.Product")
             {
                 return GetView3();
             }
 
-            if (extentName == "CodeFirstDatabase.Leaderboard")
+            if (extentName == "CodeFirstDatabase.Player")
             {
                 return GetView4();
             }
 
-            if (extentName == "LeaderboardsContext.DailyEntries")
+            if (extentName == "CodeFirstDatabase.Entry")
             {
                 return GetView5();
             }
 
-            if (extentName == "LeaderboardsContext.DailyLeaderboards")
+            if (extentName == "CodeFirstDatabase.Leaderboard")
             {
                 return GetView6();
             }
 
-            if (extentName == "LeaderboardsContext.Players")
+            if (extentName == "CodeFirstDatabase.Mode")
             {
                 return GetView7();
             }
 
-            if (extentName == "LeaderboardsContext.Entries")
+            if (extentName == "CodeFirstDatabase.Run")
             {
                 return GetView8();
             }
 
-            if (extentName == "LeaderboardsContext.Leaderboards")
+            if (extentName == "LeaderboardsContext.Characters")
             {
                 return GetView9();
             }
 
-            if (extentName == "CodeFirstDatabase.Replay")
+            if (extentName == "LeaderboardsContext.DailyEntries")
             {
                 return GetView10();
             }
 
-            if (extentName == "LeaderboardsContext.Replays")
+            if (extentName == "LeaderboardsContext.DailyLeaderboards")
             {
                 return GetView11();
+            }
+
+            if (extentName == "LeaderboardsContext.Products")
+            {
+                return GetView12();
+            }
+
+            if (extentName == "LeaderboardsContext.Players")
+            {
+                return GetView13();
+            }
+
+            if (extentName == "LeaderboardsContext.Entries")
+            {
+                return GetView14();
+            }
+
+            if (extentName == "LeaderboardsContext.Leaderboards")
+            {
+                return GetView15();
+            }
+
+            if (extentName == "LeaderboardsContext.Modes")
+            {
+                return GetView16();
+            }
+
+            if (extentName == "LeaderboardsContext.Runs")
+            {
+                return GetView17();
+            }
+
+            if (extentName == "CodeFirstDatabase.Replay")
+            {
+                return GetView18();
+            }
+
+            if (extentName == "LeaderboardsContext.Replays")
+            {
+                return GetView19();
             }
 
             return null;
         }
 
         /// <summary>
-        /// Gets the view for CodeFirstDatabase.DailyEntry.
+        /// Gets the view for CodeFirstDatabase.Character.
         /// </summary>
         /// <returns>The mapping view.</returns>
         private static DbMappingView GetView0()
+        {
+            return new DbMappingView(@"
+    SELECT VALUE -- Constructing Character
+        [CodeFirstDatabaseSchema.Character](T1.Character_CharacterId, T1.Character_Name, T1.Character_DisplayName)
+    FROM (
+        SELECT 
+            T.CharacterId AS Character_CharacterId, 
+            T.Name AS Character_Name, 
+            T.DisplayName AS Character_DisplayName, 
+            True AS _from0
+        FROM LeaderboardsContext.Characters AS T
+    ) AS T1");
+        }
+
+        /// <summary>
+        /// Gets the view for CodeFirstDatabase.DailyEntry.
+        /// </summary>
+        /// <returns>The mapping view.</returns>
+        private static DbMappingView GetView1()
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing DailyEntry
@@ -137,20 +196,40 @@ namespace Edm_EntityMappingGeneratedViews
         /// Gets the view for CodeFirstDatabase.DailyLeaderboard.
         /// </summary>
         /// <returns>The mapping view.</returns>
-        private static DbMappingView GetView1()
+        private static DbMappingView GetView2()
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing DailyLeaderboard
-        [CodeFirstDatabaseSchema.DailyLeaderboard](T1.DailyLeaderboard_LeaderboardId, T1.DailyLeaderboard_LastUpdate, T1.DailyLeaderboard_Date, T1.DailyLeaderboard_IsProduction, T1.DailyLeaderboard_ProductId)
+        [CodeFirstDatabaseSchema.DailyLeaderboard](T1.DailyLeaderboard_LeaderboardId, T1.DailyLeaderboard_LastUpdate, T1.DailyLeaderboard_DisplayName, T1.DailyLeaderboard_IsProduction, T1.DailyLeaderboard_ProductId, T1.DailyLeaderboard_Date)
     FROM (
         SELECT 
             T.LeaderboardId AS DailyLeaderboard_LeaderboardId, 
             T.LastUpdate AS DailyLeaderboard_LastUpdate, 
-            T.Date AS DailyLeaderboard_Date, 
+            T.DisplayName AS DailyLeaderboard_DisplayName, 
             T.IsProduction AS DailyLeaderboard_IsProduction, 
             T.ProductId AS DailyLeaderboard_ProductId, 
+            T.Date AS DailyLeaderboard_Date, 
             True AS _from0
         FROM LeaderboardsContext.DailyLeaderboards AS T
+    ) AS T1");
+        }
+
+        /// <summary>
+        /// Gets the view for CodeFirstDatabase.Product.
+        /// </summary>
+        /// <returns>The mapping view.</returns>
+        private static DbMappingView GetView3()
+        {
+            return new DbMappingView(@"
+    SELECT VALUE -- Constructing Product
+        [CodeFirstDatabaseSchema.Product](T1.Product_ProductId, T1.Product_Name, T1.Product_DisplayName)
+    FROM (
+        SELECT 
+            T.ProductId AS Product_ProductId, 
+            T.Name AS Product_Name, 
+            T.DisplayName AS Product_DisplayName, 
+            True AS _from0
+        FROM LeaderboardsContext.Products AS T
     ) AS T1");
         }
 
@@ -158,7 +237,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// Gets the view for CodeFirstDatabase.Player.
         /// </summary>
         /// <returns>The mapping view.</returns>
-        private static DbMappingView GetView2()
+        private static DbMappingView GetView4()
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing Player
@@ -179,7 +258,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// Gets the view for CodeFirstDatabase.Entry.
         /// </summary>
         /// <returns>The mapping view.</returns>
-        private static DbMappingView GetView3()
+        private static DbMappingView GetView5()
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing Entry
@@ -202,15 +281,16 @@ namespace Edm_EntityMappingGeneratedViews
         /// Gets the view for CodeFirstDatabase.Leaderboard.
         /// </summary>
         /// <returns>The mapping view.</returns>
-        private static DbMappingView GetView4()
+        private static DbMappingView GetView6()
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing Leaderboard
-        [CodeFirstDatabaseSchema.Leaderboard](T1.Leaderboard_LeaderboardId, T1.Leaderboard_LastUpdate, T1.Leaderboard_IsProduction, T1.Leaderboard_ProductId, T1.Leaderboard_ModeId, T1.Leaderboard_RunId, T1.Leaderboard_CharacterId)
+        [CodeFirstDatabaseSchema.Leaderboard](T1.Leaderboard_LeaderboardId, T1.Leaderboard_LastUpdate, T1.Leaderboard_DisplayName, T1.Leaderboard_IsProduction, T1.Leaderboard_ProductId, T1.Leaderboard_ModeId, T1.Leaderboard_RunId, T1.Leaderboard_CharacterId)
     FROM (
         SELECT 
             T.LeaderboardId AS Leaderboard_LeaderboardId, 
             T.LastUpdate AS Leaderboard_LastUpdate, 
+            T.DisplayName AS Leaderboard_DisplayName, 
             T.IsProduction AS Leaderboard_IsProduction, 
             T.ProductId AS Leaderboard_ProductId, 
             T.ModeId AS Leaderboard_ModeId, 
@@ -222,10 +302,67 @@ namespace Edm_EntityMappingGeneratedViews
         }
 
         /// <summary>
+        /// Gets the view for CodeFirstDatabase.Mode.
+        /// </summary>
+        /// <returns>The mapping view.</returns>
+        private static DbMappingView GetView7()
+        {
+            return new DbMappingView(@"
+    SELECT VALUE -- Constructing Mode
+        [CodeFirstDatabaseSchema.Mode](T1.Mode_ModeId, T1.Mode_Name, T1.Mode_DisplayName)
+    FROM (
+        SELECT 
+            T.ModeId AS Mode_ModeId, 
+            T.Name AS Mode_Name, 
+            T.DisplayName AS Mode_DisplayName, 
+            True AS _from0
+        FROM LeaderboardsContext.Modes AS T
+    ) AS T1");
+        }
+
+        /// <summary>
+        /// Gets the view for CodeFirstDatabase.Run.
+        /// </summary>
+        /// <returns>The mapping view.</returns>
+        private static DbMappingView GetView8()
+        {
+            return new DbMappingView(@"
+    SELECT VALUE -- Constructing Run
+        [CodeFirstDatabaseSchema.Run](T1.Run_RunId, T1.Run_Name, T1.Run_DisplayName)
+    FROM (
+        SELECT 
+            T.RunId AS Run_RunId, 
+            T.Name AS Run_Name, 
+            T.DisplayName AS Run_DisplayName, 
+            True AS _from0
+        FROM LeaderboardsContext.Runs AS T
+    ) AS T1");
+        }
+
+        /// <summary>
+        /// Gets the view for LeaderboardsContext.Characters.
+        /// </summary>
+        /// <returns>The mapping view.</returns>
+        private static DbMappingView GetView9()
+        {
+            return new DbMappingView(@"
+    SELECT VALUE -- Constructing Characters
+        [toofz.NecroDancer.Leaderboards.Character](T1.Character_CharacterId, T1.Character_Name, T1.Character_DisplayName)
+    FROM (
+        SELECT 
+            T.CharacterId AS Character_CharacterId, 
+            T.Name AS Character_Name, 
+            T.DisplayName AS Character_DisplayName, 
+            True AS _from0
+        FROM CodeFirstDatabase.Character AS T
+    ) AS T1");
+        }
+
+        /// <summary>
         /// Gets the view for LeaderboardsContext.DailyEntries.
         /// </summary>
         /// <returns>The mapping view.</returns>
-        private static DbMappingView GetView5()
+        private static DbMappingView GetView10()
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing DailyEntries
@@ -248,20 +385,40 @@ namespace Edm_EntityMappingGeneratedViews
         /// Gets the view for LeaderboardsContext.DailyLeaderboards.
         /// </summary>
         /// <returns>The mapping view.</returns>
-        private static DbMappingView GetView6()
+        private static DbMappingView GetView11()
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing DailyLeaderboards
-        [toofz.NecroDancer.Leaderboards.DailyLeaderboard](T1.DailyLeaderboard_LeaderboardId, T1.DailyLeaderboard_LastUpdate, T1.DailyLeaderboard_Date, T1.DailyLeaderboard_IsProduction, T1.DailyLeaderboard_ProductId)
+        [toofz.NecroDancer.Leaderboards.DailyLeaderboard](T1.DailyLeaderboard_LeaderboardId, T1.DailyLeaderboard_LastUpdate, T1.DailyLeaderboard_DisplayName, T1.DailyLeaderboard_IsProduction, T1.DailyLeaderboard_ProductId, T1.DailyLeaderboard_Date)
     FROM (
         SELECT 
             T.LeaderboardId AS DailyLeaderboard_LeaderboardId, 
             T.LastUpdate AS DailyLeaderboard_LastUpdate, 
-            T.Date AS DailyLeaderboard_Date, 
+            T.DisplayName AS DailyLeaderboard_DisplayName, 
             T.IsProduction AS DailyLeaderboard_IsProduction, 
             T.ProductId AS DailyLeaderboard_ProductId, 
+            T.Date AS DailyLeaderboard_Date, 
             True AS _from0
         FROM CodeFirstDatabase.DailyLeaderboard AS T
+    ) AS T1");
+        }
+
+        /// <summary>
+        /// Gets the view for LeaderboardsContext.Products.
+        /// </summary>
+        /// <returns>The mapping view.</returns>
+        private static DbMappingView GetView12()
+        {
+            return new DbMappingView(@"
+    SELECT VALUE -- Constructing Products
+        [toofz.NecroDancer.Leaderboards.Product](T1.Product_ProductId, T1.Product_Name, T1.Product_DisplayName)
+    FROM (
+        SELECT 
+            T.ProductId AS Product_ProductId, 
+            T.Name AS Product_Name, 
+            T.DisplayName AS Product_DisplayName, 
+            True AS _from0
+        FROM CodeFirstDatabase.Product AS T
     ) AS T1");
         }
 
@@ -269,7 +426,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// Gets the view for LeaderboardsContext.Players.
         /// </summary>
         /// <returns>The mapping view.</returns>
-        private static DbMappingView GetView7()
+        private static DbMappingView GetView13()
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing Players
@@ -290,7 +447,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// Gets the view for LeaderboardsContext.Entries.
         /// </summary>
         /// <returns>The mapping view.</returns>
-        private static DbMappingView GetView8()
+        private static DbMappingView GetView14()
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing Entries
@@ -313,15 +470,16 @@ namespace Edm_EntityMappingGeneratedViews
         /// Gets the view for LeaderboardsContext.Leaderboards.
         /// </summary>
         /// <returns>The mapping view.</returns>
-        private static DbMappingView GetView9()
+        private static DbMappingView GetView15()
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing Leaderboards
-        [toofz.NecroDancer.Leaderboards.Leaderboard](T1.Leaderboard_LeaderboardId, T1.Leaderboard_LastUpdate, T1.Leaderboard_IsProduction, T1.Leaderboard_ProductId, T1.Leaderboard_ModeId, T1.Leaderboard_RunId, T1.Leaderboard_CharacterId)
+        [toofz.NecroDancer.Leaderboards.Leaderboard](T1.Leaderboard_LeaderboardId, T1.Leaderboard_LastUpdate, T1.Leaderboard_DisplayName, T1.Leaderboard_IsProduction, T1.Leaderboard_ProductId, T1.Leaderboard_ModeId, T1.Leaderboard_RunId, T1.Leaderboard_CharacterId)
     FROM (
         SELECT 
             T.LeaderboardId AS Leaderboard_LeaderboardId, 
             T.LastUpdate AS Leaderboard_LastUpdate, 
+            T.DisplayName AS Leaderboard_DisplayName, 
             T.IsProduction AS Leaderboard_IsProduction, 
             T.ProductId AS Leaderboard_ProductId, 
             T.ModeId AS Leaderboard_ModeId, 
@@ -333,10 +491,48 @@ namespace Edm_EntityMappingGeneratedViews
         }
 
         /// <summary>
+        /// Gets the view for LeaderboardsContext.Modes.
+        /// </summary>
+        /// <returns>The mapping view.</returns>
+        private static DbMappingView GetView16()
+        {
+            return new DbMappingView(@"
+    SELECT VALUE -- Constructing Modes
+        [toofz.NecroDancer.Leaderboards.Mode](T1.Mode_ModeId, T1.Mode_Name, T1.Mode_DisplayName)
+    FROM (
+        SELECT 
+            T.ModeId AS Mode_ModeId, 
+            T.Name AS Mode_Name, 
+            T.DisplayName AS Mode_DisplayName, 
+            True AS _from0
+        FROM CodeFirstDatabase.Mode AS T
+    ) AS T1");
+        }
+
+        /// <summary>
+        /// Gets the view for LeaderboardsContext.Runs.
+        /// </summary>
+        /// <returns>The mapping view.</returns>
+        private static DbMappingView GetView17()
+        {
+            return new DbMappingView(@"
+    SELECT VALUE -- Constructing Runs
+        [toofz.NecroDancer.Leaderboards.Run](T1.Run_RunId, T1.Run_Name, T1.Run_DisplayName)
+    FROM (
+        SELECT 
+            T.RunId AS Run_RunId, 
+            T.Name AS Run_Name, 
+            T.DisplayName AS Run_DisplayName, 
+            True AS _from0
+        FROM CodeFirstDatabase.Run AS T
+    ) AS T1");
+        }
+
+        /// <summary>
         /// Gets the view for CodeFirstDatabase.Replay.
         /// </summary>
         /// <returns>The mapping view.</returns>
-        private static DbMappingView GetView10()
+        private static DbMappingView GetView18()
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing Replay
@@ -358,7 +554,7 @@ namespace Edm_EntityMappingGeneratedViews
         /// Gets the view for LeaderboardsContext.Replays.
         /// </summary>
         /// <returns>The mapping view.</returns>
-        private static DbMappingView GetView11()
+        private static DbMappingView GetView19()
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing Replays

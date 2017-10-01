@@ -87,8 +87,8 @@
     <Reference Include="toofz, Version=7.2.0.182, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\toofz.7.2.0\lib\net45\toofz.dll</HintPath>
     </Reference>
-    <Reference Include="toofz.NecroDancer.Leaderboards, Version=10.0.0.178, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\toofz.NecroDancer.Leaderboards.10.0.0\lib\net45\toofz.NecroDancer.Leaderboards.dll</HintPath>
+    <Reference Include="toofz.NecroDancer.Leaderboards, Version=10.1.0.180, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\toofz.NecroDancer.Leaderboards.10.1.0\lib\net45\toofz.NecroDancer.Leaderboards.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
