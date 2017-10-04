@@ -10,6 +10,7 @@ namespace toofz.NecroDancer.Leaderboards
             this.HasKey(c => c.CharacterId);
             this.Property(c => c.CharacterId)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+
             this.Property(c => c.Name)
                 .IsRequired();
             this.Property(c => c.DisplayName)
