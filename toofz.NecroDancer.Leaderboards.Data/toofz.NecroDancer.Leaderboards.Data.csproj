@@ -72,7 +72,6 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="toofz.NecroDancer.Leaderboards.Data.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Migrations\201710131410491_InitialCreate.cs" />
