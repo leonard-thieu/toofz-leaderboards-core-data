@@ -47,9 +47,6 @@
     <Reference Include="Flurl, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Flurl.2.5.0\lib\net40\Flurl.dll</HintPath>
     </Reference>
-    <Reference Include="Humanizer, Version=2.2.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Humanizer.Core.2.2.0\lib\netstandard1.0\Humanizer.dll</HintPath>
-    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
@@ -68,11 +65,11 @@
     <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
     </Reference>
-    <Reference Include="SqlBulkUpsert, Version=4.1.5.127, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\toofz.SqlBulkUpsert.4.1.5\lib\net45\SqlBulkUpsert.dll</HintPath>
+    <Reference Include="SqlBulkUpsert, Version=4.1.7.146, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\toofz.SqlBulkUpsert.4.1.7\lib\net45\SqlBulkUpsert.dll</HintPath>
     </Reference>
-    <Reference Include="SteamKit2, Version=1.8.3.0, Culture=neutral, PublicKeyToken=ed3ce47ed5aad940, processorArchitecture=MSIL">
-      <HintPath>..\packages\SteamKit2.1.8.3\lib\net45\SteamKit2.dll</HintPath>
+    <Reference Include="SteamKit2, Version=2.0.4.21, Culture=neutral, PublicKeyToken=ed3ce47ed5aad940, processorArchitecture=MSIL">
+      <HintPath>..\packages\SteamKit2.2.0.4\lib\net45\SteamKit2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -80,17 +77,8 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="toofz, Version=7.2.0.182, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\toofz.7.2.0\lib\net45\toofz.dll</HintPath>
-    </Reference>
-    <Reference Include="toofz.NecroDancer.Leaderboards, Version=11.1.0.202, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\toofz.NecroDancer.Leaderboards.11.1.0\lib\net45\toofz.NecroDancer.Leaderboards.dll</HintPath>
+    <Reference Include="toofz.NecroDancer.Leaderboards, Version=14.0.1.252, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\toofz.NecroDancer.Leaderboards.14.0.1\lib\net45\toofz.NecroDancer.Leaderboards.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
