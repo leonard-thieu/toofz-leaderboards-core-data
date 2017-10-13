@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace toofz.NecroDancer.Leaderboards.Tests
@@ -203,6 +204,32 @@ namespace toofz.NecroDancer.Leaderboards.Tests
 
                 // Assert
                 Assert.IsInstanceOfType(characters, typeof(DbSet<Character>));
+            }
+        }
+
+        [TestClass]
+        [TestCategory("Uses SQL Server")]
+        public class IntegrationTests
+        {
+            [TestMethod]
+            public async Task PreGeneratedMappingViewsIsUpToDate()
+            {
+                var connectionString = DatabaseHelper.GetConnectionString();
+                using (var context = new LeaderboardsContext(connectionString))
+                {
+                    await context.Leaderboards.FirstOrDefaultAsync();
+                    await context.Entries.FirstOrDefaultAsync();
+                    await context.DailyLeaderboards.FirstOrDefaultAsync();
+                    await context.DailyEntries.FirstOrDefaultAsync();
+                    await context.Players.FirstOrDefaultAsync();
+                    await context.Replays.FirstOrDefaultAsync();
+                    await context.Products.FirstOrDefaultAsync();
+                    await context.Modes.FirstOrDefaultAsync();
+                    await context.Runs.FirstOrDefaultAsync();
+                    await context.Characters.FirstOrDefaultAsync();
+
+                    context.Database.Delete();
+                }
             }
         }
     }
