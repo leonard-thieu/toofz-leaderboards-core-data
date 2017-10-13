@@ -1,9 +1,7 @@
 ﻿using System.Data.Entity.ModelConfiguration;
-using System.Diagnostics.CodeAnalysis;
 
 namespace toofz.NecroDancer.Leaderboards
 {
-    [ExcludeFromCodeCoverage]
     sealed class EntryConfiguration : EntityTypeConfiguration<Entry>
     {
         public EntryConfiguration()
