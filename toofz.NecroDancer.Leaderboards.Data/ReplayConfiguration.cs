@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
-using System.Diagnostics.CodeAnalysis;
 
 namespace toofz.NecroDancer.Leaderboards
 {
-    [ExcludeFromCodeCoverage]
     sealed class ReplayConfiguration : EntityTypeConfiguration<Replay>
     {
         public ReplayConfiguration()

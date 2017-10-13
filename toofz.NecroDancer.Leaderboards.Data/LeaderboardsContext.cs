@@ -21,16 +21,16 @@ namespace toofz.NecroDancer.Leaderboards
             Configuration.ProxyCreationEnabled = false;
         }
 
-        public virtual DbSet<Leaderboard> Leaderboards { get; set; }
-        public virtual DbSet<Entry> Entries { get; set; }
-        public virtual DbSet<DailyLeaderboard> DailyLeaderboards { get; set; }
-        public virtual DbSet<DailyEntry> DailyEntries { get; set; }
-        public virtual DbSet<Player> Players { get; set; }
-        public virtual DbSet<Replay> Replays { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Mode> Modes { get; set; }
-        public virtual DbSet<Run> Runs { get; set; }
-        public virtual DbSet<Character> Characters { get; set; }
+        public DbSet<Leaderboard> Leaderboards { get => Set<Leaderboard>(); }
+        public DbSet<Entry> Entries { get => Set<Entry>(); }
+        public DbSet<DailyLeaderboard> DailyLeaderboards { get => Set<DailyLeaderboard>(); }
+        public DbSet<DailyEntry> DailyEntries { get => Set<DailyEntry>(); }
+        public DbSet<Player> Players { get => Set<Player>(); }
+        public DbSet<Replay> Replays { get => Set<Replay>(); }
+        public DbSet<Product> Products { get => Set<Product>(); }
+        public DbSet<Mode> Modes { get => Set<Mode>(); }
+        public DbSet<Run> Runs { get => Set<Run>(); }
+        public DbSet<Character> Characters { get => Set<Character>(); }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
