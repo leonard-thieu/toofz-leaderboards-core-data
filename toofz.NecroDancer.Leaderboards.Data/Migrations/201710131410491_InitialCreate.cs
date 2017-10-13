@@ -72,7 +72,7 @@ namespace toofz.NecroDancer.Leaderboards.Migrations
                 .PrimaryKey(t => t.SteamId);
 
             CreateTable(
-                "dbo.Entries",
+                "dbo.Entries_A",
                 c => new
                 {
                     LeaderboardId = c.Int(nullable: false),
@@ -88,6 +88,30 @@ namespace toofz.NecroDancer.Leaderboards.Migrations
                 .ForeignKey("dbo.Players", t => t.SteamId, cascadeDelete: true)
                 .Index(t => t.LeaderboardId)
                 .Index(t => t.SteamId);
+
+            CreateTable(
+                "dbo.Entries_B",
+                c => new
+                {
+                    LeaderboardId = c.Int(nullable: false),
+                    Rank = c.Int(nullable: false),
+                    SteamId = c.Long(nullable: false),
+                    ReplayId = c.Long(),
+                    Score = c.Int(nullable: false),
+                    Zone = c.Int(nullable: false),
+                    Level = c.Int(nullable: false),
+                })
+                .PrimaryKey(t => new { t.LeaderboardId, t.Rank })
+                .ForeignKey("dbo.Leaderboards", t => t.LeaderboardId, cascadeDelete: true)
+                .ForeignKey("dbo.Players", t => t.SteamId, cascadeDelete: true)
+                .Index(t => t.LeaderboardId)
+                .Index(t => t.SteamId);
+
+            Sql(@"CREATE VIEW [dbo].[Entries]
+AS
+
+SELECT [SteamId], [LeaderboardId], [Score], [Rank], [Zone], [Level], [ReplayId]
+FROM [Entries_A];");
 
             CreateTable(
                 "dbo.Leaderboards",
@@ -145,18 +169,22 @@ namespace toofz.NecroDancer.Leaderboards.Migrations
 
         public override void Down()
         {
-            DropForeignKey("dbo.Entries", "SteamId", "dbo.Players");
+            DropForeignKey("dbo.Entries_B", "SteamId", "dbo.Players");
+            DropForeignKey("dbo.Entries_A", "SteamId", "dbo.Players");
             DropForeignKey("dbo.Leaderboards", "RunId", "dbo.Runs");
             DropForeignKey("dbo.Leaderboards", "ProductId", "dbo.Products");
             DropForeignKey("dbo.Leaderboards", "ModeId", "dbo.Modes");
-            DropForeignKey("dbo.Entries", "LeaderboardId", "dbo.Leaderboards");
+            DropForeignKey("dbo.Entries_B", "LeaderboardId", "dbo.Leaderboards");
+            DropForeignKey("dbo.Entries_A", "LeaderboardId", "dbo.Leaderboards");
             DropForeignKey("dbo.Leaderboards", "CharacterId", "dbo.Characters");
             DropForeignKey("dbo.DailyEntries", "SteamId", "dbo.Players");
             DropForeignKey("dbo.DailyLeaderboards", "ProductId", "dbo.Products");
             DropForeignKey("dbo.DailyEntries", "LeaderboardId", "dbo.DailyLeaderboards");
             DropIndex("dbo.Leaderboards", "IX_Leaderboards");
-            DropIndex("dbo.Entries", new[] { "SteamId" });
-            DropIndex("dbo.Entries", new[] { "LeaderboardId" });
+            DropIndex("dbo.Entries_B", new[] { "SteamId" });
+            DropIndex("dbo.Entries_B", new[] { "LeaderboardId" });
+            DropIndex("dbo.Entries_A", new[] { "SteamId" });
+            DropIndex("dbo.Entries_A", new[] { "LeaderboardId" });
             DropIndex("dbo.DailyLeaderboards", "IX_DailyLeaderboards");
             DropIndex("dbo.DailyEntries", new[] { "SteamId" });
             DropIndex("dbo.DailyEntries", new[] { "LeaderboardId" });
@@ -164,7 +192,9 @@ namespace toofz.NecroDancer.Leaderboards.Migrations
             DropTable("dbo.Runs");
             DropTable("dbo.Modes");
             DropTable("dbo.Leaderboards");
-            DropTable("dbo.Entries");
+            Sql("DROP VIEW [dbo].[Entries];");
+            DropTable("dbo.Entries_B");
+            DropTable("dbo.Entries_A");
             DropTable("dbo.Players");
             DropTable("dbo.Products");
             DropTable("dbo.DailyLeaderboards");
