@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration;
 
 namespace toofz.NecroDancer.Leaderboards
@@ -12,7 +13,11 @@ namespace toofz.NecroDancer.Leaderboards
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
             this.Property(p => p.Name)
-                .HasMaxLength(64);
+                .HasMaxLength(64)
+                .HasColumnAnnotation(
+                    IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(
+                        new IndexAttribute()));
         }
     }
 }

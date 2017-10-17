@@ -81,6 +81,13 @@
     <EmbeddedResource Include="Migrations\201710131410491_InitialCreate.resx">
       <DependentUpon>201710131410491_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
+    <Compile Include="Migrations\201710171713545_BlackNickelBorderCollie.cs" />
+    <Compile Include="Migrations\201710171713545_BlackNickelBorderCollie.Designer.cs">
+      <DependentUpon>201710171713545_BlackNickelBorderCollie.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Migrations\201710171713545_BlackNickelBorderCollie.resx">
+      <DependentUpon>201710171713545_BlackNickelBorderCollie.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Include="Migrations\Configuration.cs" />
   </ItemGroup>
   <ItemGroup>
