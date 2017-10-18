@@ -143,7 +143,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
         public class ProductsProperty
         {
             [TestMethod]
-            public void ReturnsDBSet()
+            public void ReturnsDbSet()
             {
                 // Arrange
                 var db = new LeaderboardsContext();
@@ -160,7 +160,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
         public class ModesProperty
         {
             [TestMethod]
-            public void ReturnsDBSet()
+            public void ReturnsDbSet()
             {
                 // Arrange
                 var db = new LeaderboardsContext();
@@ -177,7 +177,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
         public class RunsProperty
         {
             [TestMethod]
-            public void ReturnsDBSet()
+            public void ReturnsDbSet()
             {
                 // Arrange
                 var db = new LeaderboardsContext();
@@ -194,7 +194,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
         public class CharactersProperty
         {
             [TestMethod]
-            public void ReturnsDBSet()
+            public void ReturnsDbSet()
             {
                 // Arrange
                 var db = new LeaderboardsContext();
