@@ -63,6 +63,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="toofz.NecroDancer.Leaderboards, Version=15.0.1.258, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\toofz.NecroDancer.Leaderboards.15.0.1\lib\net45\toofz.NecroDancer.Leaderboards.dll</HintPath>
     </Reference>
@@ -75,6 +76,19 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <None Include="Resources\DailyLeaderboardHeaders.json" />
+    <None Include="Resources\LeaderboardHeaders.json" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Migrations\201710131410491_InitialCreate.cs" />
@@ -97,6 +111,9 @@
     <Compile Include="CharacterConfiguration.cs" />
     <Compile Include="DailyEntryConfiguration.cs" />
     <Compile Include="DailyLeaderboardConfiguration.cs" />
+    <Compile Include="DailyLeaderboardHeader.cs" />
+    <Compile Include="DailyLeaderboardHeaders.cs" />
+    <Compile Include="DailyLeaderboardHeadersEnvelope.cs" />
     <Compile Include="EntryConfiguration.cs" />
     <Compile Include="ILeaderboardsContext.cs" />
     <Compile Include="LeaderboardsContext.cs">
@@ -110,6 +127,10 @@
       <DependentUpon>ILeaderboardsStoreClient.cs</DependentUpon>
     </Compile>
     <Compile Include="LeaderboardConfiguration.cs" />
+    <Compile Include="LeaderboardHeader.cs" />
+    <Compile Include="LeaderboardHeaders.cs" />
+    <Compile Include="LeaderboardHeadersEnvelope.cs" />
+    <Compile Include="LeaderboardsResources.cs" />
     <Compile Include="ModeConfiguration.cs" />
     <Compile Include="PlayerConfiguration.cs" />
     <Compile Include="ProductConfiguration.cs" />
