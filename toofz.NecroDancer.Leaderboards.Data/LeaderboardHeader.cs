@@ -17,5 +17,11 @@ namespace toofz.NecroDancer.Leaderboards
         public string Run { get; set; }
         [DataMember(Name = "character", IsRequired = true)]
         public string Character { get; set; }
+        [DataMember(Name = "production")]
+        public bool IsProduction { get; set; }
+        [DataMember(Name = "custom_music")]
+        public bool IsCustomMusic { get; set; }
+        [DataMember(Name = "co_op")]
+        public bool IsCoOp { get; set; }
     }
 }
