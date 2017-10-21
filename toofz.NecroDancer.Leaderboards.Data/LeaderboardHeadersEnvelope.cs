@@ -3,7 +3,7 @@
 namespace toofz.NecroDancer.Leaderboards
 {
     [DataContract]
-    sealed class LeaderboardHeadersEnvelope
+    public sealed class LeaderboardHeadersEnvelope
     {
         [DataMember(Name = "leaderboards", IsRequired = true)]
         public LeaderboardHeaders Leaderboards { get; set; }
