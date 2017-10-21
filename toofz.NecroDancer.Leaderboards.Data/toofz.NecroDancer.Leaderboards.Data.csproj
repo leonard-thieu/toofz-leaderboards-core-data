@@ -118,9 +118,6 @@
     <Compile Include="CharacterConfiguration.cs" />
     <Compile Include="DailyEntryConfiguration.cs" />
     <Compile Include="DailyLeaderboardConfiguration.cs" />
-    <Compile Include="DailyLeaderboardHeader.cs" />
-    <Compile Include="DailyLeaderboardHeaders.cs" />
-    <Compile Include="DailyLeaderboardHeadersEnvelope.cs" />
     <Compile Include="EntryConfiguration.cs" />
     <Compile Include="ILeaderboardsContext.cs" />
     <Compile Include="LeaderboardsContext.cs">
@@ -134,10 +131,6 @@
       <DependentUpon>ILeaderboardsStoreClient.cs</DependentUpon>
     </Compile>
     <Compile Include="LeaderboardConfiguration.cs" />
-    <Compile Include="LeaderboardHeader.cs" />
-    <Compile Include="LeaderboardHeaders.cs" />
-    <Compile Include="LeaderboardHeadersEnvelope.cs" />
-    <Compile Include="LeaderboardsResources.cs" />
     <Compile Include="ModeConfiguration.cs" />
     <Compile Include="PlayerConfiguration.cs" />
     <Compile Include="ProductConfiguration.cs" />
