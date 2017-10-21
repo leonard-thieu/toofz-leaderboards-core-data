@@ -11,7 +11,7 @@ using System.Data.Entity.Infrastructure.MappingViews;
 
 [assembly: DbMappingViewCacheTypeAttribute(
     typeof(toofz.NecroDancer.Leaderboards.LeaderboardsContext),
-    typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySets572b5744ab0b0c935195938faabac6d9ca5c7753e211755567eca73f0d3417d6))]
+    typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsea9d4096bd9597bd276f978ef2cdb118d7837208fe067a8c70b2e9b9f0d66e19))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -23,14 +23,14 @@ namespace Edm_EntityMappingGeneratedViews
     /// Implements a mapping view cache.
     /// </summary>
     [GeneratedCode("Entity Framework 6 Power Tools", "0.9.2.0")]
-    internal sealed class ViewsForBaseEntitySets572b5744ab0b0c935195938faabac6d9ca5c7753e211755567eca73f0d3417d6 : DbMappingViewCache
+    internal sealed class ViewsForBaseEntitySetsea9d4096bd9597bd276f978ef2cdb118d7837208fe067a8c70b2e9b9f0d66e19 : DbMappingViewCache
     {
         /// <summary>
         /// Gets a hash value computed over the mapping closure.
         /// </summary>
         public override string MappingHashValue
         {
-            get { return "572b5744ab0b0c935195938faabac6d9ca5c7753e211755567eca73f0d3417d6"; }
+            get { return "ea9d4096bd9597bd276f978ef2cdb118d7837208fe067a8c70b2e9b9f0d66e19"; }
         }
 
         /// <summary>
@@ -285,7 +285,7 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing Leaderboard
-        [CodeFirstDatabaseSchema.Leaderboard](T1.Leaderboard_LeaderboardId, T1.Leaderboard_LastUpdate, T1.Leaderboard_DisplayName, T1.Leaderboard_IsProduction, T1.Leaderboard_ProductId, T1.Leaderboard_ModeId, T1.Leaderboard_RunId, T1.Leaderboard_CharacterId)
+        [CodeFirstDatabaseSchema.Leaderboard](T1.Leaderboard_LeaderboardId, T1.Leaderboard_LastUpdate, T1.Leaderboard_DisplayName, T1.Leaderboard_IsProduction, T1.Leaderboard_ProductId, T1.Leaderboard_ModeId, T1.Leaderboard_RunId, T1.Leaderboard_CharacterId, T1.Leaderboard_IsCustomMusic, T1.Leaderboard_IsCoOp)
     FROM (
         SELECT 
             T.LeaderboardId AS Leaderboard_LeaderboardId, 
@@ -296,6 +296,8 @@ namespace Edm_EntityMappingGeneratedViews
             T.ModeId AS Leaderboard_ModeId, 
             T.RunId AS Leaderboard_RunId, 
             T.CharacterId AS Leaderboard_CharacterId, 
+            T.IsCustomMusic AS Leaderboard_IsCustomMusic, 
+            T.IsCoOp AS Leaderboard_IsCoOp, 
             True AS _from0
         FROM LeaderboardsContext.Leaderboards AS T
     ) AS T1");
@@ -474,7 +476,7 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing Leaderboards
-        [toofz.NecroDancer.Leaderboards.Leaderboard](T1.Leaderboard_LeaderboardId, T1.Leaderboard_LastUpdate, T1.Leaderboard_DisplayName, T1.Leaderboard_IsProduction, T1.Leaderboard_ProductId, T1.Leaderboard_ModeId, T1.Leaderboard_RunId, T1.Leaderboard_CharacterId)
+        [toofz.NecroDancer.Leaderboards.Leaderboard](T1.Leaderboard_LeaderboardId, T1.Leaderboard_LastUpdate, T1.Leaderboard_DisplayName, T1.Leaderboard_IsProduction, T1.Leaderboard_ProductId, T1.Leaderboard_ModeId, T1.Leaderboard_RunId, T1.Leaderboard_CharacterId, T1.Leaderboard_IsCustomMusic, T1.Leaderboard_IsCoOp)
     FROM (
         SELECT 
             T.LeaderboardId AS Leaderboard_LeaderboardId, 
@@ -485,6 +487,8 @@ namespace Edm_EntityMappingGeneratedViews
             T.ModeId AS Leaderboard_ModeId, 
             T.RunId AS Leaderboard_RunId, 
             T.CharacterId AS Leaderboard_CharacterId, 
+            T.IsCustomMusic AS Leaderboard_IsCustomMusic, 
+            T.IsCoOp AS Leaderboard_IsCoOp, 
             True AS _from0
         FROM CodeFirstDatabase.Leaderboard AS T
     ) AS T1");

@@ -38,6 +38,16 @@ namespace toofz.NecroDancer.Leaderboards
                     IndexAnnotation.AnnotationName,
                     new IndexAnnotation(
                         new IndexAttribute("IX_Leaderboards", 5) { IsUnique = true }));
+            this.Property(c => c.IsCustomMusic)
+                .HasColumnAnnotation(
+                    IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(
+                        new IndexAttribute("IX_Leaderboards", 6) { IsUnique = true }));
+            this.Property(c => c.IsCoOp)
+                .HasColumnAnnotation(
+                    IndexAnnotation.AnnotationName,
+                    new IndexAnnotation(
+                        new IndexAttribute("IX_Leaderboards", 7) { IsUnique = true }));
         }
     }
 }
