@@ -79,19 +79,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <None Include="Resources\DailyLeaderboardHeaders.json" />
-    <None Include="Resources\LeaderboardHeaders.json" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Migrations\201710131410491_InitialCreate.cs" />
     <Compile Include="Migrations\201710131410491_InitialCreate.Designer.cs">
       <DependentUpon>201710131410491_InitialCreate.cs</DependentUpon>
