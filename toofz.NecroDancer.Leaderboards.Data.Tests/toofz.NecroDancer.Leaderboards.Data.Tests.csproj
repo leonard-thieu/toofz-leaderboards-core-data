@@ -85,8 +85,8 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
-    <Reference Include="toofz.NecroDancer.Leaderboards, Version=15.1.0.260, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\toofz.NecroDancer.Leaderboards.15.1.0\lib\net45\toofz.NecroDancer.Leaderboards.dll</HintPath>
+    <Reference Include="toofz.NecroDancer.Leaderboards, Version=15.2.0.262, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\toofz.NecroDancer.Leaderboards.15.2.0\lib\net45\toofz.NecroDancer.Leaderboards.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

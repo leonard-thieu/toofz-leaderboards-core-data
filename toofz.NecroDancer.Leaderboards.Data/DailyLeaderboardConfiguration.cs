@@ -13,6 +13,8 @@ namespace toofz.NecroDancer.Leaderboards
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
             this.Property(c => c.DisplayName)
                 .IsRequired();
+            this.Property(c => c.Name)
+                .IsRequired();
             this.Property(c => c.Date)
                 .HasColumnType("date")
                 .HasColumnAnnotation(

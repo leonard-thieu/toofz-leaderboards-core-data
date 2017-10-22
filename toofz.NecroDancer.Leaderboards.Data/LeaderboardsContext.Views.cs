@@ -11,7 +11,7 @@ using System.Data.Entity.Infrastructure.MappingViews;
 
 [assembly: DbMappingViewCacheTypeAttribute(
     typeof(toofz.NecroDancer.Leaderboards.LeaderboardsContext),
-    typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsea9d4096bd9597bd276f978ef2cdb118d7837208fe067a8c70b2e9b9f0d66e19))]
+    typeof(Edm_EntityMappingGeneratedViews.ViewsForBaseEntitySetsad4f08decf78b9f3a0d5f75964f43fc7c6da8703c058df6a09a1e5b9247f82ad))]
 
 namespace Edm_EntityMappingGeneratedViews
 {
@@ -23,14 +23,14 @@ namespace Edm_EntityMappingGeneratedViews
     /// Implements a mapping view cache.
     /// </summary>
     [GeneratedCode("Entity Framework 6 Power Tools", "0.9.2.0")]
-    internal sealed class ViewsForBaseEntitySetsea9d4096bd9597bd276f978ef2cdb118d7837208fe067a8c70b2e9b9f0d66e19 : DbMappingViewCache
+    internal sealed class ViewsForBaseEntitySetsad4f08decf78b9f3a0d5f75964f43fc7c6da8703c058df6a09a1e5b9247f82ad : DbMappingViewCache
     {
         /// <summary>
         /// Gets a hash value computed over the mapping closure.
         /// </summary>
         public override string MappingHashValue
         {
-            get { return "ea9d4096bd9597bd276f978ef2cdb118d7837208fe067a8c70b2e9b9f0d66e19"; }
+            get { return "ad4f08decf78b9f3a0d5f75964f43fc7c6da8703c058df6a09a1e5b9247f82ad"; }
         }
 
         /// <summary>
@@ -200,11 +200,12 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing DailyLeaderboard
-        [CodeFirstDatabaseSchema.DailyLeaderboard](T1.DailyLeaderboard_LeaderboardId, T1.DailyLeaderboard_LastUpdate, T1.DailyLeaderboard_DisplayName, T1.DailyLeaderboard_IsProduction, T1.DailyLeaderboard_ProductId, T1.DailyLeaderboard_Date)
+        [CodeFirstDatabaseSchema.DailyLeaderboard](T1.DailyLeaderboard_LeaderboardId, T1.DailyLeaderboard_LastUpdate, T1.DailyLeaderboard_Name, T1.DailyLeaderboard_DisplayName, T1.DailyLeaderboard_IsProduction, T1.DailyLeaderboard_ProductId, T1.DailyLeaderboard_Date)
     FROM (
         SELECT 
             T.LeaderboardId AS DailyLeaderboard_LeaderboardId, 
             T.LastUpdate AS DailyLeaderboard_LastUpdate, 
+            T.Name AS DailyLeaderboard_Name, 
             T.DisplayName AS DailyLeaderboard_DisplayName, 
             T.IsProduction AS DailyLeaderboard_IsProduction, 
             T.ProductId AS DailyLeaderboard_ProductId, 
@@ -285,11 +286,12 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing Leaderboard
-        [CodeFirstDatabaseSchema.Leaderboard](T1.Leaderboard_LeaderboardId, T1.Leaderboard_LastUpdate, T1.Leaderboard_DisplayName, T1.Leaderboard_IsProduction, T1.Leaderboard_ProductId, T1.Leaderboard_ModeId, T1.Leaderboard_RunId, T1.Leaderboard_CharacterId, T1.Leaderboard_IsCustomMusic, T1.Leaderboard_IsCoOp)
+        [CodeFirstDatabaseSchema.Leaderboard](T1.Leaderboard_LeaderboardId, T1.Leaderboard_LastUpdate, T1.Leaderboard_Name, T1.Leaderboard_DisplayName, T1.Leaderboard_IsProduction, T1.Leaderboard_ProductId, T1.Leaderboard_ModeId, T1.Leaderboard_RunId, T1.Leaderboard_CharacterId, T1.Leaderboard_IsCustomMusic, T1.Leaderboard_IsCoOp)
     FROM (
         SELECT 
             T.LeaderboardId AS Leaderboard_LeaderboardId, 
             T.LastUpdate AS Leaderboard_LastUpdate, 
+            T.Name AS Leaderboard_Name, 
             T.DisplayName AS Leaderboard_DisplayName, 
             T.IsProduction AS Leaderboard_IsProduction, 
             T.ProductId AS Leaderboard_ProductId, 
@@ -391,11 +393,12 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing DailyLeaderboards
-        [toofz.NecroDancer.Leaderboards.DailyLeaderboard](T1.DailyLeaderboard_LeaderboardId, T1.DailyLeaderboard_LastUpdate, T1.DailyLeaderboard_DisplayName, T1.DailyLeaderboard_IsProduction, T1.DailyLeaderboard_ProductId, T1.DailyLeaderboard_Date)
+        [toofz.NecroDancer.Leaderboards.DailyLeaderboard](T1.DailyLeaderboard_LeaderboardId, T1.DailyLeaderboard_LastUpdate, T1.DailyLeaderboard_Name, T1.DailyLeaderboard_DisplayName, T1.DailyLeaderboard_IsProduction, T1.DailyLeaderboard_ProductId, T1.DailyLeaderboard_Date)
     FROM (
         SELECT 
             T.LeaderboardId AS DailyLeaderboard_LeaderboardId, 
             T.LastUpdate AS DailyLeaderboard_LastUpdate, 
+            T.Name AS DailyLeaderboard_Name, 
             T.DisplayName AS DailyLeaderboard_DisplayName, 
             T.IsProduction AS DailyLeaderboard_IsProduction, 
             T.ProductId AS DailyLeaderboard_ProductId, 
@@ -476,11 +479,12 @@ namespace Edm_EntityMappingGeneratedViews
         {
             return new DbMappingView(@"
     SELECT VALUE -- Constructing Leaderboards
-        [toofz.NecroDancer.Leaderboards.Leaderboard](T1.Leaderboard_LeaderboardId, T1.Leaderboard_LastUpdate, T1.Leaderboard_DisplayName, T1.Leaderboard_IsProduction, T1.Leaderboard_ProductId, T1.Leaderboard_ModeId, T1.Leaderboard_RunId, T1.Leaderboard_CharacterId, T1.Leaderboard_IsCustomMusic, T1.Leaderboard_IsCoOp)
+        [toofz.NecroDancer.Leaderboards.Leaderboard](T1.Leaderboard_LeaderboardId, T1.Leaderboard_LastUpdate, T1.Leaderboard_Name, T1.Leaderboard_DisplayName, T1.Leaderboard_IsProduction, T1.Leaderboard_ProductId, T1.Leaderboard_ModeId, T1.Leaderboard_RunId, T1.Leaderboard_CharacterId, T1.Leaderboard_IsCustomMusic, T1.Leaderboard_IsCoOp)
     FROM (
         SELECT 
             T.LeaderboardId AS Leaderboard_LeaderboardId, 
             T.LastUpdate AS Leaderboard_LastUpdate, 
+            T.Name AS Leaderboard_Name, 
             T.DisplayName AS Leaderboard_DisplayName, 
             T.IsProduction AS Leaderboard_IsProduction, 
             T.ProductId AS Leaderboard_ProductId, 
