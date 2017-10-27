@@ -23,12 +23,15 @@ namespace toofz.NecroDancer.Leaderboards
         {
             d => d.LeaderboardId,
             d => d.LastUpdate,
+            d => d.Name,
             d => d.DisplayName,
             d => d.IsProduction,
             d => d.ProductId,
             d => d.ModeId,
             d => d.RunId,
             d => d.CharacterId,
+            d => d.IsCoOp,
+            d => d.IsCustomMusic,
         };
 
         [ExcludeFromCodeCoverage]
@@ -90,6 +93,7 @@ namespace toofz.NecroDancer.Leaderboards
         {
             d => d.LeaderboardId,
             d => d.LastUpdate,
+            d => d.Name,
             d => d.DisplayName,
             d => d.IsProduction,
             d => d.ProductId,
