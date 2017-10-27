@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration;
 
 namespace toofz.NecroDancer.Leaderboards
@@ -14,11 +13,9 @@ namespace toofz.NecroDancer.Leaderboards
 
             this.Property(c => c.Name)
                 .IsRequired()
-                .HasMaxLength(32)
-                .HasColumnAnnotation(
-                    IndexAnnotation.AnnotationName,
-                    new IndexAnnotation(
-                        new IndexAttribute { IsUnique = true }));
+                .HasMaxLength(32);
+            this.HasIndex(c => c.Name)
+                .IsUnique();
             this.Property(c => c.DisplayName)
                 .IsRequired();
         }
