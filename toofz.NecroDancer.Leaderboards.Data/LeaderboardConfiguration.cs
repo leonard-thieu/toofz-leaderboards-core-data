@@ -21,8 +21,8 @@ namespace toofz.NecroDancer.Leaderboards
                 c.ModeId,
                 c.ProductId,
                 c.IsProduction,
-                c.IsCustomMusic,
                 c.IsCoOp,
+                c.IsCustomMusic,
             })
             .HasName("IX_Leaderboards")
             .IsUnique();

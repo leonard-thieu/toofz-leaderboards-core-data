@@ -108,6 +108,13 @@
     <EmbeddedResource Include="Migrations\201710221313149_WhiteBrassPointer.resx">
       <DependentUpon>201710221313149_WhiteBrassPointer.cs</DependentUpon>
     </EmbeddedResource>
+    <Compile Include="Migrations\201710271604233_RedAluminiumPitBullTerrier.cs" />
+    <Compile Include="Migrations\201710271604233_RedAluminiumPitBullTerrier.Designer.cs">
+      <DependentUpon>201710271604233_RedAluminiumPitBullTerrier.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Migrations\201710271604233_RedAluminiumPitBullTerrier.resx">
+      <DependentUpon>201710271604233_RedAluminiumPitBullTerrier.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Include="Migrations\Configuration.cs" />
   </ItemGroup>
   <ItemGroup>
