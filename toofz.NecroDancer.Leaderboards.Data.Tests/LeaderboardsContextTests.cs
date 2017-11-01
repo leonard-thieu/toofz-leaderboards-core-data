@@ -198,7 +198,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
         [Trait("Category", "Uses SQL Server")]
         public class IntegrationTests
         {
-            [Fact]
+            [Fact(Skip = "Not currently using Pre-generated mapping views because tooling doesn't support Entity Framework 6.2.")]
             public async Task PreGeneratedMappingViewsIsUpToDate()
             {
                 var connectionString = DatabaseHelper.GetConnectionString();
