@@ -5,18 +5,17 @@ using System.Data.Entity.Migrations;
 using System.Data.Entity.Migrations.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using toofz.NecroDancer.Leaderboards.Migrations;
+using Xunit;
 
 namespace toofz.NecroDancer.Leaderboards.Tests
 {
-    [TestClass]
-    [TestCategory("Uses SQL Server")]
+    [Trait("Category", "Uses SQL Server")]
     public class MigrationsTests
     {
         #region From https://stackoverflow.com/a/42643788/414137
 
-        [TestMethod]
+        [Fact]
         public void MigrationsUpDownTest()
         {
             // Drop and recreate database
@@ -47,14 +46,14 @@ namespace toofz.NecroDancer.Leaderboards.Tests
             }
             catch (SqlException ex)
             {
-                Assert.Fail("Should not have any errors when running migrations up and down: " + ex.Errors[0].Message.ToString());
+                Assert.True(false, "Should not have any errors when running migrations up and down: " + ex.Errors[0].Message.ToString());
             }
 
             // Optional: delete database
             db.Database.Delete();
         }
 
-        [TestMethod]
+        [Fact]
         public void PendingModelChangesTest()
         {
             // NOTE: Using MigratorScriptingDecorator so changes won't be made to the database
@@ -70,7 +69,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
             }
             catch (AutomaticMigrationsDisabledException)
             {
-                Assert.Fail("Should be no pending model changes/migrations should cover all model changes.");
+                Assert.True(false, "Should be no pending model changes/migrations should cover all model changes.");
             }
         }
 

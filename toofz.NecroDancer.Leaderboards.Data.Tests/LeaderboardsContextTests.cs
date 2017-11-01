@@ -1,29 +1,27 @@
 ﻿using System.Data.Entity;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace toofz.NecroDancer.Leaderboards.Tests
 {
-    class LeaderboardsContextTests
+    public class LeaderboardsContextTests
     {
-        [TestClass]
         public class Constructor
         {
-            [TestMethod]
+            [Fact]
             public void ReturnsInstance()
             {
                 // Arrange -> Act
                 var db = new LeaderboardsContext();
 
                 // Assert
-                Assert.IsInstanceOfType(db, typeof(LeaderboardsContext));
+                Assert.IsAssignableFrom<LeaderboardsContext>(db);
             }
         }
 
-        [TestClass]
         public class Constructor_String
         {
-            [TestMethod]
+            [Fact]
             public void ReturnsInstance()
             {
                 // Arrange
@@ -33,14 +31,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var db = new LeaderboardsContext(nameOrConnectionString);
 
                 // Assert
-                Assert.IsInstanceOfType(db, typeof(LeaderboardsContext));
+                Assert.IsAssignableFrom<LeaderboardsContext>(db);
             }
         }
 
-        [TestClass]
         public class LeaderboardsProperty
         {
-            [TestMethod]
+            [Fact]
             public void ReturnsDbSet()
             {
                 // Arrange
@@ -50,14 +47,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var leaderboards = db.Leaderboards;
 
                 // Assert
-                Assert.IsInstanceOfType(leaderboards, typeof(DbSet<Leaderboard>));
+                Assert.IsAssignableFrom<DbSet<Leaderboard>>(leaderboards);
             }
         }
 
-        [TestClass]
         public class EntriesProperty
         {
-            [TestMethod]
+            [Fact]
             public void ReturnsDbSet()
             {
                 // Arrange
@@ -67,14 +63,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var entries = db.Entries;
 
                 // Assert
-                Assert.IsInstanceOfType(entries, typeof(DbSet<Entry>));
+                Assert.IsAssignableFrom<DbSet<Entry>>(entries);
             }
         }
 
-        [TestClass]
         public class DailyLeaderboardsProperty
         {
-            [TestMethod]
+            [Fact]
             public void ReturnsDbSet()
             {
                 // Arrange
@@ -84,14 +79,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var leaderboards = db.DailyLeaderboards;
 
                 // Assert
-                Assert.IsInstanceOfType(leaderboards, typeof(DbSet<DailyLeaderboard>));
+                Assert.IsAssignableFrom<DbSet<DailyLeaderboard>>(leaderboards);
             }
         }
 
-        [TestClass]
         public class DailyEntriesProperty
         {
-            [TestMethod]
+            [Fact]
             public void ReturnsDbSet()
             {
                 // Arrange
@@ -101,14 +95,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var entries = db.DailyEntries;
 
                 // Assert
-                Assert.IsInstanceOfType(entries, typeof(DbSet<DailyEntry>));
+                Assert.IsAssignableFrom<DbSet<DailyEntry>>(entries);
             }
         }
 
-        [TestClass]
         public class PlayersProperty
         {
-            [TestMethod]
+            [Fact]
             public void ReturnsDbSet()
             {
                 // Arrange
@@ -118,14 +111,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var players = db.Players;
 
                 // Assert
-                Assert.IsInstanceOfType(players, typeof(DbSet<Player>));
+                Assert.IsAssignableFrom<DbSet<Player>>(players);
             }
         }
 
-        [TestClass]
         public class ReplaysProperty
         {
-            [TestMethod]
+            [Fact]
             public void ReturnsDbSet()
             {
                 // Arrange
@@ -135,14 +127,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var replays = db.Replays;
 
                 // Assert
-                Assert.IsInstanceOfType(replays, typeof(DbSet<Replay>));
+                Assert.IsAssignableFrom<DbSet<Replay>>(replays);
             }
         }
 
-        [TestClass]
         public class ProductsProperty
         {
-            [TestMethod]
+            [Fact]
             public void ReturnsDbSet()
             {
                 // Arrange
@@ -152,14 +143,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var products = db.Products;
 
                 // Assert
-                Assert.IsInstanceOfType(products, typeof(DbSet<Product>));
+                Assert.IsAssignableFrom<DbSet<Product>>(products);
             }
         }
 
-        [TestClass]
         public class ModesProperty
         {
-            [TestMethod]
+            [Fact]
             public void ReturnsDbSet()
             {
                 // Arrange
@@ -169,14 +159,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var modes = db.Modes;
 
                 // Assert
-                Assert.IsInstanceOfType(modes, typeof(DbSet<Mode>));
+                Assert.IsAssignableFrom<DbSet<Mode>>(modes);
             }
         }
 
-        [TestClass]
         public class RunsProperty
         {
-            [TestMethod]
+            [Fact]
             public void ReturnsDbSet()
             {
                 // Arrange
@@ -186,14 +175,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var runs = db.Runs;
 
                 // Assert
-                Assert.IsInstanceOfType(runs, typeof(DbSet<Run>));
+                Assert.IsAssignableFrom<DbSet<Run>>(runs);
             }
         }
 
-        [TestClass]
         public class CharactersProperty
         {
-            [TestMethod]
+            [Fact]
             public void ReturnsDbSet()
             {
                 // Arrange
@@ -203,15 +191,14 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var characters = db.Characters;
 
                 // Assert
-                Assert.IsInstanceOfType(characters, typeof(DbSet<Character>));
+                Assert.IsAssignableFrom<DbSet<Character>>(characters);
             }
         }
 
-        [TestClass]
-        [TestCategory("Uses SQL Server")]
+        [Trait("Category", "Uses SQL Server")]
         public class IntegrationTests
         {
-            [TestMethod]
+            [Fact]
             public async Task PreGeneratedMappingViewsIsUpToDate()
             {
                 var connectionString = DatabaseHelper.GetConnectionString();

@@ -3,32 +3,31 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using SqlBulkUpsert;
+using Xunit;
 
 namespace toofz.NecroDancer.Leaderboards.Tests
 {
-    class LeaderboardsStoreClientTests
+    public class LeaderboardsStoreClientTests
     {
-        [TestClass]
         public class GetLeaderboardMappingsMethod
         {
-            [TestMethod]
+            [Fact]
             public void ConnectionIsNull_ThrowsArgumentNullException()
             {
                 // Arrange
                 SqlConnection connection = null;
 
                 // Act -> Assert
-                Assert.ThrowsException<ArgumentNullException>(() =>
+                Assert.Throws<ArgumentNullException>(() =>
                 {
                     new LeaderboardsStoreClient(connection);
                 });
             }
 
 
-            [TestMethod]
+            [Fact]
             public void ReturnsInstance()
             {
                 // Arrange
@@ -39,14 +38,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var mappings = storeClient.GetLeaderboardMappings();
 
                 // Assert
-                Assert.IsInstanceOfType(mappings, typeof(ColumnMappings<Leaderboard>));
+                Assert.IsAssignableFrom<ColumnMappings<Leaderboard>>(mappings);
             }
         }
 
-        [TestClass]
         public class SaveChangesAsyncMethod_Leaderboards
         {
-            [TestMethod]
+            [Fact]
             public async Task UpsertsLeaderboards()
             {
                 // Arrange
@@ -63,7 +61,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 mockUpserter.Verify(u => u.UpsertAsync(connection, leaderboards, true, It.IsAny<CancellationToken>()), Times.Once);
             }
 
-            [TestMethod]
+            [Fact]
             public async Task ReturnsRowsAffected()
             {
                 // Arrange
@@ -80,14 +78,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var rowsAffected = await storeClient.SaveChangesAsync(upserter, leaderboards);
 
                 // Assert
-                Assert.AreEqual(400, rowsAffected);
+                Assert.Equal(400, rowsAffected);
             }
         }
 
-        [TestClass]
         public class GetEntryMappingsMethod
         {
-            [TestMethod]
+            [Fact]
             public void ReturnsInstance()
             {
                 // Arrange
@@ -98,14 +95,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var mappings = storeClient.GetEntryMappings();
 
                 // Assert
-                Assert.IsInstanceOfType(mappings, typeof(ColumnMappings<Entry>));
+                Assert.IsAssignableFrom<ColumnMappings<Entry>>(mappings);
             }
         }
 
-        [TestClass]
         public class SaveChangesAsyncMethod_Entries
         {
-            [TestMethod]
+            [Fact]
             public async Task InsertsEntries()
             {
                 // Arrange
@@ -122,7 +118,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 mockUpserter.Verify(u => u.InsertAsync(connection, entries, It.IsAny<CancellationToken>()), Times.Once);
             }
 
-            [TestMethod]
+            [Fact]
             public async Task ReturnsRowsAffected()
             {
                 // Arrange
@@ -139,14 +135,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var rowsAffected = await storeClient.SaveChangesAsync(upserter, entries);
 
                 // Assert
-                Assert.AreEqual(20000, rowsAffected);
+                Assert.Equal(20000, rowsAffected);
             }
         }
 
-        [TestClass]
         public class GetDailyLeaderboardMappingsMethod
         {
-            [TestMethod]
+            [Fact]
             public void ReturnsInstance()
             {
                 // Arrange
@@ -157,14 +152,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var mappings = storeClient.GetDailyLeaderboardMappings();
 
                 // Assert
-                Assert.IsInstanceOfType(mappings, typeof(ColumnMappings<DailyLeaderboard>));
+                Assert.IsAssignableFrom<ColumnMappings<DailyLeaderboard>>(mappings);
             }
         }
 
-        [TestClass]
         public class SaveChangesAsyncMethod_DailyLeaderboards
         {
-            [TestMethod]
+            [Fact]
             public async Task UpsertsDailyLeaderboards()
             {
                 // Arrange
@@ -181,7 +175,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 mockUpserter.Verify(u => u.UpsertAsync(connection, dailyLeaderboards, true, It.IsAny<CancellationToken>()), Times.Once);
             }
 
-            [TestMethod]
+            [Fact]
             public async Task ReturnsRowsAffected()
             {
                 // Arrange
@@ -198,14 +192,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var rowsAffected = await storeClient.SaveChangesAsync(upserter, dailyLeaderboards);
 
                 // Assert
-                Assert.AreEqual(400, rowsAffected);
+                Assert.Equal(400, rowsAffected);
             }
         }
 
-        [TestClass]
         public class GetDailyEntryMappingsMethod
         {
-            [TestMethod]
+            [Fact]
             public void ReturnsInstance()
             {
                 // Arrange
@@ -216,14 +209,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var mappings = storeClient.GetDailyEntryMappings();
 
                 // Assert
-                Assert.IsInstanceOfType(mappings, typeof(ColumnMappings<DailyEntry>));
+                Assert.IsAssignableFrom<ColumnMappings<DailyEntry>>(mappings);
             }
         }
 
-        [TestClass]
         public class SaveChangesAsyncMethod_DailyEntries
         {
-            [TestMethod]
+            [Fact]
             public async Task UpsertsDailyEntries()
             {
                 // Arrange
@@ -240,7 +232,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 mockUpserter.Verify(u => u.UpsertAsync(connection, dailyEntries, true, It.IsAny<CancellationToken>()), Times.Once);
             }
 
-            [TestMethod]
+            [Fact]
             public async Task ReturnsRowsAffected()
             {
                 // Arrange
@@ -257,14 +249,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var rowsAffected = await storeClient.SaveChangesAsync(upserter, dailyEntries);
 
                 // Assert
-                Assert.AreEqual(400, rowsAffected);
+                Assert.Equal(400, rowsAffected);
             }
         }
 
-        [TestClass]
         public class GetPlayerMappingsMethod
         {
-            [TestMethod]
+            [Fact]
             public void ReturnsInstance()
             {
                 // Arrange
@@ -275,14 +266,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var mappings = storeClient.GetPlayerMappings();
 
                 // Assert
-                Assert.IsInstanceOfType(mappings, typeof(ColumnMappings<Player>));
+                Assert.IsAssignableFrom<ColumnMappings<Player>>(mappings);
             }
         }
 
-        [TestClass]
         public class SaveChangesAsyncMethod_Players
         {
-            [TestMethod]
+            [Fact]
             public async Task UpsertsPlayers()
             {
                 // Arrange
@@ -299,7 +289,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 mockUpserter.Verify(u => u.UpsertAsync(connection, players, true, It.IsAny<CancellationToken>()), Times.Once);
             }
 
-            [TestMethod]
+            [Fact]
             public async Task ReturnsRowsAffected()
             {
                 // Arrange
@@ -316,14 +306,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var rowsAffected = await storeClient.SaveChangesAsync(upserter, players, true);
 
                 // Assert
-                Assert.AreEqual(400, rowsAffected);
+                Assert.Equal(400, rowsAffected);
             }
         }
 
-        [TestClass]
         public class GetReplayMappingsMethod
         {
-            [TestMethod]
+            [Fact]
             public void ReturnsInstance()
             {
                 // Arrange
@@ -334,14 +323,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var mappings = storeClient.GetReplayMappings();
 
                 // Assert
-                Assert.IsInstanceOfType(mappings, typeof(ColumnMappings<Replay>));
+                Assert.IsAssignableFrom<ColumnMappings<Replay>>(mappings);
             }
         }
 
-        [TestClass]
         public class SaveChangesAsyncMethod_Replays
         {
-            [TestMethod]
+            [Fact]
             public async Task UpsertsReplays()
             {
                 // Arrange
@@ -358,7 +346,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 mockUpserter.Verify(u => u.UpsertAsync(connection, replays, true, It.IsAny<CancellationToken>()), Times.Once);
             }
 
-            [TestMethod]
+            [Fact]
             public async Task ReturnsRowsAffected()
             {
                 // Arrange
@@ -375,7 +363,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var rowsAffected = await storeClient.SaveChangesAsync(upserter, replays, true);
 
                 // Assert
-                Assert.AreEqual(400, rowsAffected);
+                Assert.Equal(400, rowsAffected);
             }
         }
     }
