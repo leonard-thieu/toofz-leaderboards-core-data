@@ -2,7 +2,7 @@
 
 namespace toofz.NecroDancer.Leaderboards
 {
-    sealed class EntryConfiguration : EntityTypeConfiguration<Entry>
+    internal sealed class EntryConfiguration : EntityTypeConfiguration<Entry>
     {
         public EntryConfiguration()
         {

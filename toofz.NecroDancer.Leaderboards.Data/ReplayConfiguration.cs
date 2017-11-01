@@ -3,7 +3,7 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace toofz.NecroDancer.Leaderboards
 {
-    sealed class ReplayConfiguration : EntityTypeConfiguration<Replay>
+    internal sealed class ReplayConfiguration : EntityTypeConfiguration<Replay>
     {
         public ReplayConfiguration()
         {

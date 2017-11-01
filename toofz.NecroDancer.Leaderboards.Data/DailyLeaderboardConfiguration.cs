@@ -3,7 +3,7 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace toofz.NecroDancer.Leaderboards
 {
-    sealed class DailyLeaderboardConfiguration : EntityTypeConfiguration<DailyLeaderboard>
+    internal sealed class DailyLeaderboardConfiguration : EntityTypeConfiguration<DailyLeaderboard>
     {
         public DailyLeaderboardConfiguration()
         {

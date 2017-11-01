@@ -1,6 +1,6 @@
 ﻿namespace toofz.NecroDancer.Leaderboards
 {
-    static class Util
+    internal static class Util
     {
         // https://stackoverflow.com/questions/10869062/removing-a-default-constraint-after-adding-a-new-column-in-code-first
         public static string DropDefaultConstraint(string table, string column)

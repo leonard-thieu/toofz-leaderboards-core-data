@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using SqlBulkUpsert;
@@ -15,7 +14,7 @@ namespace toofz.NecroDancer.Leaderboards
             this.connection = connection ?? throw new ArgumentNullException(nameof(connection));
         }
 
-        readonly SqlConnection connection;
+        private readonly SqlConnection connection;
 
         #region Leaderboard
 
@@ -34,7 +33,6 @@ namespace toofz.NecroDancer.Leaderboards
             d => d.IsCustomMusic,
         };
 
-        [ExcludeFromCodeCoverage]
         public Task<int> SaveChangesAsync(
             IEnumerable<Leaderboard> leaderboards,
             CancellationToken cancellationToken = default)
@@ -67,7 +65,6 @@ namespace toofz.NecroDancer.Leaderboards
             d => d.Level,
         };
 
-        [ExcludeFromCodeCoverage]
         public Task<int> SaveChangesAsync(
             IEnumerable<Entry> entries,
             CancellationToken cancellationToken = default)
@@ -100,7 +97,6 @@ namespace toofz.NecroDancer.Leaderboards
             d => d.Date,
         };
 
-        [ExcludeFromCodeCoverage]
         public Task<int> SaveChangesAsync(
             IEnumerable<DailyLeaderboard> leaderboards,
             CancellationToken cancellationToken = default)
@@ -133,7 +129,6 @@ namespace toofz.NecroDancer.Leaderboards
             d => d.Level,
         };
 
-        [ExcludeFromCodeCoverage]
         public Task<int> SaveChangesAsync(
             IEnumerable<DailyEntry> entries,
             CancellationToken cancellationToken = default)
@@ -164,7 +159,6 @@ namespace toofz.NecroDancer.Leaderboards
             d => d.Avatar,
         };
 
-        [ExcludeFromCodeCoverage]
         public Task<int> SaveChangesAsync(
             IEnumerable<Player> players,
             bool updateOnMatch,
@@ -198,7 +192,6 @@ namespace toofz.NecroDancer.Leaderboards
             d => d.Uri,
         };
 
-        [ExcludeFromCodeCoverage]
         public Task<int> SaveChangesAsync(
             IEnumerable<Replay> replays,
             bool updateOnMatch,

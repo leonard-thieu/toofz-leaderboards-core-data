@@ -3,7 +3,7 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace toofz.NecroDancer.Leaderboards
 {
-    sealed class RunConfiguration : EntityTypeConfiguration<Run>
+    internal sealed class RunConfiguration : EntityTypeConfiguration<Run>
     {
         public RunConfiguration()
         {

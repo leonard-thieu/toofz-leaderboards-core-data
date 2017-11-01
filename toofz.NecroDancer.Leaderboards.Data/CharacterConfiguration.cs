@@ -3,7 +3,7 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace toofz.NecroDancer.Leaderboards
 {
-    sealed class CharacterConfiguration : EntityTypeConfiguration<Character>
+    internal sealed class CharacterConfiguration : EntityTypeConfiguration<Character>
     {
         public CharacterConfiguration()
         {

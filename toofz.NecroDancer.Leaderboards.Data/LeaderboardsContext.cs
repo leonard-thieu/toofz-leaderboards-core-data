@@ -14,7 +14,7 @@ namespace toofz.NecroDancer.Leaderboards
             Initialize();
         }
 
-        void Initialize()
+        private void Initialize()
         {
             Configuration.AutoDetectChangesEnabled = false;
             Configuration.LazyLoadingEnabled = false;
