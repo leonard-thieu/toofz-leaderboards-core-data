@@ -3,7 +3,7 @@ using System.Configuration;
 
 namespace toofz.NecroDancer.Leaderboards.Tests
 {
-    static class DatabaseHelper
+    internal static class DatabaseHelper
     {
         public static string GetConnectionString()
         {

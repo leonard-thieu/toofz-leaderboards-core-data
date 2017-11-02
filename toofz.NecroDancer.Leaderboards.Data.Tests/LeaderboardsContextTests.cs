@@ -1,5 +1,5 @@
 ﻿using System.Data.Entity;
-using System.Threading.Tasks;
+using System.Linq;
 using Xunit;
 
 namespace toofz.NecroDancer.Leaderboards.Tests
@@ -196,27 +196,31 @@ namespace toofz.NecroDancer.Leaderboards.Tests
         }
 
         [Trait("Category", "Uses SQL Server")]
+        [Collection(DatabaseCollection.Name)]
         public class IntegrationTests
         {
-            [Fact(Skip = "Not currently using Pre-generated mapping views because tooling doesn't support Entity Framework 6.2.")]
-            public async Task PreGeneratedMappingViewsIsUpToDate()
+            public IntegrationTests(DatabaseFixture fixture)
             {
-                var connectionString = DatabaseHelper.GetConnectionString();
-                using (var context = new LeaderboardsContext(connectionString))
-                {
-                    await context.Leaderboards.FirstOrDefaultAsync();
-                    await context.Entries.FirstOrDefaultAsync();
-                    await context.DailyLeaderboards.FirstOrDefaultAsync();
-                    await context.DailyEntries.FirstOrDefaultAsync();
-                    await context.Players.FirstOrDefaultAsync();
-                    await context.Replays.FirstOrDefaultAsync();
-                    await context.Products.FirstOrDefaultAsync();
-                    await context.Modes.FirstOrDefaultAsync();
-                    await context.Runs.FirstOrDefaultAsync();
-                    await context.Characters.FirstOrDefaultAsync();
+                this.fixture = fixture;
+            }
 
-                    context.Database.Delete();
-                }
+            private readonly DatabaseFixture fixture;
+
+            [Fact]
+            public void PreGeneratedMappingViewsIsUpToDate()
+            {
+                var db = fixture.Db;
+
+                db.Leaderboards.FirstOrDefault();
+                db.Entries.FirstOrDefault();
+                db.DailyLeaderboards.FirstOrDefault();
+                db.DailyEntries.FirstOrDefault();
+                db.Players.FirstOrDefault();
+                db.Replays.FirstOrDefault();
+                db.Products.FirstOrDefault();
+                db.Modes.FirstOrDefault();
+                db.Runs.FirstOrDefault();
+                db.Characters.FirstOrDefault();
             }
         }
     }
