@@ -52,7 +52,7 @@
     <PackageReference Include="xunit">
       <Version>2.3.1</Version>
     </PackageReference>
-    <PackageReference Include="xunit.runner.console">
+    <PackageReference Include="xunit.runner.visualstudio">
       <Version>2.3.1</Version>
     </PackageReference>
   </ItemGroup>
@@ -70,6 +70,9 @@
     <Compile Include="LeaderboardsContextTests.cs" />
     <Compile Include="LeaderboardsStoreClientTests.cs" />
     <Compile Include="MigrationsTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
