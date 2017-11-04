@@ -106,8 +106,11 @@
     <Compile Include="LeaderboardsContext.cs">
       <DependentUpon>ILeaderboardsContext.cs</DependentUpon>
     </Compile>
+    <Compile Include="ILeaderboardsStoreClient.cs" />
+    <Compile Include="LeaderboardsStoreClient.cs">
+      <DependentUpon>ILeaderboardsStoreClient.cs</DependentUpon>
+    </Compile>
     <Compile Include="LeaderboardConfiguration.cs" />
-    <Compile Include="LeaderboardsStoreClient.cs" />
     <Compile Include="ModeConfiguration.cs" />
     <Compile Include="PlayerConfiguration.cs" />
     <Compile Include="ProductConfiguration.cs" />

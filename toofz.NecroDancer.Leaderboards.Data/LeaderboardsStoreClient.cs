@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Mapping;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace toofz.NecroDancer.Leaderboards
 {
-    public sealed class LeaderboardsStoreClient
+    public sealed class LeaderboardsStoreClient : ILeaderboardsStoreClient
     {
         public LeaderboardsStoreClient(SqlConnection connection)
         {
@@ -25,6 +26,9 @@ namespace toofz.NecroDancer.Leaderboards
             if (items == null)
                 throw new ArgumentNullException(nameof(items));
 
+            items = items.ToList();
+
+            await connection.OpenIfClosedAsync(cancellationToken).ConfigureAwait(false);
             using (var db = new LeaderboardsContext(connection))
             using (var transaction = connection.BeginTransaction())
             {
@@ -34,7 +38,6 @@ namespace toofz.NecroDancer.Leaderboards
                     var mappingFragment = db.GetMappingFragment<TEntity>();
                     var tableName = mappingFragment.GetTableName();
                     var viewName = tableName;
-                    var columnNames = mappingFragment.GetColumnNames();
 
                     var stagingTableName = $"{viewName}_A";
                     var activeTableName = $"{viewName}_B";
@@ -50,25 +53,15 @@ namespace toofz.NecroDancer.Leaderboards
                     // This can happen when initially working with a database that was modified by legacy code. Legacy code 
                     // truncated at the beginning instead of after.
                     await connection.TruncateTableAsync(stagingTableName, transaction, cancellationToken).ConfigureAwait(false);
-
-                    using (var sqlBulkCopy = new SqlBulkCopy(connection, SqlBulkCopyOptions.TableLock & SqlBulkCopyOptions.KeepNulls, transaction))
-                    {
-                        sqlBulkCopy.BulkCopyTimeout = 0;
-                        sqlBulkCopy.DestinationTableName = tableName;
-
-                        foreach (var columnName in columnNames)
-                        {
-                            sqlBulkCopy.ColumnMappings.Add(columnName, columnName);
-                        }
-
-                        using (var reader = new TypedDataReader<TEntity>(mappingFragment.GetScalarPropertyMappings(), items))
-                        {
-                            await sqlBulkCopy.WriteToServerAsync(reader, cancellationToken).ConfigureAwait(false);
-                        }
-                    }
+                    await BulkCopyAsync(items, mappingFragment, transaction, cancellationToken).ConfigureAwait(false);
                     await connection.RebuildNonclusteredIndexesAsync(stagingTableName, transaction, cancellationToken).ConfigureAwait(false);
-
-                    await connection.SwitchTableAsync(viewName, stagingTableName, columnNames, transaction, cancellationToken).ConfigureAwait(false);
+                    await connection.SwitchTableAsync(
+                        viewName,
+                        stagingTableName,
+                        mappingFragment.GetColumnNames(),
+                        transaction,
+                        cancellationToken)
+                        .ConfigureAwait(false);
                     // Active table is now the new staging table
                     await connection.TruncateTableAsync(activeTableName, transaction, cancellationToken).ConfigureAwait(false);
 
@@ -93,44 +86,27 @@ namespace toofz.NecroDancer.Leaderboards
             if (items == null)
                 throw new ArgumentNullException(nameof(items));
 
+            items = items.ToList();
             if (!items.Any()) { return 0; }
 
-            // LeaderboardsContext does not use the connection/transaction. If changes are made where LeaderboardsContext does use the 
-            // connection/transaction, ensure that the connection/transaction is passed to LeaderboardsContext.
-            using (var db = new LeaderboardsContext())
+            await connection.OpenIfClosedAsync(cancellationToken).ConfigureAwait(false);
+            using (var db = new LeaderboardsContext(connection))
             using (var transaction = connection.BeginTransaction())
             {
+                db.Database.UseTransaction(transaction);
                 try
                 {
                     var mappingFragment = db.GetMappingFragment<TEntity>();
                     var tableName = mappingFragment.GetTableName();
                     var tempTableName = $"#{tableName}";
-                    var columnNames = mappingFragment.GetColumnNames();
-                    var primaryKeyColumnNames = mappingFragment.GetPrimaryKeyColumnNames();
 
                     await connection.SelectIntoTemporaryTableAsync(tableName, tempTableName, transaction, cancellationToken).ConfigureAwait(false);
-
-                    using (var sqlBulkCopy = new SqlBulkCopy(connection, SqlBulkCopyOptions.TableLock & SqlBulkCopyOptions.KeepNulls, transaction))
-                    {
-                        sqlBulkCopy.BulkCopyTimeout = 0;
-                        sqlBulkCopy.DestinationTableName = tableName;
-
-                        foreach (var columnName in columnNames)
-                        {
-                            sqlBulkCopy.ColumnMappings.Add(columnName, columnName);
-                        }
-
-                        using (var reader = new TypedDataReader<TEntity>(mappingFragment.GetScalarPropertyMappings(), items))
-                        {
-                            await sqlBulkCopy.WriteToServerAsync(reader, cancellationToken).ConfigureAwait(false);
-                        }
-                    }
-
-                    var rowsAffected = await connection.MergeAsync(
+                    await BulkCopyAsync(items, mappingFragment, transaction, cancellationToken).ConfigureAwait(false);
+                    await connection.MergeAsync(
                         tableName,
                         tempTableName,
-                        columnNames,
-                        primaryKeyColumnNames,
+                        mappingFragment.GetColumnNames(),
+                        mappingFragment.GetPrimaryKeyColumnNames(),
                         updateWhenMatched,
                         transaction,
                         cancellationToken)
@@ -138,12 +114,36 @@ namespace toofz.NecroDancer.Leaderboards
 
                     transaction.Commit();
 
-                    return rowsAffected;
+                    return items.Count();
                 }
                 catch (Exception)
                 {
                     transaction.Rollback();
                     throw;
+                }
+            }
+        }
+
+        private async Task BulkCopyAsync<TEntity>(
+            IEnumerable<TEntity> items,
+            MappingFragment mappingFragment,
+            SqlTransaction transaction,
+            CancellationToken cancellationToken)
+            where TEntity : class
+        {
+            using (var sqlBulkCopy = new SqlBulkCopy(connection, SqlBulkCopyOptions.TableLock & SqlBulkCopyOptions.KeepNulls, transaction))
+            {
+                sqlBulkCopy.BulkCopyTimeout = 0;
+                sqlBulkCopy.DestinationTableName = mappingFragment.GetTableName();
+
+                foreach (var columnName in mappingFragment.GetColumnNames())
+                {
+                    sqlBulkCopy.ColumnMappings.Add(columnName, columnName);
+                }
+
+                using (var reader = new TypedDataReader<TEntity>(mappingFragment.GetScalarPropertyMappings(), items))
+                {
+                    await sqlBulkCopy.WriteToServerAsync(reader, cancellationToken).ConfigureAwait(false);
                 }
             }
         }

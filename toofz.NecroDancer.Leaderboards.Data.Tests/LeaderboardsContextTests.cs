@@ -197,19 +197,14 @@ namespace toofz.NecroDancer.Leaderboards.Tests
 
         [Trait("Category", "Uses SQL Server")]
         [Collection(DatabaseCollection.Name)]
-        public class IntegrationTests
+        public class IntegrationTests : DatabaseTestsBase
         {
-            public IntegrationTests(DatabaseFixture fixture)
-            {
-                this.fixture = fixture;
-            }
-
-            private readonly DatabaseFixture fixture;
+            public IntegrationTests(DatabaseFixture fixture) : base(fixture) { }
 
             [Fact]
             public void PreGeneratedMappingViewsIsUpToDate()
             {
-                var db = fixture.Db;
+                var db = Db;
 
                 db.Leaderboards.FirstOrDefault();
                 db.Entries.FirstOrDefault();

@@ -9,47 +9,45 @@ using Xunit;
 
 namespace toofz.NecroDancer.Leaderboards.Tests
 {
-    [Collection(DatabaseCollection.Name)]
     public class MigrationsTests
     {
-        public MigrationsTests(DatabaseFixture fixture)
-        {
-            this.fixture = fixture;
-        }
-
-        private readonly DatabaseFixture fixture;
-
         #region From https://stackoverflow.com/a/42643788/414137
 
-        [Fact]
         [Trait("Category", "Uses SQL Server")]
-        public void MigrationsUpDownTest()
+        [Collection(DatabaseCollection.Name)]
+        public class IntegrationTests : DatabaseTestsBase
         {
-            var db = fixture.Db;
+            public IntegrationTests(DatabaseFixture fixture) : base(fixture) { }
 
-            var configuration = new Configuration();
-            var migrator = new DbMigrator(configuration);
-
-            // Retrieve migrations
-            var migrations = new List<string> { "0" };  // Not sure if "0" is more zero than the first item in list of local migrations
-            migrations.AddRange(migrator.GetLocalMigrations());
-
-            try
+            [Fact]
+            public void MigrationsUpDownTest()
             {
-                migrator.Update(migrations.First());
+                var db = Db;
 
-                for (int index = 0; index < migrations.Count; index++)
+                var configuration = new Configuration();
+                var migrator = new DbMigrator(configuration);
+
+                // Retrieve migrations
+                var migrations = new List<string> { "0" };  // Not sure if "0" is more zero than the first item in list of local migrations
+                migrations.AddRange(migrator.GetLocalMigrations());
+
+                try
                 {
-                    migrator.Update(migrations[index]);
-                    if (index > 0)
-                        migrator.Update(migrations[index - 1]);
-                }
+                    migrator.Update(migrations.First());
 
-                migrator.Update(migrations.Last());
-            }
-            catch (SqlException ex)
-            {
-                Assert.True(false, "Should not have any errors when running migrations up and down: " + ex.Errors[0].Message.ToString());
+                    for (int index = 0; index < migrations.Count; index++)
+                    {
+                        migrator.Update(migrations[index]);
+                        if (index > 0)
+                            migrator.Update(migrations[index - 1]);
+                    }
+
+                    migrator.Update(migrations.Last());
+                }
+                catch (SqlException ex)
+                {
+                    Assert.True(false, "Should not have any errors when running migrations up and down: " + ex.Errors[0].Message.ToString());
+                }
             }
         }
 
