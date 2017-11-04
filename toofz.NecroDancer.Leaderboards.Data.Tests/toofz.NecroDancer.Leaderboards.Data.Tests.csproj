@@ -75,6 +75,7 @@
     <Compile Include="DatabaseCollection.cs" />
     <Compile Include="DatabaseFixture.cs" />
     <Compile Include="DatabaseHelper.cs" />
+    <Compile Include="EntityFrameworkExtensionsTests.cs" />
     <Compile Include="LeaderboardsContextTests.cs" />
     <Compile Include="MigrationsTests.cs" />
     <Compile Include="SqlCommandAdapterTests.cs" />

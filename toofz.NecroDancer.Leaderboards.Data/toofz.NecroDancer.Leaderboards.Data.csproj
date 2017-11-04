@@ -100,6 +100,7 @@
     <Compile Include="CharacterConfiguration.cs" />
     <Compile Include="DailyEntryConfiguration.cs" />
     <Compile Include="DailyLeaderboardConfiguration.cs" />
+    <Compile Include="EntityFrameworkExtensions.cs" />
     <Compile Include="EntryConfiguration.cs" />
     <Compile Include="ILeaderboardsContext.cs" />
     <Compile Include="LeaderboardsContext.cs">

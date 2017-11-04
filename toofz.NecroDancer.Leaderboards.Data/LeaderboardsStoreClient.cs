@@ -32,9 +32,9 @@ namespace toofz.NecroDancer.Leaderboards
                 try
                 {
                     var mappingFragment = db.GetMappingFragment<TEntity>();
-                    var tableName = db.GetTableName(mappingFragment);
+                    var tableName = mappingFragment.GetTableName();
                     var viewName = tableName;
-                    var columnNames = db.GetColumnNames(mappingFragment);
+                    var columnNames = mappingFragment.GetColumnNames();
 
                     var stagingTableName = $"{viewName}_A";
                     var activeTableName = $"{viewName}_B";
@@ -61,7 +61,7 @@ namespace toofz.NecroDancer.Leaderboards
                             sqlBulkCopy.ColumnMappings.Add(columnName, columnName);
                         }
 
-                        using (var reader = new TypedDataReader<TEntity>(db.GetPropertyMappings(mappingFragment), items))
+                        using (var reader = new TypedDataReader<TEntity>(mappingFragment.GetScalarPropertyMappings(), items))
                         {
                             await sqlBulkCopy.WriteToServerAsync(reader, cancellationToken).ConfigureAwait(false);
                         }
@@ -95,17 +95,18 @@ namespace toofz.NecroDancer.Leaderboards
 
             if (!items.Any()) { return 0; }
 
-            using (var db = new LeaderboardsContext(connection))
+            // LeaderboardsContext does not use the connection/transaction. If changes are made where LeaderboardsContext does use the 
+            // connection/transaction, ensure that the connection/transaction is passed to LeaderboardsContext.
+            using (var db = new LeaderboardsContext())
             using (var transaction = connection.BeginTransaction())
             {
-
                 try
                 {
                     var mappingFragment = db.GetMappingFragment<TEntity>();
-                    var tableName = db.GetTableName(mappingFragment);
+                    var tableName = mappingFragment.GetTableName();
                     var tempTableName = $"#{tableName}";
-                    var columnNames = db.GetColumnNames(mappingFragment);
-                    var primaryKeyColumnNames = db.GetPrimaryKeyColumnNames(mappingFragment);
+                    var columnNames = mappingFragment.GetColumnNames();
+                    var primaryKeyColumnNames = mappingFragment.GetPrimaryKeyColumnNames();
 
                     await connection.SelectIntoTemporaryTableAsync(tableName, tempTableName, transaction, cancellationToken).ConfigureAwait(false);
 
@@ -119,7 +120,7 @@ namespace toofz.NecroDancer.Leaderboards
                             sqlBulkCopy.ColumnMappings.Add(columnName, columnName);
                         }
 
-                        using (var reader = new TypedDataReader<TEntity>(db.GetPropertyMappings(mappingFragment), items))
+                        using (var reader = new TypedDataReader<TEntity>(mappingFragment.GetScalarPropertyMappings(), items))
                         {
                             await sqlBulkCopy.WriteToServerAsync(reader, cancellationToken).ConfigureAwait(false);
                         }

@@ -7,7 +7,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
     {
         public DatabaseFixture()
         {
-            Database.SetInitializer(new DropCreateDatabaseAlways<LeaderboardsContext>());
+            Database.SetInitializer<LeaderboardsContext>(null);
             var connectionString = DatabaseHelper.GetConnectionString();
             Db = new LeaderboardsContext(connectionString);
             Db.Database.Delete();  // Make sure it really dropped - needed for dirty database
