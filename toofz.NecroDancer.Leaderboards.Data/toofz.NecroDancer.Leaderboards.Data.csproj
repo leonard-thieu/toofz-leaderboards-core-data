@@ -22,6 +22,7 @@
     <PackageIconUrl>https://user-images.githubusercontent.com/5265970/29717713-27e1a95c-897e-11e7-9d28-dae64be705b5.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/leonard-thieu/toofz-leaderboards-core-data.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <DependsOnNETStandard>false</DependsOnNETStandard>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,6 +45,7 @@
     <DocumentationFile>bin\Release\toofz.NecroDancer.Leaderboards.Data.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
   </ItemGroup>
