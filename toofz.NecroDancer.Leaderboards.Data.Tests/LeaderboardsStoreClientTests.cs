@@ -92,7 +92,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 // Act -> Assert
                 await Assert.ThrowsAsync<ArgumentNullException>(() =>
                 {
-                    return storeClient.UpsertAsync(items, true, default);
+                    return storeClient.BulkUpsertAsync(items, default);
                 });
             }
 
@@ -105,7 +105,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 var items = new List<Replay>();
 
                 // Act
-                var rowsAffected = await storeClient.UpsertAsync(items, true, default);
+                var rowsAffected = await storeClient.BulkUpsertAsync(items, default);
 
                 // Assert
                 Assert.Equal(0, rowsAffected);
@@ -128,7 +128,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                     };
 
                     // Act
-                    var rowsAffected = await storeClient.UpsertAsync(items, true, default);
+                    var rowsAffected = await storeClient.BulkUpsertAsync(items, default);
 
                     // Assert
                     Assert.Equal(1, rowsAffected);

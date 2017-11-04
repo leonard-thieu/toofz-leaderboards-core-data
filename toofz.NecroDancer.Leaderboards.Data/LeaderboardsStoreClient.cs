@@ -77,14 +77,24 @@ namespace toofz.NecroDancer.Leaderboards
             }
         }
 
-        public async Task<int> UpsertAsync<TEntity>(
+        public Task<int> BulkUpsertAsync<TEntity>(
             IEnumerable<TEntity> items,
-            bool updateWhenMatched,
+            CancellationToken cancellationToken)
+            where TEntity : class
+        {
+            return BulkUpsertAsync(items, null, cancellationToken);
+        }
+
+        public async Task<int> BulkUpsertAsync<TEntity>(
+            IEnumerable<TEntity> items,
+            BulkUpsertOptions options,
             CancellationToken cancellationToken)
             where TEntity : class
         {
             if (items == null)
                 throw new ArgumentNullException(nameof(items));
+
+            options = options ?? new BulkUpsertOptions();
 
             items = items.ToList();
             if (!items.Any()) { return 0; }
@@ -102,19 +112,20 @@ namespace toofz.NecroDancer.Leaderboards
 
                     await connection.SelectIntoTemporaryTableAsync(tableName, tempTableName, transaction, cancellationToken).ConfigureAwait(false);
                     await BulkCopyAsync(items, tempTableName, mappingFragment, transaction, cancellationToken).ConfigureAwait(false);
-                    await connection.MergeAsync(
+
+                    var rowsAffected = await connection.MergeAsync(
                         tableName,
                         tempTableName,
                         mappingFragment.GetColumnNames(),
                         mappingFragment.GetPrimaryKeyColumnNames(),
-                        updateWhenMatched,
+                        options.UpdateWhenMatched,
                         transaction,
                         cancellationToken)
                         .ConfigureAwait(false);
 
                     transaction.Commit();
 
-                    return items.Count();
+                    return rowsAffected;
                 }
                 catch (Exception)
                 {

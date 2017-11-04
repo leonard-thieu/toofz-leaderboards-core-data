@@ -130,6 +130,7 @@
     <Compile Include="Migrations\Configuration.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BulkUpsertOptions.cs" />
     <Compile Include="CharacterConfiguration.cs" />
     <Compile Include="DailyEntryConfiguration.cs" />
     <Compile Include="DailyLeaderboardConfiguration.cs" />

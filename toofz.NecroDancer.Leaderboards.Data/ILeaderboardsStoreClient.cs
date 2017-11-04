@@ -10,9 +10,13 @@ namespace toofz.NecroDancer.Leaderboards
             IEnumerable<TEntity> items,
             CancellationToken cancellationToken)
             where TEntity : class;
-        Task<int> UpsertAsync<TEntity>(
+        Task<int> BulkUpsertAsync<TEntity>(
             IEnumerable<TEntity> items,
-            bool updateWhenMatched,
+            CancellationToken cancellationToken)
+            where TEntity : class;
+        Task<int> BulkUpsertAsync<TEntity>(
+            IEnumerable<TEntity> items,
+            BulkUpsertOptions options,
             CancellationToken cancellationToken)
             where TEntity : class;
     }
