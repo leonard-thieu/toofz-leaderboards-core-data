@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		appveyor.yml = appveyor.yml
 		NuGet.Config = NuGet.Config
 		README.md = README.md
+		toofz.NecroDancer.Leaderboards.Data\toofz.NecroDancer.Leaderboards.Data.nuspec = toofz.NecroDancer.Leaderboards.Data\toofz.NecroDancer.Leaderboards.Data.nuspec
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "toofz.NecroDancer.Leaderboards.Data", "toofz.NecroDancer.Leaderboards.Data\toofz.NecroDancer.Leaderboards.Data.csproj", "{1A47F783-9CF2-48B5-B477-C393F07626BF}"
@@ -33,7 +34,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {1888CCE5-5C61-4ABA-9AA3-9A496D46CBF4}
 		EnterpriseLibraryConfigurationToolBinariesPathV6 = packages\EnterpriseLibrary.TransientFaultHandling.6.0.1304.0\lib\portable-net45+win+wp8
+		SolutionGuid = {1888CCE5-5C61-4ABA-9AA3-9A496D46CBF4}
 	EndGlobalSection
 EndGlobal
