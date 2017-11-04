@@ -12,7 +12,7 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
-    <PackageVersion>11.0.1</PackageVersion>
+    <PackageVersion>11.0.2</PackageVersion>
     <Authors>Leonard Thieu</Authors>
     <Title>toofz Leaderboards Core (Data)</Title>
     <Description>Provides a context for working with types from toofz Leaderboards Core in a database.</Description>
