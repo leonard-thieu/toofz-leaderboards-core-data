@@ -8,21 +8,21 @@ namespace toofz.NecroDancer.Leaderboards
 {
     internal sealed class TypedDataReader<T> : IDataReader
     {
-        public TypedDataReader(IEnumerable<ScalarPropertyMapping> propertyMappings, IEnumerable<T> items)
+        public TypedDataReader(IEnumerable<ScalarPropertyMapping> scalarPropertyMappings, IEnumerable<T> items)
         {
-            properties = propertyMappings.Select(m => new ScalarPropertyMappingContext(m, typeof(T))).ToList();
-            columnNames = properties.Select(p => p.Column.Name).ToList();
+            this.scalarPropertyMappings = scalarPropertyMappings.Select(m => new ScalarPropertyMappingContext(m, typeof(T))).ToList();
+            columnNames = scalarPropertyMappings.Select(p => p.Column.Name).ToList();
             this.items = items.GetEnumerator();
         }
 
-        private readonly List<ScalarPropertyMappingContext> properties;
+        private readonly List<ScalarPropertyMappingContext> scalarPropertyMappings;
         private readonly List<string> columnNames;
         private readonly IEnumerator<T> items;
 
-        public int FieldCount => properties.Count;
+        public int FieldCount => scalarPropertyMappings.Count;
 
         public int GetOrdinal(string name) => columnNames.IndexOf(name);
-        public object GetValue(int i) => properties[i].ValueGetter(items.Current);
+        public object GetValue(int i) => scalarPropertyMappings[i].ValueGetter(items.Current);
         public bool Read() => items.MoveNext();
 
         #region Not used by SqlBulkCopy (satisfying interface only)
