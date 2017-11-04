@@ -53,7 +53,7 @@ namespace toofz.NecroDancer.Leaderboards
                     // This can happen when initially working with a database that was modified by legacy code. Legacy code 
                     // truncated at the beginning instead of after.
                     await connection.TruncateTableAsync(stagingTableName, transaction, cancellationToken).ConfigureAwait(false);
-                    await BulkCopyAsync(items, mappingFragment, transaction, cancellationToken).ConfigureAwait(false);
+                    await BulkCopyAsync(items, stagingTableName, mappingFragment, transaction, cancellationToken).ConfigureAwait(false);
                     await connection.RebuildNonclusteredIndexesAsync(stagingTableName, transaction, cancellationToken).ConfigureAwait(false);
                     await connection.SwitchTableAsync(
                         viewName,
@@ -101,7 +101,7 @@ namespace toofz.NecroDancer.Leaderboards
                     var tempTableName = $"#{tableName}";
 
                     await connection.SelectIntoTemporaryTableAsync(tableName, tempTableName, transaction, cancellationToken).ConfigureAwait(false);
-                    await BulkCopyAsync(items, mappingFragment, transaction, cancellationToken).ConfigureAwait(false);
+                    await BulkCopyAsync(items, tempTableName, mappingFragment, transaction, cancellationToken).ConfigureAwait(false);
                     await connection.MergeAsync(
                         tableName,
                         tempTableName,
@@ -126,6 +126,7 @@ namespace toofz.NecroDancer.Leaderboards
 
         private async Task BulkCopyAsync<TEntity>(
             IEnumerable<TEntity> items,
+            string destinationTableName,
             MappingFragment mappingFragment,
             SqlTransaction transaction,
             CancellationToken cancellationToken)
@@ -134,7 +135,7 @@ namespace toofz.NecroDancer.Leaderboards
             using (var sqlBulkCopy = new SqlBulkCopy(connection, SqlBulkCopyOptions.TableLock & SqlBulkCopyOptions.KeepNulls, transaction))
             {
                 sqlBulkCopy.BulkCopyTimeout = 0;
-                sqlBulkCopy.DestinationTableName = mappingFragment.GetTableName();
+                sqlBulkCopy.DestinationTableName = destinationTableName;
 
                 foreach (var columnName in mappingFragment.GetColumnNames())
                 {
