@@ -83,7 +83,17 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                     var columnNames = mappingFragment.GetColumnNames();
 
                     // Assert
-                    Assert.IsAssignableFrom<IEnumerable<string>>(columnNames);
+                    var expected = new[]
+                    {
+                        nameof(Entry.LeaderboardId),
+                        nameof(Entry.Rank),
+                        nameof(Entry.SteamId),
+                        nameof(Entry.ReplayId),
+                        nameof(Entry.Score),
+                        nameof(Entry.Zone),
+                        nameof(Entry.Level),
+                    };
+                    Assert.Equal(expected, columnNames);
                 }
             }
         }
@@ -104,7 +114,12 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                     var primaryKeyColumnNames = mappingFragment.GetPrimaryKeyColumnNames();
 
                     // Assert
-                    Assert.IsAssignableFrom<IEnumerable<string>>(primaryKeyColumnNames);
+                    var expected = new[]
+                    {
+                        nameof(Entry.LeaderboardId),
+                        nameof(Entry.Rank),
+                    };
+                    Assert.Equal(expected, primaryKeyColumnNames);
                 }
             }
         }
