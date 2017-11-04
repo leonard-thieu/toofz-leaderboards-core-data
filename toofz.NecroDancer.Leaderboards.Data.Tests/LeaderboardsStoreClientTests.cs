@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Threading;
 using System.Threading.Tasks;
-using Moq;
-using SqlBulkUpsert;
 using Xunit;
 
 namespace toofz.NecroDancer.Leaderboards.Tests
 {
     public class LeaderboardsStoreClientTests
     {
-        public class GetLeaderboardMappingsMethod
+        public class Constructor
         {
             [Fact]
             public void ConnectionIsNull_ThrowsArgumentNullException()
@@ -26,344 +23,116 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 });
             }
 
-
             [Fact]
             public void ReturnsInstance()
             {
                 // Arrange
                 var connection = new SqlConnection();
-                var storeClient = new LeaderboardsStoreClient(connection);
 
                 // Act
-                var mappings = storeClient.GetLeaderboardMappings();
+                var storeClient = new LeaderboardsStoreClient(connection);
 
                 // Assert
-                Assert.IsAssignableFrom<ColumnMappings<Leaderboard>>(mappings);
+                Assert.IsAssignableFrom<LeaderboardsStoreClient>(storeClient);
             }
         }
 
-        public class SaveChangesAsyncMethod_Leaderboards
+        public class InsertAsyncMethod
         {
             [Fact]
-            public async Task UpsertsLeaderboards()
+            public async Task ItemsIsNull_ThrowsArgumentNullException()
             {
                 // Arrange
                 var connection = new SqlConnection();
                 var storeClient = new LeaderboardsStoreClient(connection);
-                var mockUpserter = new Mock<ITypedUpserter<Leaderboard>>();
-                var upserter = mockUpserter.Object;
-                var leaderboards = new List<Leaderboard>();
+                IEnumerable<Entry> items = null;
 
-                // Act
-                await storeClient.SaveChangesAsync(upserter, leaderboards);
-
-                // Assert
-                mockUpserter.Verify(u => u.UpsertAsync(connection, leaderboards, true, It.IsAny<CancellationToken>()), Times.Once);
+                // Act -> Assert
+                await Assert.ThrowsAsync<ArgumentNullException>(() =>
+                {
+                    return storeClient.BulkInsertAsync(items, default);
+                });
             }
 
-            [Fact]
-            public async Task ReturnsRowsAffected()
+            [Collection(DatabaseCollection.Name)]
+            [Trait("Category", "Uses SQL Server")]
+            public class IntegrationTests : DatabaseTestsBase
             {
-                // Arrange
-                var connection = new SqlConnection();
-                var storeClient = new LeaderboardsStoreClient(connection);
-                var mockUpserter = new Mock<ITypedUpserter<Leaderboard>>();
-                var upserter = mockUpserter.Object;
-                var leaderboards = new List<Leaderboard>();
-                mockUpserter
-                    .Setup(u => u.UpsertAsync(connection, leaderboards, true, It.IsAny<CancellationToken>()))
-                    .Returns(Task.FromResult(400));
+                public IntegrationTests(DatabaseFixture fixture) : base(fixture) { }
 
-                // Act
-                var rowsAffected = await storeClient.SaveChangesAsync(upserter, leaderboards);
+                [Fact]
+                public async Task BulkInsertsItems()
+                {
+                    // Arrange
+                    var storeClient = new LeaderboardsStoreClient(Connection);
+                    var items = new[]
+                    {
+                        new Entry(),
+                    };
 
-                // Assert
-                Assert.Equal(400, rowsAffected);
+                    // Act
+                    var rowsAffected = await storeClient.BulkInsertAsync(items, default);
+
+                    // Assert
+                    Assert.Equal(items.Length, rowsAffected);
+                }
             }
         }
 
-        public class GetEntryMappingsMethod
+        public class UpsertAsyncMethod
         {
             [Fact]
-            public void ReturnsInstance()
+            public async Task ItemsIsNull_ThrowsArgumentNullException()
             {
                 // Arrange
                 var connection = new SqlConnection();
                 var storeClient = new LeaderboardsStoreClient(connection);
+                IEnumerable<Player> items = null;
 
-                // Act
-                var mappings = storeClient.GetEntryMappings();
-
-                // Assert
-                Assert.IsAssignableFrom<ColumnMappings<Entry>>(mappings);
-            }
-        }
-
-        public class SaveChangesAsyncMethod_Entries
-        {
-            [Fact]
-            public async Task InsertsEntries()
-            {
-                // Arrange
-                var connection = new SqlConnection();
-                var storeClient = new LeaderboardsStoreClient(connection);
-                var mockUpserter = new Mock<ITypedUpserter<Entry>>();
-                var upserter = mockUpserter.Object;
-                var entries = new List<Entry>();
-
-                // Act
-                await storeClient.SaveChangesAsync(upserter, entries);
-
-                // Assert
-                mockUpserter.Verify(u => u.InsertAsync(connection, entries, It.IsAny<CancellationToken>()), Times.Once);
+                // Act -> Assert
+                await Assert.ThrowsAsync<ArgumentNullException>(() =>
+                {
+                    return storeClient.UpsertAsync(items, true, default);
+                });
             }
 
             [Fact]
-            public async Task ReturnsRowsAffected()
+            public async Task ItemsIsEmpty_ShortCircuits()
             {
                 // Arrange
                 var connection = new SqlConnection();
                 var storeClient = new LeaderboardsStoreClient(connection);
-                var mockUpserter = new Mock<ITypedUpserter<Entry>>();
-                var upserter = mockUpserter.Object;
-                var entries = new List<Entry>();
-                mockUpserter
-                    .Setup(u => u.InsertAsync(connection, entries, It.IsAny<CancellationToken>()))
-                    .Returns(Task.FromResult(20000));
+                var items = new List<Replay>();
 
                 // Act
-                var rowsAffected = await storeClient.SaveChangesAsync(upserter, entries);
+                var rowsAffected = await storeClient.UpsertAsync(items, true, default);
 
                 // Assert
-                Assert.Equal(20000, rowsAffected);
-            }
-        }
-
-        public class GetDailyLeaderboardMappingsMethod
-        {
-            [Fact]
-            public void ReturnsInstance()
-            {
-                // Arrange
-                var connection = new SqlConnection();
-                var storeClient = new LeaderboardsStoreClient(connection);
-
-                // Act
-                var mappings = storeClient.GetDailyLeaderboardMappings();
-
-                // Assert
-                Assert.IsAssignableFrom<ColumnMappings<DailyLeaderboard>>(mappings);
-            }
-        }
-
-        public class SaveChangesAsyncMethod_DailyLeaderboards
-        {
-            [Fact]
-            public async Task UpsertsDailyLeaderboards()
-            {
-                // Arrange
-                var connection = new SqlConnection();
-                var storeClient = new LeaderboardsStoreClient(connection);
-                var mockUpserter = new Mock<ITypedUpserter<DailyLeaderboard>>();
-                var upserter = mockUpserter.Object;
-                var dailyLeaderboards = new List<DailyLeaderboard>();
-
-                // Act
-                await storeClient.SaveChangesAsync(upserter, dailyLeaderboards);
-
-                // Assert
-                mockUpserter.Verify(u => u.UpsertAsync(connection, dailyLeaderboards, true, It.IsAny<CancellationToken>()), Times.Once);
+                Assert.Equal(0, rowsAffected);
             }
 
-            [Fact]
-            public async Task ReturnsRowsAffected()
+            [Collection(DatabaseCollection.Name)]
+            [Trait("Category", "Uses SQL Server")]
+            public class IntegrationTests : DatabaseTestsBase
             {
-                // Arrange
-                var connection = new SqlConnection();
-                var storeClient = new LeaderboardsStoreClient(connection);
-                var mockUpserter = new Mock<ITypedUpserter<DailyLeaderboard>>();
-                var upserter = mockUpserter.Object;
-                var dailyLeaderboards = new List<DailyLeaderboard>();
-                mockUpserter
-                    .Setup(u => u.UpsertAsync(connection, dailyLeaderboards, true, It.IsAny<CancellationToken>()))
-                    .Returns(Task.FromResult(400));
+                public IntegrationTests(DatabaseFixture fixture) : base(fixture) { }
 
-                // Act
-                var rowsAffected = await storeClient.SaveChangesAsync(upserter, dailyLeaderboards);
+                [Fact]
+                public async Task UpsertsItems()
+                {
+                    // Arrange
+                    var storeClient = new LeaderboardsStoreClient(Connection);
+                    var items = new[]
+                    {
+                        new Player(),
+                    };
 
-                // Assert
-                Assert.Equal(400, rowsAffected);
-            }
-        }
+                    // Act
+                    var rowsAffected = await storeClient.UpsertAsync(items, true, default);
 
-        public class GetDailyEntryMappingsMethod
-        {
-            [Fact]
-            public void ReturnsInstance()
-            {
-                // Arrange
-                var connection = new SqlConnection();
-                var storeClient = new LeaderboardsStoreClient(connection);
-
-                // Act
-                var mappings = storeClient.GetDailyEntryMappings();
-
-                // Assert
-                Assert.IsAssignableFrom<ColumnMappings<DailyEntry>>(mappings);
-            }
-        }
-
-        public class SaveChangesAsyncMethod_DailyEntries
-        {
-            [Fact]
-            public async Task UpsertsDailyEntries()
-            {
-                // Arrange
-                var connection = new SqlConnection();
-                var storeClient = new LeaderboardsStoreClient(connection);
-                var mockUpserter = new Mock<ITypedUpserter<DailyEntry>>();
-                var upserter = mockUpserter.Object;
-                var dailyEntries = new List<DailyEntry>();
-
-                // Act
-                await storeClient.SaveChangesAsync(upserter, dailyEntries);
-
-                // Assert
-                mockUpserter.Verify(u => u.UpsertAsync(connection, dailyEntries, true, It.IsAny<CancellationToken>()), Times.Once);
-            }
-
-            [Fact]
-            public async Task ReturnsRowsAffected()
-            {
-                // Arrange
-                var connection = new SqlConnection();
-                var storeClient = new LeaderboardsStoreClient(connection);
-                var mockUpserter = new Mock<ITypedUpserter<DailyEntry>>();
-                var upserter = mockUpserter.Object;
-                var dailyEntries = new List<DailyEntry>();
-                mockUpserter
-                    .Setup(u => u.UpsertAsync(connection, dailyEntries, true, It.IsAny<CancellationToken>()))
-                    .Returns(Task.FromResult(400));
-
-                // Act
-                var rowsAffected = await storeClient.SaveChangesAsync(upserter, dailyEntries);
-
-                // Assert
-                Assert.Equal(400, rowsAffected);
-            }
-        }
-
-        public class GetPlayerMappingsMethod
-        {
-            [Fact]
-            public void ReturnsInstance()
-            {
-                // Arrange
-                var connection = new SqlConnection();
-                var storeClient = new LeaderboardsStoreClient(connection);
-
-                // Act
-                var mappings = storeClient.GetPlayerMappings();
-
-                // Assert
-                Assert.IsAssignableFrom<ColumnMappings<Player>>(mappings);
-            }
-        }
-
-        public class SaveChangesAsyncMethod_Players
-        {
-            [Fact]
-            public async Task UpsertsPlayers()
-            {
-                // Arrange
-                var connection = new SqlConnection();
-                var storeClient = new LeaderboardsStoreClient(connection);
-                var mockUpserter = new Mock<ITypedUpserter<Player>>();
-                var upserter = mockUpserter.Object;
-                var players = new List<Player>();
-
-                // Act
-                await storeClient.SaveChangesAsync(upserter, players, true);
-
-                // Assert
-                mockUpserter.Verify(u => u.UpsertAsync(connection, players, true, It.IsAny<CancellationToken>()), Times.Once);
-            }
-
-            [Fact]
-            public async Task ReturnsRowsAffected()
-            {
-                // Arrange
-                var connection = new SqlConnection();
-                var storeClient = new LeaderboardsStoreClient(connection);
-                var mockUpserter = new Mock<ITypedUpserter<Player>>();
-                var upserter = mockUpserter.Object;
-                var players = new List<Player>();
-                mockUpserter
-                    .Setup(u => u.UpsertAsync(connection, players, true, It.IsAny<CancellationToken>()))
-                    .Returns(Task.FromResult(400));
-
-                // Act
-                var rowsAffected = await storeClient.SaveChangesAsync(upserter, players, true);
-
-                // Assert
-                Assert.Equal(400, rowsAffected);
-            }
-        }
-
-        public class GetReplayMappingsMethod
-        {
-            [Fact]
-            public void ReturnsInstance()
-            {
-                // Arrange
-                var connection = new SqlConnection();
-                var storeClient = new LeaderboardsStoreClient(connection);
-
-                // Act
-                var mappings = storeClient.GetReplayMappings();
-
-                // Assert
-                Assert.IsAssignableFrom<ColumnMappings<Replay>>(mappings);
-            }
-        }
-
-        public class SaveChangesAsyncMethod_Replays
-        {
-            [Fact]
-            public async Task UpsertsReplays()
-            {
-                // Arrange
-                var connection = new SqlConnection();
-                var storeClient = new LeaderboardsStoreClient(connection);
-                var mockUpserter = new Mock<ITypedUpserter<Replay>>();
-                var upserter = mockUpserter.Object;
-                var replays = new List<Replay>();
-
-                // Act
-                await storeClient.SaveChangesAsync(upserter, replays, true);
-
-                // Assert
-                mockUpserter.Verify(u => u.UpsertAsync(connection, replays, true, It.IsAny<CancellationToken>()), Times.Once);
-            }
-
-            [Fact]
-            public async Task ReturnsRowsAffected()
-            {
-                // Arrange
-                var connection = new SqlConnection();
-                var storeClient = new LeaderboardsStoreClient(connection);
-                var mockUpserter = new Mock<ITypedUpserter<Replay>>();
-                var upserter = mockUpserter.Object;
-                var replays = new List<Replay>();
-                mockUpserter
-                    .Setup(u => u.UpsertAsync(connection, replays, true, It.IsAny<CancellationToken>()))
-                    .Returns(Task.FromResult(400));
-
-                // Act
-                var rowsAffected = await storeClient.SaveChangesAsync(upserter, replays, true);
-
-                // Assert
-                Assert.Equal(400, rowsAffected);
+                    // Assert
+                    Assert.Equal(1, rowsAffected);
+                }
             }
         }
     }

@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -49,7 +51,10 @@
     <PackageReference Include="toofz.SqlBulkUpsert">
       <Version>4.1.7</Version>
     </PackageReference>
-    <PackageReference Include="xunit">
+    <PackageReference Include="xunit.assert">
+      <Version>2.3.1</Version>
+    </PackageReference>
+    <PackageReference Include="xunit.core">
       <Version>2.3.1</Version>
     </PackageReference>
     <PackageReference Include="xunit.runner.visualstudio">
@@ -63,18 +68,24 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseCollection.cs" />
     <Compile Include="DatabaseFixture.cs" />
     <Compile Include="DatabaseHelper.cs" />
+    <Compile Include="DatabaseTestsBase.cs" />
+    <Compile Include="EntityFrameworkExtensionsTests.cs" />
     <Compile Include="LeaderboardsContextTests.cs" />
     <Compile Include="LeaderboardsStoreClientTests.cs" />
     <Compile Include="MigrationsTests.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+    <Compile Include="SqlCommandAdapterTests.cs" />
+    <Compile Include="SqlCommandExceptionTests.cs" />
+    <Compile Include="SqlConnectionExtensionsTests.cs" />
+    <Compile Include="TypedDataReaderTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

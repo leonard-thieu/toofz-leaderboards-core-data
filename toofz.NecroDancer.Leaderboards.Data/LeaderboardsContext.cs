@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Data.Common;
+using System.Data.Entity;
 
 namespace toofz.NecroDancer.Leaderboards
 {
@@ -10,6 +11,11 @@ namespace toofz.NecroDancer.Leaderboards
         }
 
         public LeaderboardsContext(string nameOrConnectionString) : base(nameOrConnectionString)
+        {
+            Initialize();
+        }
+
+        public LeaderboardsContext(DbConnection existingConnection) : base(existingConnection, contextOwnsConnection: false)
         {
             Initialize();
         }

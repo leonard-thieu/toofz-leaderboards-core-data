@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data.Entity;
+using System.Data.SqlClient;
 
 namespace toofz.NecroDancer.Leaderboards.Tests
 {
@@ -7,19 +7,18 @@ namespace toofz.NecroDancer.Leaderboards.Tests
     {
         public DatabaseFixture()
         {
-            Database.SetInitializer(new DropCreateDatabaseAlways<LeaderboardsContext>());
             var connectionString = DatabaseHelper.GetConnectionString();
-            Db = new LeaderboardsContext(connectionString);
-            Db.Database.Delete();  // Make sure it really dropped - needed for dirty database
-            Db.Database.Initialize(force: true);
+            Connection = new SqlConnection(connectionString);
+            Db = new LeaderboardsContext(Connection);
         }
 
+        public SqlConnection Connection { get; }
         public LeaderboardsContext Db { get; }
 
         public void Dispose()
         {
-            Db.Database.Delete();
             Db.Dispose();
+            Connection.Dispose();
         }
     }
 }
