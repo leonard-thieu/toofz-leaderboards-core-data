@@ -10,16 +10,6 @@ namespace toofz.NecroDancer.Leaderboards
 {
     internal static class SqlConnectionExtensions
     {
-        public static async Task OpenIfClosedAsync(
-            this SqlConnection connection,
-            CancellationToken cancellation)
-        {
-            if (connection.State == ConnectionState.Closed)
-            {
-                await connection.OpenAsync(cancellation).ConfigureAwait(false);
-            }
-        }
-
         #region SwitchTable
 
         public static async Task SwitchTableAsync(
@@ -27,10 +17,9 @@ namespace toofz.NecroDancer.Leaderboards
             string viewName,
             string tableName,
             IEnumerable<string> columns,
-            SqlTransaction transaction,
             CancellationToken cancellationToken)
         {
-            using (var command = GetSwitchTableCommand(connection, viewName, tableName, columns, transaction))
+            using (var command = GetSwitchTableCommand(connection, viewName, tableName, columns))
             {
                 await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
             }
@@ -40,10 +29,9 @@ namespace toofz.NecroDancer.Leaderboards
             SqlConnection connection,
             string viewName,
             string tableName,
-            IEnumerable<string> columns,
-            SqlTransaction transaction)
+            IEnumerable<string> columns)
         {
-            var command = SqlCommandAdapter.FromConnection(connection, transaction);
+            var command = SqlCommandAdapter.FromConnection(connection);
 
             command.CommandText = $@"ALTER VIEW {Quote(viewName)}
 AS
@@ -61,10 +49,9 @@ FROM {Quote(tableName)};";
         public static async Task TruncateTableAsync(
             this SqlConnection connection,
             string tableName,
-            SqlTransaction transaction,
             CancellationToken cancellationToken)
         {
-            using (var command = GetTruncateTableCommand(connection, tableName, transaction))
+            using (var command = GetTruncateTableCommand(connection, tableName))
             {
                 await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
             }
@@ -72,10 +59,9 @@ FROM {Quote(tableName)};";
 
         internal static SqlCommandAdapter GetTruncateTableCommand(
             SqlConnection connection,
-            string tableName,
-            SqlTransaction transaction)
+            string tableName)
         {
-            var command = SqlCommandAdapter.FromConnection(connection, transaction);
+            var command = SqlCommandAdapter.FromConnection(connection);
 
             command.CommandText = $"TRUNCATE TABLE {Quote(tableName)};";
 
@@ -90,10 +76,9 @@ FROM {Quote(tableName)};";
             this SqlConnection connection,
             string baseTableName,
             string tempTableName,
-            SqlTransaction transaction,
             CancellationToken cancellationToken)
         {
-            using (var command = GetSelectIntoTemporaryTableCommand(connection, baseTableName, tempTableName, transaction))
+            using (var command = GetSelectIntoTemporaryTableCommand(connection, baseTableName, tempTableName))
             {
                 await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
             }
@@ -102,10 +87,9 @@ FROM {Quote(tableName)};";
         internal static SqlCommandAdapter GetSelectIntoTemporaryTableCommand(
             SqlConnection connection,
             string baseTableName,
-            string tempTableName,
-            SqlTransaction transaction)
+            string tempTableName)
         {
-            var command = SqlCommandAdapter.FromConnection(connection, transaction);
+            var command = SqlCommandAdapter.FromConnection(connection);
 
             command.CommandText = $"SELECT TOP 0 * INTO {Quote(tempTableName)} FROM {Quote(baseTableName)};";
 
@@ -123,10 +107,9 @@ FROM {Quote(tableName)};";
             IEnumerable<string> columns,
             IEnumerable<string> primaryKeyColumns,
             bool updateWhenMatched,
-            SqlTransaction transaction,
             CancellationToken cancellationToken)
         {
-            using (var command = GetMergeCommand(connection, targetTable, tableSource, columns, primaryKeyColumns, updateWhenMatched, transaction))
+            using (var command = GetMergeCommand(connection, targetTable, tableSource, columns, primaryKeyColumns, updateWhenMatched))
             {
                 return await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
             }
@@ -138,10 +121,9 @@ FROM {Quote(tableName)};";
             string tableSource,
             IEnumerable<string> columns,
             IEnumerable<string> primaryKeyColumns,
-            bool updateWhenMatched,
-            SqlTransaction transaction)
+            bool updateWhenMatched)
         {
-            var command = SqlCommandAdapter.FromConnection(connection, transaction);
+            var command = SqlCommandAdapter.FromConnection(connection);
 
             var mergeSearchCondition = GetMergeSearchCondition();
             var setClause = GetSetClause();
@@ -201,29 +183,26 @@ FROM {Quote(tableName)};";
         public static Task DisableNonclusteredIndexesAsync(
             this SqlConnection connection,
             string tableName,
-            SqlTransaction transaction,
             CancellationToken cancellationToken)
         {
-            return AlterNonclusteredIndexesAsync(connection, tableName, "DISABLE", transaction, cancellationToken);
+            return AlterNonclusteredIndexesAsync(connection, tableName, "DISABLE", cancellationToken);
         }
 
         public static Task RebuildNonclusteredIndexesAsync(
             this SqlConnection connection,
             string tableName,
-            SqlTransaction transaction,
             CancellationToken cancellationToken)
         {
-            return AlterNonclusteredIndexesAsync(connection, tableName, "REBUILD", transaction, cancellationToken);
+            return AlterNonclusteredIndexesAsync(connection, tableName, "REBUILD", cancellationToken);
         }
 
         private static async Task AlterNonclusteredIndexesAsync(
             this SqlConnection connection,
             string tableName,
             string action,
-            SqlTransaction transaction,
             CancellationToken cancellationToken)
         {
-            using (var command = GetAlterNonclusteredIndexesCommand(connection, tableName, action, transaction))
+            using (var command = GetAlterNonclusteredIndexesCommand(connection, tableName, action))
             {
                 await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
             }
@@ -232,10 +211,9 @@ FROM {Quote(tableName)};";
         internal static SqlCommandAdapter GetAlterNonclusteredIndexesCommand(
             SqlConnection connection,
             string tableName,
-            string action,
-            SqlTransaction transaction)
+            string action)
         {
-            var command = SqlCommandAdapter.FromConnection(connection, transaction);
+            var command = SqlCommandAdapter.FromConnection(connection);
 
             command.CommandText = $@"DECLARE @sql AS VARCHAR(MAX)='';
 

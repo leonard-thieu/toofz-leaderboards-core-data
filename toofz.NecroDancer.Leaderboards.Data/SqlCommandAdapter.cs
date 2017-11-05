@@ -15,14 +15,10 @@ namespace toofz.NecroDancer.Leaderboards
         /// associated with the <see cref="SqlConnection"/>.
         /// </summary>
         /// <param name="connection">The <see cref="SqlConnection"/> to create the command for.</param>
-        /// <param name="transaction">The <see cref="SqlTransaction"/> in which the <see cref="SqlCommand"/> executes.</param>
         /// <returns>An instance of <see cref="SqlCommandAdapter"/> that wraps a <see cref="SqlCommand"/>.</returns>
-        public static SqlCommandAdapter FromConnection(SqlConnection connection, SqlTransaction transaction)
+        public static SqlCommandAdapter FromConnection(SqlConnection connection)
         {
-            var command = connection.CreateCommand();
-            command.Transaction = transaction;
-
-            return new SqlCommandAdapter(command);
+            return new SqlCommandAdapter(connection.CreateCommand());
         }
 
         internal SqlCommandAdapter(SqlCommand command)

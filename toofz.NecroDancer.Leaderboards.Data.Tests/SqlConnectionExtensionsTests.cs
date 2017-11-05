@@ -27,7 +27,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 };
 
                 // Act
-                var command = SqlConnectionExtensions.GetSwitchTableCommand(connection, viewName, tableName, columns, null);
+                var command = SqlConnectionExtensions.GetSwitchTableCommand(connection, viewName, tableName, columns);
 
                 // Assert
                 Assert.Equal(@"ALTER VIEW [myViewName]
@@ -48,7 +48,7 @@ FROM [myTableName];", command.CommandText, ignoreLineEndingDifferences: true);
                 var tableName = "myTableName";
 
                 // Act
-                var command = SqlConnectionExtensions.GetTruncateTableCommand(connection, tableName, null);
+                var command = SqlConnectionExtensions.GetTruncateTableCommand(connection, tableName);
 
                 // Assert
                 Assert.Equal("TRUNCATE TABLE [myTableName];", command.CommandText);
@@ -66,7 +66,7 @@ FROM [myTableName];", command.CommandText, ignoreLineEndingDifferences: true);
                 var tempTableName = "#myTableName";
 
                 // Act
-                var comnand = SqlConnectionExtensions.GetSelectIntoTemporaryTableCommand(connection, baseTableName, tempTableName, null);
+                var comnand = SqlConnectionExtensions.GetSelectIntoTemporaryTableCommand(connection, baseTableName, tempTableName);
 
                 // Assert
                 Assert.Equal("SELECT TOP 0 * INTO [#myTableName] FROM [myTableName];", comnand.CommandText);
@@ -101,7 +101,7 @@ FROM [myTableName];", command.CommandText, ignoreLineEndingDifferences: true);
                 var updateWhenMatched = true;
 
                 // Act
-                var command = SqlConnectionExtensions.GetMergeCommand(connection, targetTable, tableSource, columns, primaryKeyColumns, updateWhenMatched, null);
+                var command = SqlConnectionExtensions.GetMergeCommand(connection, targetTable, tableSource, columns, primaryKeyColumns, updateWhenMatched);
 
                 // Assert
                 Assert.Equal(@"MERGE INTO [myTableName] AS [Target]
@@ -149,7 +149,7 @@ WHEN NOT MATCHED
                 var updateWhenMatched = false;
 
                 // Act
-                var command = SqlConnectionExtensions.GetMergeCommand(connection, targetTable, tableSource, columns, primaryKeyColumns, updateWhenMatched, null);
+                var command = SqlConnectionExtensions.GetMergeCommand(connection, targetTable, tableSource, columns, primaryKeyColumns, updateWhenMatched);
 
                 // Assert
                 Assert.Equal(@"MERGE INTO [myTableName] AS [Target]
@@ -174,7 +174,7 @@ WHEN NOT MATCHED
                 var action = "DISABLE";
 
                 // Act
-                var command = SqlConnectionExtensions.GetAlterNonclusteredIndexesCommand(connection, tableName, action, null);
+                var command = SqlConnectionExtensions.GetAlterNonclusteredIndexesCommand(connection, tableName, action);
 
                 // Assert
                 Assert.Equal(@"DECLARE @sql AS VARCHAR(MAX)='';
