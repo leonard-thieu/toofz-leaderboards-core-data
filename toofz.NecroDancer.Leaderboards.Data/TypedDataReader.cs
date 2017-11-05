@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity.Core.Mapping;
-using System.Linq;
 
 namespace toofz.NecroDancer.Leaderboards
 {
@@ -10,19 +9,29 @@ namespace toofz.NecroDancer.Leaderboards
     {
         public TypedDataReader(IEnumerable<ScalarPropertyMapping> scalarPropertyMappings, IEnumerable<T> items)
         {
-            this.scalarPropertyMappings = scalarPropertyMappings.Select(m => new ScalarPropertyMappingContext(m, typeof(T))).ToList();
-            columnNames = scalarPropertyMappings.Select(p => p.Column.Name).ToList();
+            var type = typeof(T);
+            foreach (var scalarPropertyMapping in scalarPropertyMappings)
+            {
+                ordinals.Add(scalarPropertyMapping.Column.Name, fieldCount);
+                var context = new ScalarPropertyMappingContext(scalarPropertyMapping, type);
+                getters.Add(context.ValueGetter);
+                fieldCount++;
+            }
             this.items = items.GetEnumerator();
         }
 
-        private readonly List<ScalarPropertyMappingContext> scalarPropertyMappings;
-        private readonly List<string> columnNames;
+        private readonly List<Func<object, object>> getters = new List<Func<object, object>>();
+        private readonly Dictionary<string, int> ordinals = new Dictionary<string, int>();
         private readonly IEnumerator<T> items;
 
-        public int FieldCount => scalarPropertyMappings.Count;
+        public int FieldCount
+        {
+            get => fieldCount;
+        }
+        private readonly int fieldCount;
 
-        public int GetOrdinal(string name) => columnNames.IndexOf(name);
-        public object GetValue(int i) => scalarPropertyMappings[i].ValueGetter(items.Current);
+        public int GetOrdinal(string name) => ordinals[name];
+        public object GetValue(int i) => getters[i](items.Current);
         public bool Read() => items.MoveNext();
 
         #region Not used by SqlBulkCopy (satisfying interface only)

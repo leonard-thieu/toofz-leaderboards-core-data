@@ -131,17 +131,18 @@ FROM {Quote(tableName)};";
             IEnumerable<string> primaryKeyColumns,
             bool updateWhenMatched)
         {
+            const string Target = "[Target]";
+            const string Source = "[Source]";
+
             var command = SqlCommandAdapter.FromConnection(connection);
 
             var mergeSearchCondition = GetMergeSearchCondition();
-            var setClause = GetSetClause();
-            var columnList = GetValuesList();
             var valuesList = GetValuesList();
 
             var sb = new StringBuilder();
 
-            sb.AppendLine($"MERGE INTO {Quote(targetTable)} AS {Quote("Target")}");
-            sb.AppendLine($"USING {Quote(tableSource)} AS {Quote("Source")}");
+            sb.AppendLine($"MERGE INTO {Quote(targetTable)} AS {Target}");
+            sb.AppendLine($"USING {Quote(tableSource)} AS {Source}");
             sb.AppendLine($"    ON ({mergeSearchCondition})");
 
             if (updateWhenMatched)
@@ -149,12 +150,12 @@ FROM {Quote(tableName)};";
                 sb.AppendLine($"WHEN MATCHED");
                 sb.AppendLine($"    THEN");
                 sb.AppendLine($"        UPDATE");
-                sb.AppendLine($"        SET {setClause}");
+                sb.AppendLine($"        SET {GetSetClause()}");
             }
 
             sb.AppendLine($"WHEN NOT MATCHED");
             sb.AppendLine($"    THEN");
-            sb.AppendLine($"        INSERT ({columnList})");
+            sb.AppendLine($"        INSERT ({valuesList})");
             sb.AppendLine($"        VALUES ({valuesList});");
 
             command.CommandText = sb.ToString();
@@ -164,7 +165,7 @@ FROM {Quote(tableName)};";
             string GetMergeSearchCondition()
             {
                 var cols = from c in primaryKeyColumns
-                           select $"{Quote("Target")}.{Quote(c)} = {Quote("Source")}.{Quote(c)}";
+                           select $"{Target}.{Quote(c)} = {Source}.{Quote(c)}";
 
                 return string.Join(" AND ", cols);
             }
@@ -173,7 +174,7 @@ FROM {Quote(tableName)};";
             {
                 // Exclude primary key columns
                 var cols = from c in columns.Except(primaryKeyColumns)
-                           select $"{Quote("Target")}.{Quote(c)} = {Quote("Source")}.{Quote(c)}";
+                           select $"{Target}.{Quote(c)} = {Source}.{Quote(c)}";
 
                 return string.Join(",\r\n            ", cols);
             }
