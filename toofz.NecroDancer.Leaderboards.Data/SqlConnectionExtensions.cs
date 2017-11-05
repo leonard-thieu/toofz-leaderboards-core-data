@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Migrations.Model;
+using System.Data.Entity.SqlServer;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -187,31 +189,73 @@ FROM {Quote(tableName)};";
 
         #endregion
 
+        #region AlterPrimaryKey
+
+        public static async Task DropPrimaryKeyAsync(
+            this SqlConnection connection,
+            string tableName,
+            CancellationToken cancellationToken)
+        {
+            var operation = new DropPrimaryKeyOperation { Table = $"dbo.{tableName}" };
+
+            using (var command = GetAlterPrimaryKeyCommand(connection, operation))
+            {
+                await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
+            }
+        }
+
+        public static async Task AddPrimaryKeyAsync(
+            this SqlConnection connection,
+            string tableName,
+            IEnumerable<string> primaryKeyColumnNames,
+            CancellationToken cancellationToken)
+        {
+            var operation = new AddPrimaryKeyOperation { Table = $"dbo.{tableName}" };
+            operation.IsClustered = true;
+            foreach (var primaryKeyColumnName in primaryKeyColumnNames)
+            {
+                operation.Columns.Add(primaryKeyColumnName);
+            }
+
+            using (var command = GetAlterPrimaryKeyCommand(connection, operation))
+            {
+                await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
+            }
+        }
+
+        internal static SqlCommandAdapter GetAlterPrimaryKeyCommand(
+            this SqlConnection connection,
+            PrimaryKeyOperation operation)
+        {
+            var command = SqlCommandAdapter.FromConnection(connection);
+
+            var generator = new SqlServerMigrationSqlGenerator();
+            command.CommandText = generator.Generate(new[] { operation }, "2008").Single().Sql;
+
+            return command;
+        }
+
+        #endregion
+
         #region AlterNonclusteredIndexes
 
-        public static Task DisableNonclusteredIndexesAsync(
+        public static async Task DisableNonclusteredIndexesAsync(
             this SqlConnection connection,
             string tableName,
             CancellationToken cancellationToken)
         {
-            return AlterNonclusteredIndexesAsync(connection, tableName, "DISABLE", cancellationToken);
+            using (var command = GetAlterNonclusteredIndexesCommand(connection, tableName, "DISABLE"))
+            {
+                await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
+            }
         }
 
-        public static Task RebuildNonclusteredIndexesAsync(
+        public static async Task RebuildNonclusteredIndexesAsync(
             this SqlConnection connection,
             string tableName,
             CancellationToken cancellationToken)
         {
-            return AlterNonclusteredIndexesAsync(connection, tableName, "REBUILD", cancellationToken);
-        }
-
-        private static async Task AlterNonclusteredIndexesAsync(
-            this SqlConnection connection,
-            string tableName,
-            string action,
-            CancellationToken cancellationToken)
-        {
-            using (var command = GetAlterNonclusteredIndexesCommand(connection, tableName, action))
+            using (var command = GetAlterNonclusteredIndexesCommand(connection, tableName, "REBUILD"))
             {
                 await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
             }
@@ -224,9 +268,9 @@ FROM {Quote(tableName)};";
         {
             var command = SqlCommandAdapter.FromConnection(connection);
 
-            command.CommandText = $@"DECLARE @sql AS VARCHAR(MAX)='';
+            command.CommandText = @"DECLARE @sql AS VARCHAR(MAX)='';
 
-SELECT @sql = @sql + 'ALTER INDEX ' + sys.indexes.name + ' ON ' + sys.objects.name + ' {action};' + CHAR(13) + CHAR(10)
+SELECT @sql = @sql + 'ALTER INDEX ' + quotename(sys.indexes.name, '""') + ' ON ' + quotename(sys.objects.name, '""') + ' ' + @action + ';' + CHAR(13) + CHAR(10)
 FROM sys.indexes
 JOIN sys.objects ON sys.indexes.object_id = sys.objects.object_id
 WHERE sys.indexes.type_desc = 'NONCLUSTERED'
@@ -234,6 +278,7 @@ WHERE sys.indexes.type_desc = 'NONCLUSTERED'
   AND sys.objects.name = @tableName;
 
 EXEC(@sql);";
+            command.Parameters.Add("@action", SqlDbType.VarChar).Value = action;
             command.Parameters.Add("@tableName", SqlDbType.VarChar).Value = tableName;
 
             return command;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Mapping;
+using System.Data.Entity.SqlServer;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
@@ -35,6 +36,7 @@ namespace toofz.NecroDancer.Leaderboards
             string viewName;
             string stagingTableName;
             string activeTableName;
+            IEnumerable<string> primaryKeyColumnNames;
 
             using (var db = new LeaderboardsContext(connection))
             {
@@ -50,14 +52,18 @@ namespace toofz.NecroDancer.Leaderboards
                     stagingTableName = $"{viewName}_B";
                     activeTableName = $"{viewName}_A";
                 }
+
+                primaryKeyColumnNames = mappingFragment.GetPrimaryKeyColumnNames();
             }
 
             await connection.DisableNonclusteredIndexesAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
+            await connection.DropPrimaryKeyAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
             // Cannot assume that the staging table is empty even though it's truncated afterwards.
             // This can happen when initially working with a database that was modified by legacy code. Legacy code 
             // truncated at the beginning instead of after.
             await connection.TruncateTableAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
-            await BulkCopyAsync(items, stagingTableName, mappingFragment, cancellationToken).ConfigureAwait(false);
+            await BulkCopyAsync(items, stagingTableName, mappingFragment, true, cancellationToken).ConfigureAwait(false);
+            await connection.AddPrimaryKeyAsync(stagingTableName, primaryKeyColumnNames, cancellationToken).ConfigureAwait(false);
             await connection.RebuildNonclusteredIndexesAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
             await connection.SwitchTableAsync(
                 viewName,
@@ -106,7 +112,7 @@ namespace toofz.NecroDancer.Leaderboards
             var tempTableName = $"#{tableName}";
 
             await connection.SelectIntoTemporaryTableAsync(tableName, tempTableName, cancellationToken).ConfigureAwait(false);
-            await BulkCopyAsync(items, tempTableName, mappingFragment, cancellationToken).ConfigureAwait(false);
+            await BulkCopyAsync(items, tempTableName, mappingFragment, false, cancellationToken).ConfigureAwait(false);
 
             return await connection.MergeAsync(
                 tableName,
@@ -122,10 +128,14 @@ namespace toofz.NecroDancer.Leaderboards
             IEnumerable<TEntity> items,
             string destinationTableName,
             MappingFragment mappingFragment,
+            bool useTableLock,
             CancellationToken cancellationToken)
             where TEntity : class
         {
-            using (var sqlBulkCopy = new SqlBulkCopy(connection, SqlBulkCopyOptions.KeepNulls, null))
+            var options = SqlBulkCopyOptions.KeepNulls;
+            if (useTableLock) { options &= SqlBulkCopyOptions.TableLock; }
+
+            using (var sqlBulkCopy = new SqlBulkCopy(connection, options, null))
             {
                 sqlBulkCopy.BulkCopyTimeout = 0;
                 sqlBulkCopy.DestinationTableName = destinationTableName;

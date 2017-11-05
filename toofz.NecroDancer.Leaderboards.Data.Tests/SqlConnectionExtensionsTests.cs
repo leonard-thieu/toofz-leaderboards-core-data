@@ -179,7 +179,7 @@ WHEN NOT MATCHED
                 // Assert
                 Assert.Equal(@"DECLARE @sql AS VARCHAR(MAX)='';
 
-SELECT @sql = @sql + 'ALTER INDEX ' + sys.indexes.name + ' ON ' + sys.objects.name + ' DISABLE;' + CHAR(13) + CHAR(10)
+SELECT @sql = @sql + 'ALTER INDEX ' + quotename(sys.indexes.name, '""') + ' ON ' + quotename(sys.objects.name, '""') + ' ' + @action + ';' + CHAR(13) + CHAR(10)
 FROM sys.indexes
 JOIN sys.objects ON sys.indexes.object_id = sys.objects.object_id
 WHERE sys.indexes.type_desc = 'NONCLUSTERED'
