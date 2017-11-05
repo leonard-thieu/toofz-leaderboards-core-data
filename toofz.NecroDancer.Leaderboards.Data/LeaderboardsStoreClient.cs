@@ -125,7 +125,7 @@ namespace toofz.NecroDancer.Leaderboards
             CancellationToken cancellationToken)
             where TEntity : class
         {
-            using (var sqlBulkCopy = new SqlBulkCopy(connection, SqlBulkCopyOptions.TableLock & SqlBulkCopyOptions.KeepNulls, null))
+            using (var sqlBulkCopy = new SqlBulkCopy(connection, SqlBulkCopyOptions.KeepNulls, null))
             {
                 sqlBulkCopy.BulkCopyTimeout = 0;
                 sqlBulkCopy.DestinationTableName = destinationTableName;
