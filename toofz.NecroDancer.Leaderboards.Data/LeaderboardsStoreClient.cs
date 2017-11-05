@@ -129,7 +129,6 @@ namespace toofz.NecroDancer.Leaderboards
             {
                 sqlBulkCopy.BulkCopyTimeout = 0;
                 sqlBulkCopy.DestinationTableName = destinationTableName;
-                sqlBulkCopy.EnableStreaming = true;
 
                 foreach (var columnName in mappingFragment.GetColumnNames())
                 {

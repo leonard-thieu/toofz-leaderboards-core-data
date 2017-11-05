@@ -24,7 +24,6 @@ namespace toofz.NecroDancer.Leaderboards
         public int GetOrdinal(string name) => columnNames.IndexOf(name);
         public object GetValue(int i) => scalarPropertyMappings[i].ValueGetter(items.Current);
         public bool Read() => items.MoveNext();
-        public bool IsDBNull(int i) => GetValue(i) == null;
 
         #region Not used by SqlBulkCopy (satisfying interface only)
 
@@ -47,6 +46,7 @@ namespace toofz.NecroDancer.Leaderboards
         decimal IDataRecord.GetDecimal(int i) => throw new NotImplementedException();
         DateTime IDataRecord.GetDateTime(int i) => throw new NotImplementedException();
         IDataReader IDataRecord.GetData(int i) => throw new NotImplementedException();
+        bool IDataRecord.IsDBNull(int i) => throw new NotImplementedException();
         object IDataRecord.this[int i] => throw new NotImplementedException();
         object IDataRecord.this[string name] => throw new NotImplementedException();
         void IDataReader.Close() => throw new NotImplementedException();
