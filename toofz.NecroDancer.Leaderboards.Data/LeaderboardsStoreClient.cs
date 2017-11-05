@@ -6,21 +6,11 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Transactions;
 
 namespace toofz.NecroDancer.Leaderboards
 {
     public sealed class LeaderboardsStoreClient : ILeaderboardsStoreClient
     {
-        private static TransactionScope CreateTransactionScope()
-        {
-            var transactionOptions = new TransactionOptions();
-            transactionOptions.IsolationLevel = IsolationLevel.ReadCommitted;
-            transactionOptions.Timeout = TransactionManager.MaximumTimeout;
-
-            return new TransactionScope(TransactionScopeOption.Required, transactionOptions, TransactionScopeAsyncFlowOption.Enabled);
-        }
-
         public LeaderboardsStoreClient(SqlConnection connection)
         {
             this.connection = connection ?? throw new ArgumentNullException(nameof(connection));
@@ -38,50 +28,45 @@ namespace toofz.NecroDancer.Leaderboards
 
             items = items.ToList();
 
-            using (var scope = CreateTransactionScope())
+            await connection.OpenIsClosedAsync(cancellationToken).ConfigureAwait(false);
+
+            MappingFragment mappingFragment;
+            string tableName;
+            string viewName;
+            string stagingTableName;
+            string activeTableName;
+
+            using (var db = new LeaderboardsContext(connection))
             {
-                await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
+                mappingFragment = db.GetMappingFragment<TEntity>();
+                tableName = mappingFragment.GetTableName();
+                viewName = tableName;
 
-                MappingFragment mappingFragment;
-                string tableName;
-                string viewName;
-                string stagingTableName;
-                string activeTableName;
-
-                using (var db = new LeaderboardsContext(connection))
+                stagingTableName = $"{viewName}_A";
+                activeTableName = $"{viewName}_B";
+                var count = await db.Set<TEntity>().CountAsync(cancellationToken).ConfigureAwait(false);
+                if (count != 0)
                 {
-                    mappingFragment = db.GetMappingFragment<TEntity>();
-                    tableName = mappingFragment.GetTableName();
-                    viewName = tableName;
-
-                    stagingTableName = $"{viewName}_A";
-                    activeTableName = $"{viewName}_B";
-                    var count = await db.Set<TEntity>().CountAsync(cancellationToken).ConfigureAwait(false);
-                    if (count != 0)
-                    {
-                        stagingTableName = $"{viewName}_B";
-                        activeTableName = $"{viewName}_A";
-                    }
+                    stagingTableName = $"{viewName}_B";
+                    activeTableName = $"{viewName}_A";
                 }
-
-                await connection.DisableNonclusteredIndexesAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
-                // Cannot assume that the staging table is empty even though it's truncated afterwards.
-                // This can happen when initially working with a database that was modified by legacy code. Legacy code 
-                // truncated at the beginning instead of after.
-                await connection.TruncateTableAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
-                await BulkCopyAsync(items, stagingTableName, mappingFragment, cancellationToken).ConfigureAwait(false);
-                await connection.RebuildNonclusteredIndexesAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
-                await connection.SwitchTableAsync(
-                    viewName,
-                    stagingTableName,
-                    mappingFragment.GetColumnNames(),
-                    cancellationToken)
-                    .ConfigureAwait(false);
-                // Active table is now the new staging table
-                await connection.TruncateTableAsync(activeTableName, cancellationToken).ConfigureAwait(false);
-
-                scope.Complete();
             }
+
+            await connection.DisableNonclusteredIndexesAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
+            // Cannot assume that the staging table is empty even though it's truncated afterwards.
+            // This can happen when initially working with a database that was modified by legacy code. Legacy code 
+            // truncated at the beginning instead of after.
+            await connection.TruncateTableAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
+            await BulkCopyAsync(items, stagingTableName, mappingFragment, cancellationToken).ConfigureAwait(false);
+            await connection.RebuildNonclusteredIndexesAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
+            await connection.SwitchTableAsync(
+                viewName,
+                stagingTableName,
+                mappingFragment.GetColumnNames(),
+                cancellationToken)
+                .ConfigureAwait(false);
+            // Active table is now the new staging table
+            await connection.TruncateTableAsync(activeTableName, cancellationToken).ConfigureAwait(false);
 
             return items.Count();
         }
@@ -108,36 +93,29 @@ namespace toofz.NecroDancer.Leaderboards
 
             if (!items.Any()) { return 0; }
 
-            using (var scope = CreateTransactionScope())
+            await connection.OpenIsClosedAsync(cancellationToken).ConfigureAwait(false);
+
+            MappingFragment mappingFragment;
+
+            using (var db = new LeaderboardsContext(connection))
             {
-                await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
-
-                MappingFragment mappingFragment;
-
-                using (var db = new LeaderboardsContext(connection))
-                {
-                    mappingFragment = db.GetMappingFragment<TEntity>();
-                }
-
-                var tableName = mappingFragment.GetTableName();
-                var tempTableName = $"#{tableName}";
-
-                await connection.SelectIntoTemporaryTableAsync(tableName, tempTableName, cancellationToken).ConfigureAwait(false);
-                await BulkCopyAsync(items, tempTableName, mappingFragment, cancellationToken).ConfigureAwait(false);
-
-                var rowsAffected = await connection.MergeAsync(
-                    tableName,
-                    tempTableName,
-                    mappingFragment.GetColumnNames(),
-                    mappingFragment.GetPrimaryKeyColumnNames(),
-                    options.UpdateWhenMatched,
-                    cancellationToken)
-                    .ConfigureAwait(false);
-
-                scope.Complete();
-
-                return rowsAffected;
+                mappingFragment = db.GetMappingFragment<TEntity>();
             }
+
+            var tableName = mappingFragment.GetTableName();
+            var tempTableName = $"#{tableName}";
+
+            await connection.SelectIntoTemporaryTableAsync(tableName, tempTableName, cancellationToken).ConfigureAwait(false);
+            await BulkCopyAsync(items, tempTableName, mappingFragment, cancellationToken).ConfigureAwait(false);
+
+            return await connection.MergeAsync(
+                tableName,
+                tempTableName,
+                mappingFragment.GetColumnNames(),
+                mappingFragment.GetPrimaryKeyColumnNames(),
+                options.UpdateWhenMatched,
+                cancellationToken)
+                .ConfigureAwait(false);
         }
 
         private async Task BulkCopyAsync<TEntity>(

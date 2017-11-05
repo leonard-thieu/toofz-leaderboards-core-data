@@ -10,6 +10,14 @@ namespace toofz.NecroDancer.Leaderboards
 {
     internal static class SqlConnectionExtensions
     {
+        internal static async Task OpenIsClosedAsync(this SqlConnection connection, CancellationToken cancellationToken)
+        {
+            if (connection.State == ConnectionState.Closed)
+            {
+                await connection.OpenAsync(cancellationToken).ConfigureAwait(false);
+            }
+        }
+
         #region SwitchTable
 
         public static async Task SwitchTableAsync(
