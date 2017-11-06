@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Core.Mapping;
-using System.Data.Entity.SqlServer;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading;
@@ -58,7 +57,7 @@ namespace toofz.NecroDancer.Leaderboards
 
             await connection.DisableNonclusteredIndexesAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
 #if FEATURE_DROP_PRIMARY_KEYS
-            await connection.DropPrimaryKeyAsync(stagingTableName, cancellationToken).ConfigureAwait(false); 
+            await connection.DropPrimaryKeyAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
 #endif
             // Cannot assume that the staging table is empty even though it's truncated afterwards.
             // This can happen when initially working with a database that was modified by legacy code. Legacy code 
@@ -66,7 +65,7 @@ namespace toofz.NecroDancer.Leaderboards
             await connection.TruncateTableAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
             await BulkCopyAsync(items, stagingTableName, mappingFragment, true, cancellationToken).ConfigureAwait(false);
 #if FEATURE_DROP_PRIMARY_KEYS
-            await connection.AddPrimaryKeyAsync(stagingTableName, primaryKeyColumnNames, cancellationToken).ConfigureAwait(false); 
+            await connection.AddPrimaryKeyAsync(stagingTableName, primaryKeyColumnNames, cancellationToken).ConfigureAwait(false);
 #endif
             await connection.RebuildNonclusteredIndexesAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
             await connection.SwitchTableAsync(
@@ -139,7 +138,7 @@ namespace toofz.NecroDancer.Leaderboards
             var options = SqlBulkCopyOptions.KeepNulls;
             if (useTableLock) { options &= SqlBulkCopyOptions.TableLock; }
 
-            using (var sqlBulkCopy = new SqlBulkCopy(connection, options, null))
+            using (var sqlBulkCopy = new SqlBulkCopy(connection, options, externalTransaction: null))
             {
                 sqlBulkCopy.BulkCopyTimeout = 0;
                 sqlBulkCopy.DestinationTableName = destinationTableName;
