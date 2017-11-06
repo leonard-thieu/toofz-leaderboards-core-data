@@ -118,6 +118,7 @@
     <Compile Include="LeaderboardsContextTests.cs" />
     <Compile Include="LeaderboardsStoreClientTests.cs" />
     <Compile Include="MigrationsTests.cs" />
+    <Compile Include="SqlClientUtilTests.cs" />
     <Compile Include="SqlCommandAdapterTests.cs" />
     <Compile Include="SqlCommandExceptionTests.cs" />
     <Compile Include="SqlConnectionExtensionsTests.cs" />

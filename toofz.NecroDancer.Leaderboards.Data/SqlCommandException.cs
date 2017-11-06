@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.SqlClient;
 using System.Text;
 
 namespace toofz.NecroDancer.Leaderboards
@@ -17,7 +18,7 @@ namespace toofz.NecroDancer.Leaderboards
         /// <param name="commandText">
         /// The Transact-SQL statement, table name or stored procedure that was attempted to be executed.
         /// </param>
-        public SqlCommandException(string message, Exception inner, string commandText) : base(message, inner)
+        public SqlCommandException(string message, SqlException inner, string commandText) : base(message, inner)
         {
             CommandText = commandText;
         }

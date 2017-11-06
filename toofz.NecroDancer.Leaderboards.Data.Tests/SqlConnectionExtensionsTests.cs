@@ -163,7 +163,7 @@ WHEN NOT MATCHED
             }
         }
 
-        public class GetAlterNonclusteredIndexesCommand
+        public class GetAlterNonclusteredIndexesCommandMethod
         {
             [Fact]
             public void ReturnsAlterNonclusteredIndexesCommand()

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Data.SqlClient;
 using Xunit;
 
 namespace toofz.NecroDancer.Leaderboards.Tests
@@ -12,7 +12,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
             {
                 // Arrange
                 string message = null;
-                Exception inner = null;
+                SqlException inner = null;
                 string commandText = null;
 
                 // Act
@@ -27,7 +27,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
             {
                 // Arrange
                 string message = null;
-                Exception inner = null;
+                SqlException inner = null;
                 string commandText = "myCommandText";
 
                 // Act
@@ -38,14 +38,14 @@ namespace toofz.NecroDancer.Leaderboards.Tests
             }
         }
 
-        public new class ToString
+        public class ToStringMethod
         {
             [Fact]
             public void CommandTextIsNull_ReturnsSqlCommandExceptionAsString()
             {
                 // Arrange
                 string message = null;
-                Exception inner = null;
+                SqlException inner = null;
                 string commandText = null;
 
                 // Act
@@ -60,7 +60,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
             {
                 // Arrange
                 string message = null;
-                Exception inner = null;
+                SqlException inner = null;
                 string commandText = "myCommandText";
 
                 // Act
