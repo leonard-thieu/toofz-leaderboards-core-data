@@ -49,6 +49,16 @@ namespace toofz.NecroDancer.Leaderboards
         /// Executes a Transact-SQL statement against the connection and returns the number of rows affected.
         /// </summary>
         /// <returns>The number of rows affected.</returns>
+        /// <exception cref="SqlCommandException">
+        /// SQL Server returned an error while executing the command text.
+        /// </exception>
+        /// <exception cref="SqlCommandException">
+        /// A timeout occurred during a streaming operation. For more information about streaming, see SqlClient 
+        /// Streaming Support.
+        /// </exception>
+        /// <exception cref="TaskCanceledException">
+        /// The task was cancelled due to a cancellation request.
+        /// </exception>
         public async Task<int> ExecuteNonQueryAsync(CancellationToken cancellationToken)
         {
             try
@@ -57,6 +67,9 @@ namespace toofz.NecroDancer.Leaderboards
             }
             catch (SqlException ex)
             {
+                // ExecuteNonQueryAsync throws SqlException on cancellation; however, consumers expect a TaskCanceledException.
+                cancellationToken.ThrowIfCancellationRequested();
+
                 throw new SqlCommandException(ex.Message, ex, CommandText);
             }
         }
