@@ -11,14 +11,14 @@ namespace toofz.NecroDancer.Leaderboards
         /// a reference to the inner exception that is the cause of this exception.
         /// </summary>
         /// <param name="message">The error message that explains the reason for the exception.</param>
-        /// <param name="inner">
+        /// <param name="innerException">
         /// The exception that is the cause of the current exception, or a null reference (Nothing in Visual Basic)
         /// if no inner exception is specified.
         /// </param>
         /// <param name="commandText">
         /// The Transact-SQL statement, table name or stored procedure that was attempted to be executed.
         /// </param>
-        public SqlCommandException(string message, SqlException inner, string commandText) : base(message, inner)
+        public SqlCommandException(string message, SqlException innerException, string commandText) : base(message, innerException)
         {
             CommandText = commandText;
         }
@@ -27,6 +27,17 @@ namespace toofz.NecroDancer.Leaderboards
         /// Gets or sets the Transact-SQL statement, table name or stored procedure that was attempted to be executed.
         /// </summary>
         public string CommandText { get; }
+
+        /// <summary>
+        /// Gets the <see cref="SqlException"/> instance that caused the current exception.
+        /// </summary>
+        /// <returns>
+        /// An object that describes the error that caused the current exception. The <see cref="InnerException"/> 
+        /// property returns the same value as was passed into the <see cref="SqlCommandException(string, SqlException, string)"/>
+        /// constructor, or null if the inner exception value was not supplied to the constructor. 
+        /// This property is read-only.
+        /// </returns>
+        public new SqlException InnerException { get => (SqlException)base.InnerException; }
 
         /// <summary>
         /// Creates and returns a string representation of the current exception.
