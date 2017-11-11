@@ -37,7 +37,7 @@ namespace toofz.NecroDancer.Leaderboards
         /// constructor, or null if the inner exception value was not supplied to the constructor. 
         /// This property is read-only.
         /// </returns>
-        public new SqlException InnerException { get => (SqlException)base.InnerException; }
+        public new SqlException InnerException => (SqlException)base.InnerException;
 
         /// <summary>
         /// Creates and returns a string representation of the current exception.

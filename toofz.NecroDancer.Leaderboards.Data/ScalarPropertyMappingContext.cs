@@ -22,10 +22,7 @@ namespace toofz.NecroDancer.Leaderboards
         public PropertyInfo PropertyInfo { get; }
         public EdmProperty Column { get; }
 
-        public Func<object, object> ValueGetter
-        {
-            get => valueGetter ?? (valueGetter = CreatePropertyGetter());
-        }
+        public Func<object, object> ValueGetter => valueGetter ?? (valueGetter = CreatePropertyGetter());
         private Func<object, object> valueGetter;
 
         private Func<object, object> CreatePropertyGetter()

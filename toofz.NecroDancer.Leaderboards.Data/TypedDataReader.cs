@@ -24,10 +24,7 @@ namespace toofz.NecroDancer.Leaderboards
         private readonly Dictionary<string, int> ordinals = new Dictionary<string, int>();
         private readonly IEnumerator<T> items;
 
-        public int FieldCount
-        {
-            get => fieldCount;
-        }
+        public int FieldCount => fieldCount;
         private readonly int fieldCount;
 
         public int GetOrdinal(string name) => ordinals[name];
