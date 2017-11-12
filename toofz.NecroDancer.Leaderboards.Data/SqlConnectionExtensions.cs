@@ -26,10 +26,11 @@ namespace toofz.NecroDancer.Leaderboards
 
         public static async Task<string> GetReferencedTableNameAsync(
             this SqlConnection connection,
+            string schemaName,
             string viewName,
             CancellationToken cancellationToken)
         {
-            using (var command = GetGetReferencedTableNameCommand(connection, viewName))
+            using (var command = GetGetReferencedTableNameCommand(connection, schemaName, viewName))
             {
                 return (string)await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
             }
@@ -37,6 +38,7 @@ namespace toofz.NecroDancer.Leaderboards
 
         internal static SqlCommandAdapter GetGetReferencedTableNameCommand(
             SqlConnection connection,
+            string schemaName,
             string viewName)
         {
             var command = SqlCommandAdapter.FromConnection(connection);
@@ -45,7 +47,7 @@ namespace toofz.NecroDancer.Leaderboards
 FROM sys.dm_sql_referenced_entities (@viewName, 'OBJECT')
 WHERE referenced_minor_name IS NULL;";
             // NOTE: Assumes schema is 'dbo'.
-            command.Parameters.Add("@viewName", SqlDbType.NVarChar).Value = $"[dbo].{Quote(viewName)}";
+            command.Parameters.Add("@viewName", SqlDbType.NVarChar).Value = $"{Quote(schemaName)}.{Quote(viewName)}";
 
             return command;
         }
@@ -227,10 +229,11 @@ FROM {Quote(baseTableName)};";
 
         public static async Task DropPrimaryKeyAsync(
             this SqlConnection connection,
+            string schemaName,
             string tableName,
             CancellationToken cancellationToken)
         {
-            var operation = new DropPrimaryKeyOperation { Table = $"[dbo].{Quote(tableName)}" };
+            var operation = new DropPrimaryKeyOperation { Table = $"{schemaName}.{tableName}" };
 
             using (var command = GetAlterPrimaryKeyCommand(connection, operation))
             {
@@ -240,11 +243,12 @@ FROM {Quote(baseTableName)};";
 
         public static async Task AddPrimaryKeyAsync(
             this SqlConnection connection,
+            string schemaName,
             string tableName,
             IEnumerable<string> primaryKeyColumnNames,
             CancellationToken cancellationToken)
         {
-            var operation = new AddPrimaryKeyOperation { Table = $"[dbo].{Quote(tableName)}" };
+            var operation = new AddPrimaryKeyOperation { Table = $"{schemaName}.{tableName}" };
             operation.IsClustered = true;
             foreach (var primaryKeyColumnName in primaryKeyColumnNames)
             {

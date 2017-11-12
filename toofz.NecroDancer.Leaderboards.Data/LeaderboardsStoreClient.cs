@@ -30,6 +30,7 @@ namespace toofz.NecroDancer.Leaderboards
             await connection.OpenIsClosedAsync(cancellationToken).ConfigureAwait(false);
 
             MappingFragment mappingFragment;
+            string schemaName;
             string tableName;
             string viewName;
             string stagingTableName;
@@ -41,22 +42,23 @@ namespace toofz.NecroDancer.Leaderboards
             using (var db = new LeaderboardsContext(connection))
             {
                 mappingFragment = db.GetMappingFragment<TEntity>();
+                schemaName = mappingFragment.GetSchemaName();
                 tableName = mappingFragment.GetTableName();
                 viewName = tableName;
 
-                activeTableName = await connection.GetReferencedTableNameAsync(viewName, cancellationToken).ConfigureAwait(false);
+                activeTableName = await connection.GetReferencedTableNameAsync(schemaName, viewName, cancellationToken).ConfigureAwait(false);
                 stagingTableName = activeTableName.EndsWith("_A") ?
                      $"{viewName}_B" :
                      $"{viewName}_A";
 
 #if FEATURE_DROP_PRIMARY_KEYS
-                primaryKeyColumnNames = mappingFragment.GetPrimaryKeyColumnNames(); 
+                primaryKeyColumnNames = mappingFragment.GetPrimaryKeyColumnNames();
 #endif
             }
 
             await connection.DisableNonclusteredIndexesAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
 #if FEATURE_DROP_PRIMARY_KEYS
-            await connection.DropPrimaryKeyAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
+            await connection.DropPrimaryKeyAsync(schemaName, stagingTableName, cancellationToken).ConfigureAwait(false);
 #endif
             // Cannot assume that the staging table is empty even though it's truncated afterwards.
             // This can happen when initially working with a database that was modified by legacy code. Legacy code 
@@ -64,7 +66,7 @@ namespace toofz.NecroDancer.Leaderboards
             await connection.TruncateTableAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
             await BulkCopyAsync(items, stagingTableName, mappingFragment, true, cancellationToken).ConfigureAwait(false);
 #if FEATURE_DROP_PRIMARY_KEYS
-            await connection.AddPrimaryKeyAsync(stagingTableName, primaryKeyColumnNames, cancellationToken).ConfigureAwait(false);
+            await connection.AddPrimaryKeyAsync(schemaName, stagingTableName, primaryKeyColumnNames, cancellationToken).ConfigureAwait(false);
 #endif
             await connection.RebuildNonclusteredIndexesAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
             await connection.SwitchTableAsync(

@@ -46,6 +46,15 @@ namespace toofz.NecroDancer.Leaderboards
                 .Single();
         }
 
+        public static string GetSchemaName(this MappingFragment mappingFragment)
+        {
+            // Find the storage entity set (table) that the entity is mapped
+            var table = mappingFragment.StoreEntitySet;
+
+            // Return the schema name from the storage entity set
+            return (string)table.MetadataProperties["Schema"].Value;
+        }
+
         public static string GetTableName(this MappingFragment mappingFragment)
         {
             // Find the storage entity set (table) that the entity is mapped
