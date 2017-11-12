@@ -12,7 +12,9 @@ namespace toofz.NecroDancer.Leaderboards
 {
     internal static class SqlConnectionExtensions
     {
-        internal static async Task OpenIsClosedAsync(this SqlConnection connection, CancellationToken cancellationToken)
+        public static async Task OpenIsClosedAsync(
+            this SqlConnection connection,
+            CancellationToken cancellationToken)
         {
             if (connection.State == ConnectionState.Closed)
             {
@@ -131,7 +133,9 @@ FROM {Quote(tableName)};";
         {
             var command = SqlCommandAdapter.FromConnection(connection);
 
-            command.CommandText = $"SELECT TOP 0 * INTO {Quote(tempTableName)} FROM {Quote(baseTableName)};";
+            command.CommandText = $@"SELECT TOP 0 *
+INTO {Quote(tempTableName)}
+FROM {Quote(baseTableName)};";
 
             return command;
         }
@@ -226,7 +230,7 @@ FROM {Quote(tableName)};";
             string tableName,
             CancellationToken cancellationToken)
         {
-            var operation = new DropPrimaryKeyOperation { Table = $"dbo.{tableName}" };
+            var operation = new DropPrimaryKeyOperation { Table = $"[dbo].{Quote(tableName)}" };
 
             using (var command = GetAlterPrimaryKeyCommand(connection, operation))
             {
@@ -240,7 +244,7 @@ FROM {Quote(tableName)};";
             IEnumerable<string> primaryKeyColumnNames,
             CancellationToken cancellationToken)
         {
-            var operation = new AddPrimaryKeyOperation { Table = $"dbo.{tableName}" };
+            var operation = new AddPrimaryKeyOperation { Table = $"[dbo].{Quote(tableName)}" };
             operation.IsClustered = true;
             foreach (var primaryKeyColumnName in primaryKeyColumnNames)
             {
@@ -298,9 +302,9 @@ FROM {Quote(tableName)};";
         {
             var command = SqlCommandAdapter.FromConnection(connection);
 
-            command.CommandText = @"DECLARE @sql AS VARCHAR(MAX)='';
+            command.CommandText = @"DECLARE @sql AS nvarchar(max) = '';
 
-SELECT @sql = @sql + 'ALTER INDEX ' + quotename(sys.indexes.name, '""') + ' ON ' + quotename(sys.objects.name, '""') + ' ' + @action + ';' + CHAR(13) + CHAR(10)
+SELECT @sql = @sql + 'ALTER INDEX ' + QUOTENAME(sys.indexes.name) + ' ON ' + QUOTENAME(sys.objects.name) + ' ' + @action + ';' + CHAR(13) + CHAR(10)
 FROM sys.indexes
 JOIN sys.objects ON sys.indexes.object_id = sys.objects.object_id
 WHERE sys.indexes.type_desc = 'NONCLUSTERED'

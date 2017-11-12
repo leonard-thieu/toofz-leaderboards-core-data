@@ -69,7 +69,9 @@ FROM [myTableName];", command.CommandText, ignoreLineEndingDifferences: true);
                 var comnand = SqlConnectionExtensions.GetSelectIntoTemporaryTableCommand(connection, baseTableName, tempTableName);
 
                 // Assert
-                Assert.Equal("SELECT TOP 0 * INTO [#myTableName] FROM [myTableName];", comnand.CommandText);
+                Assert.Equal(@"SELECT TOP 0 *
+INTO [#myTableName]
+FROM [myTableName];", comnand.CommandText, ignoreLineEndingDifferences: true);
             }
         }
 
@@ -177,9 +179,9 @@ WHEN NOT MATCHED
                 var command = SqlConnectionExtensions.GetAlterNonclusteredIndexesCommand(connection, tableName, action);
 
                 // Assert
-                Assert.Equal(@"DECLARE @sql AS VARCHAR(MAX)='';
+                Assert.Equal(@"DECLARE @sql AS nvarchar(max) = '';
 
-SELECT @sql = @sql + 'ALTER INDEX ' + quotename(sys.indexes.name, '""') + ' ON ' + quotename(sys.objects.name, '""') + ' ' + @action + ';' + CHAR(13) + CHAR(10)
+SELECT @sql = @sql + 'ALTER INDEX ' + QUOTENAME(sys.indexes.name) + ' ON ' + QUOTENAME(sys.objects.name) + ' ' + @action + ';' + CHAR(13) + CHAR(10)
 FROM sys.indexes
 JOIN sys.objects ON sys.indexes.object_id = sys.objects.object_id
 WHERE sys.indexes.type_desc = 'NONCLUSTERED'
