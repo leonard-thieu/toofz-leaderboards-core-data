@@ -64,7 +64,34 @@ namespace toofz.NecroDancer.Leaderboards
             }
             catch (SqlException ex)
             {
-                // ExecuteNonQueryAsync throws SqlException on cancellation; however, consumers expect a TaskCanceledException.
+                // Throws SqlException on cancellation; however, consumers expect a TaskCanceledException.
+                cancellationToken.ThrowIfCancellationRequested();
+
+                throw new SqlCommandException(ex.Message, ex, CommandText);
+            }
+        }
+
+        /// <summary>
+        /// Executes the query asynchronously and returns the first column of the first row 
+        /// in the result set returned by the query. Additional columns or rows are ignored.
+        /// 
+        /// The cancellation token can be used to request that the operation be abandoned before
+        /// the command timeout elapses. Exceptions will be reported via the returned <see cref="Task{TResult}"/>
+        /// object.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation instruction.</param>
+        /// <returns>
+        /// A task representing the asynchronous operation.
+        /// </returns>
+        public async Task<object> ExecuteScalarAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                return await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
+            }
+            catch (SqlException ex)
+            {
+                // Throws SqlException on cancellation; however, consumers expect a TaskCanceledException.
                 cancellationToken.ThrowIfCancellationRequested();
 
                 throw new SqlCommandException(ex.Message, ex, CommandText);

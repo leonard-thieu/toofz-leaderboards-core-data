@@ -35,7 +35,9 @@ namespace toofz.NecroDancer.Leaderboards
             string viewName;
             string stagingTableName;
             string activeTableName;
+#if FEATURE_DROP_PRIMARY_KEYS
             IEnumerable<string> primaryKeyColumnNames;
+#endif
 
             using (var db = new LeaderboardsContext(connection))
             {
@@ -43,16 +45,14 @@ namespace toofz.NecroDancer.Leaderboards
                 tableName = mappingFragment.GetTableName();
                 viewName = tableName;
 
-                stagingTableName = $"{viewName}_A";
-                activeTableName = $"{viewName}_B";
-                var count = await db.Set<TEntity>().CountAsync(cancellationToken).ConfigureAwait(false);
-                if (count != 0)
-                {
-                    stagingTableName = $"{viewName}_B";
-                    activeTableName = $"{viewName}_A";
-                }
+                activeTableName = await connection.GetReferencedTableNameAsync(viewName, cancellationToken).ConfigureAwait(false);
+                stagingTableName = activeTableName.EndsWith("_A") ?
+                     $"{viewName}_B" :
+                     $"{viewName}_A";
 
-                primaryKeyColumnNames = mappingFragment.GetPrimaryKeyColumnNames();
+#if FEATURE_DROP_PRIMARY_KEYS
+                primaryKeyColumnNames = mappingFragment.GetPrimaryKeyColumnNames(); 
+#endif
             }
 
             await connection.DisableNonclusteredIndexesAsync(stagingTableName, cancellationToken).ConfigureAwait(false);

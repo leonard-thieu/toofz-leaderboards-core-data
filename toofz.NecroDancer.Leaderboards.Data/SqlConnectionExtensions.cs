@@ -20,6 +20,36 @@ namespace toofz.NecroDancer.Leaderboards
             }
         }
 
+        #region GetReferencedTableName
+
+        public static async Task<string> GetReferencedTableNameAsync(
+            this SqlConnection connection,
+            string viewName,
+            CancellationToken cancellationToken)
+        {
+            using (var command = GetGetReferencedTableNameCommand(connection, viewName))
+            {
+                return (string)await command.ExecuteScalarAsync(cancellationToken).ConfigureAwait(false);
+            }
+        }
+
+        internal static SqlCommandAdapter GetGetReferencedTableNameCommand(
+            SqlConnection connection,
+            string viewName)
+        {
+            var command = SqlCommandAdapter.FromConnection(connection);
+
+            command.CommandText = @"SELECT referenced_entity_name
+FROM sys.dm_sql_referenced_entities (@viewName, 'OBJECT')
+WHERE referenced_minor_name IS NULL;";
+            // NOTE: Assumes schema is 'dbo'.
+            command.Parameters.Add("@viewName", SqlDbType.NVarChar).Value = $"[dbo].{Quote(viewName)}";
+
+            return command;
+        }
+
+        #endregion
+
         #region SwitchTable
 
         public static async Task SwitchTableAsync(
