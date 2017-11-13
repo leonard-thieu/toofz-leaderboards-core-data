@@ -30,31 +30,19 @@ namespace toofz.NecroDancer.Leaderboards
             await connection.OpenIsClosedAsync(cancellationToken).ConfigureAwait(false);
 
             MappingFragment mappingFragment;
-            string schemaName;
-            string tableName;
-            string viewName;
-            string stagingTableName;
-            string activeTableName;
-#if FEATURE_DROP_PRIMARY_KEYS
-            IEnumerable<string> primaryKeyColumnNames;
-#endif
-
             using (var db = new LeaderboardsContext(connection))
             {
                 mappingFragment = db.GetMappingFragment<TEntity>();
-                schemaName = mappingFragment.GetSchemaName();
-                tableName = mappingFragment.GetTableName();
-                viewName = tableName;
-
-                activeTableName = await connection.GetReferencedTableNameAsync(schemaName, viewName, cancellationToken).ConfigureAwait(false);
-                stagingTableName = activeTableName.EndsWith("_A") ?
-                     $"{viewName}_B" :
-                     $"{viewName}_A";
-
-#if FEATURE_DROP_PRIMARY_KEYS
-                primaryKeyColumnNames = mappingFragment.GetPrimaryKeyColumnNames();
-#endif
             }
+
+            var schemaName = mappingFragment.GetSchemaName();
+            var tableName = mappingFragment.GetTableName();
+            var viewName = tableName;
+
+            var activeTableName = await connection.GetReferencedTableNameAsync(schemaName, viewName, cancellationToken).ConfigureAwait(false);
+            var stagingTableName = activeTableName.EndsWith("_A") ?
+                $"{viewName}_B" :
+                $"{viewName}_A";
 
             await connection.DisableNonclusteredIndexesAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
 #if FEATURE_DROP_PRIMARY_KEYS
@@ -66,6 +54,7 @@ namespace toofz.NecroDancer.Leaderboards
             await connection.TruncateTableAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
             await BulkCopyAsync(items, stagingTableName, mappingFragment, true, cancellationToken).ConfigureAwait(false);
 #if FEATURE_DROP_PRIMARY_KEYS
+            var primaryKeyColumnNames = mappingFragment.GetPrimaryKeyColumnNames();
             await connection.AddPrimaryKeyAsync(schemaName, stagingTableName, primaryKeyColumnNames, cancellationToken).ConfigureAwait(false);
 #endif
             await connection.RebuildNonclusteredIndexesAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
