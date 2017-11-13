@@ -65,7 +65,10 @@ namespace toofz.NecroDancer.Leaderboards
             catch (SqlException ex)
             {
                 // Throws SqlException on cancellation; however, consumers expect a TaskCanceledException.
-                cancellationToken.ThrowIfCancellationRequested();
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    throw new TaskCanceledException("The task was cancelled due to a cancellation request.", ex);
+                }
 
                 throw new SqlCommandException(ex.Message, ex, CommandText);
             }
@@ -83,6 +86,9 @@ namespace toofz.NecroDancer.Leaderboards
         /// <returns>
         /// A task representing the asynchronous operation.
         /// </returns>
+        /// <exception cref="TaskCanceledException">
+        /// The task was cancelled due to a cancellation request.
+        /// </exception>
         public async Task<object> ExecuteScalarAsync(CancellationToken cancellationToken)
         {
             try
@@ -92,7 +98,10 @@ namespace toofz.NecroDancer.Leaderboards
             catch (SqlException ex)
             {
                 // Throws SqlException on cancellation; however, consumers expect a TaskCanceledException.
-                cancellationToken.ThrowIfCancellationRequested();
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    throw new TaskCanceledException("The task was cancelled due to a cancellation request.", ex);
+                }
 
                 throw new SqlCommandException(ex.Message, ex, CommandText);
             }
