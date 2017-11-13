@@ -140,6 +140,9 @@
     <Compile Include="LeaderboardsContext.cs">
       <DependentUpon>ILeaderboardsContext.cs</DependentUpon>
     </Compile>
+    <Compile Include="LeaderboardsContext.Views.cs">
+      <DependentUpon>LeaderboardsContext.cs</DependentUpon>
+    </Compile>
     <Compile Include="ILeaderboardsStoreClient.cs" />
     <Compile Include="LeaderboardsStoreClient.cs">
       <DependentUpon>ILeaderboardsStoreClient.cs</DependentUpon>
