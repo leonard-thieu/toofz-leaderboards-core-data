@@ -13,4 +13,7 @@
     <description>Provides a context for working with types from toofz Leaderboards Core in a database.</description>
     <copyright>Copyright © Leonard Thieu 2017</copyright>
   </metadata>
+  <files>
+  	<file src="$OutDir$$AssemblyName$.pdb" target="lib\net461" />
+  </files>
 </package>
