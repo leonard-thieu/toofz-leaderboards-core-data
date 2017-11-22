@@ -12,7 +12,7 @@ namespace toofz.NecroDancer.Leaderboards
 {
     internal static class SqlConnectionExtensions
     {
-        public static async Task OpenIsClosedAsync(
+        public static async Task OpenIfClosedAsync(
             this SqlConnection connection,
             CancellationToken cancellationToken)
         {

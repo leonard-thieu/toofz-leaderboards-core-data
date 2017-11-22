@@ -27,7 +27,7 @@ namespace toofz.NecroDancer.Leaderboards
 
             items = items.ToList();
 
-            await connection.OpenIsClosedAsync(cancellationToken).ConfigureAwait(false);
+            await connection.OpenIfClosedAsync(cancellationToken).ConfigureAwait(false);
 
             MappingFragment mappingFragment;
             using (var db = new LeaderboardsContext(connection))
@@ -92,7 +92,7 @@ namespace toofz.NecroDancer.Leaderboards
 
             if (!items.Any()) { return 0; }
 
-            await connection.OpenIsClosedAsync(cancellationToken).ConfigureAwait(false);
+            await connection.OpenIfClosedAsync(cancellationToken).ConfigureAwait(false);
 
             MappingFragment mappingFragment;
 
