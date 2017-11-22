@@ -6,11 +6,19 @@
 
 ## Overview
 
-**toofz Leaderboards Core (Data)** is a component of [toofz](https://github.com/leonard-thieu/toofz-necrodancer).
+**toofz Leaderboards Core (Data)** serves as the data access layer (DAL) for **toofz Leaderboards Core**. Retrieving data is done through an Entity Framework Code First model. 
+Modifying data uses a combination of `SqlBulkCopy` and raw SQL for performant bulk inserting and upserting.
+
+---
+
+**toofz Leaderboards Core (Data)** is a component of **toofz**. 
+Information about other projects that support **toofz** can be found in the [meta-repository](https://github.com/leonard-thieu/toofz-necrodancer).
 
 ### Dependents
 
 * [toofz Leaderboards Service](https://github.com/leonard-thieu/leaderboards-service)
+* [toofz Players Service](https://github.com/leonard-thieu/players-service)
+* [toofz Replays Service](https://github.com/leonard-thieu/replays-service)
 * [toofz API](https://github.com/leonard-thieu/api.toofz.com)
 
 ### Dependencies
@@ -20,6 +28,11 @@
 ## Requirements
 
 * .NET Framework 4.6.1
+* MS SQL Server
+
+## Building and testing
+
+Visual Studio 2017 (version 15.3 or later) can be used to build and run tests. Integration tests require MS SQL Server.
 
 ## License
 
