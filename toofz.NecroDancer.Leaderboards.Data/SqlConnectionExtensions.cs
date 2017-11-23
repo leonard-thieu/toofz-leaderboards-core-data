@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity.Migrations.Model;
-using System.Data.Entity.SqlServer;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -220,58 +218,6 @@ FROM {Quote(baseTableName)};";
             {
                 return string.Join(", ", columns.Select(Quote));
             }
-        }
-
-        #endregion
-
-        #region AlterPrimaryKey
-
-        public static async Task DropPrimaryKeyAsync(
-            this SqlConnection connection,
-            string schemaName,
-            string tableName,
-            CancellationToken cancellationToken)
-        {
-            var operation = new DropPrimaryKeyOperation { Table = $"{schemaName}.{tableName}" };
-
-            using (var command = GetAlterPrimaryKeyCommand(connection, operation))
-            {
-                await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
-            }
-        }
-
-        public static async Task AddPrimaryKeyAsync(
-            this SqlConnection connection,
-            string schemaName,
-            string tableName,
-            IEnumerable<string> primaryKeyColumnNames,
-            CancellationToken cancellationToken)
-        {
-            var operation = new AddPrimaryKeyOperation { Table = $"{schemaName}.{tableName}" };
-            operation.IsClustered = true;
-            foreach (var primaryKeyColumnName in primaryKeyColumnNames)
-            {
-                operation.Columns.Add(primaryKeyColumnName);
-            }
-
-            using (var command = GetAlterPrimaryKeyCommand(connection, operation))
-            {
-                await command.ExecuteNonQueryAsync(cancellationToken).ConfigureAwait(false);
-            }
-        }
-
-        internal static SqlCommandAdapter GetAlterPrimaryKeyCommand(
-            this SqlConnection connection,
-            PrimaryKeyOperation operation)
-        {
-            var command = SqlCommandAdapter.FromConnection(connection);
-
-            var generator = new SqlServerMigrationSqlGenerator();
-            // Using "2008" for a provider manifest token should be safe for most cases.
-            // https://romiller.com/2014/06/10/reducing-code-first-database-chatter/#post-628
-            command.CommandText = generator.Generate(new[] { operation }, "2008").Single().Sql;
-
-            return command;
         }
 
         #endregion

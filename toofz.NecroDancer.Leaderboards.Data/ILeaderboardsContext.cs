@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 
 namespace toofz.NecroDancer.Leaderboards
 {

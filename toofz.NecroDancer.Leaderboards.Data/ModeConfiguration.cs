@@ -1,23 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.ModelConfiguration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace toofz.NecroDancer.Leaderboards
 {
-    internal sealed class ModeConfiguration : EntityTypeConfiguration<Mode>
+    internal sealed class ModeConfiguration : IEntityTypeConfiguration<Mode>
     {
-        public ModeConfiguration()
+        public void Configure(EntityTypeBuilder<Mode> builder)
         {
-            this.HasKey(c => c.ModeId);
-            this.Property(c => c.ModeId)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            builder.HasKey(c => c.ModeId);
+            builder.Property(c => c.ModeId)
+                   .ValueGeneratedNever();
 
-            this.Property(c => c.Name)
-                .IsRequired()
-                .HasMaxLength(32);
-            this.HasIndex(c => c.Name)
-                .IsUnique();
-            this.Property(c => c.DisplayName)
-                .IsRequired();
+            builder.Property(c => c.Name)
+                   .IsRequired()
+                   .HasMaxLength(32);
+            builder.HasIndex(c => c.Name)
+                   .IsUnique();
+            builder.Property(c => c.DisplayName)
+                   .IsRequired();
         }
     }
 }

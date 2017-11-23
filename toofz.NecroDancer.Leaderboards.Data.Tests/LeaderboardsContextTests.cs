@@ -1,5 +1,5 @@
-﻿using System.Data.Entity;
-using System.Linq;
+﻿using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Xunit;
 
 namespace toofz.NecroDancer.Leaderboards.Tests
@@ -13,22 +13,6 @@ namespace toofz.NecroDancer.Leaderboards.Tests
             {
                 // Arrange -> Act
                 var db = new LeaderboardsContext();
-
-                // Assert
-                Assert.IsAssignableFrom<LeaderboardsContext>(db);
-            }
-        }
-
-        public class Constructor_String
-        {
-            [Fact]
-            public void ReturnsInstance()
-            {
-                // Arrange
-                var nameOrConnectionString = "Data Source=localhost;Integrated Security=SSPI";
-
-                // Act
-                var db = new LeaderboardsContext(nameOrConnectionString);
 
                 // Assert
                 Assert.IsAssignableFrom<LeaderboardsContext>(db);

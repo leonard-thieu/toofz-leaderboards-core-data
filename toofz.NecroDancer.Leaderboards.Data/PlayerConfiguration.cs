@@ -1,19 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.ModelConfiguration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace toofz.NecroDancer.Leaderboards
 {
-    internal sealed class PlayerConfiguration : EntityTypeConfiguration<Player>
+    internal sealed class PlayerConfiguration : IEntityTypeConfiguration<Player>
     {
-        public PlayerConfiguration()
+        public void Configure(EntityTypeBuilder<Player> builder)
         {
-            this.HasKey(p => p.SteamId);
-            this.Property(p => p.SteamId)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            builder.HasKey(p => p.SteamId);
+            builder.Property(p => p.SteamId)
+                   .ValueGeneratedNever();
 
-            this.Property(p => p.Name)
-                .HasMaxLength(64);
-            this.HasIndex(p => p.Name);
+            builder.Property(p => p.Name)
+                   .HasMaxLength(64);
+            builder.HasIndex(p => p.Name);
         }
     }
 }

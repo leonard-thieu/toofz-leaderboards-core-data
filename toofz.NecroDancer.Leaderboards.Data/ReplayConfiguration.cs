@@ -1,15 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.ModelConfiguration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace toofz.NecroDancer.Leaderboards
 {
-    internal sealed class ReplayConfiguration : EntityTypeConfiguration<Replay>
+    internal sealed class ReplayConfiguration : IEntityTypeConfiguration<Replay>
     {
-        public ReplayConfiguration()
+        public void Configure(EntityTypeBuilder<Replay> builder)
         {
-            this.HasKey(e => e.ReplayId);
-            this.Property(e => e.ReplayId)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            builder.HasKey(e => e.ReplayId);
+            builder.Property(e => e.ReplayId)
+                   .ValueGeneratedNever();
         }
     }
 }

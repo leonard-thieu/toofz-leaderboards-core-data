@@ -1,16 +1,13 @@
-﻿using System.Data.Entity.ModelConfiguration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace toofz.NecroDancer.Leaderboards
 {
-    internal sealed class EntryConfiguration : EntityTypeConfiguration<Entry>
+    internal sealed class EntryConfiguration : IEntityTypeConfiguration<Entry>
     {
-        public EntryConfiguration()
+        public void Configure(EntityTypeBuilder<Entry> builder)
         {
-            this.HasKey(e => new { e.LeaderboardId, e.Rank });
-            this.Property(e => e.LeaderboardId)
-                .HasColumnOrder(0);
-            this.Property(e => e.Rank)
-                .HasColumnOrder(1);
+            builder.HasKey(e => new { e.LeaderboardId, e.Rank });
         }
     }
 }

@@ -11,10 +11,10 @@ namespace toofz.NecroDancer.Leaderboards.Tests
         public DatabaseTestsBase()
         {
             connectionString = DatabaseHelper.GetConnectionString();
-            db = new LeaderboardsContext(connectionString);
+            db = new LeaderboardsContext();
 
-            db.Database.Delete();  // Make sure it really dropped - needed for dirty database
-            db.Database.Initialize(force: true);
+            db.Database.EnsureDeleted();  // Make sure it really dropped - needed for dirty database
+            db.Database.EnsureCreated();
         }
 
         protected readonly string connectionString;
@@ -22,7 +22,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
 
         public void Dispose()
         {
-            db.Database.Delete();
+            db.Database.EnsureDeleted();
         }
     }
 }

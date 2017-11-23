@@ -1,30 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Mapping;
-using System.Data.Entity.Core.Metadata.Edm;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Xunit;
 
 namespace toofz.NecroDancer.Leaderboards.Tests
 {
     public class TypedDataReaderTests
     {
+        public TypedDataReaderTests()
+        {
+            using (var db = new TestContext())
+            {
+                entityType = db.Model.FindEntityType(typeof(TestDto));
+            }
+        }
+
+        private readonly IEntityType entityType;
+
         public class Constructor
         {
             [Fact]
             public void ReturnsInstance()
             {
                 // Arrange
-                var items = new List<TestDto>();
+                using (var db = new TestContext())
+                {
+                    var entityType = db.Model.FindEntityType(typeof(TestDto));
+                    var items = new List<TestDto>();
 
-                // Act
-                var reader = new TypedDataReader<TestDto>(TestDto.PropertyMappings, items);
+                    // Act
+                    var reader = new TypedDataReader<TestDto>(entityType, items);
 
-                // Assert
-                Assert.IsAssignableFrom<TypedDataReader<TestDto>>(reader);
+                    // Assert
+                    Assert.IsAssignableFrom<TypedDataReader<TestDto>>(reader);
+                }
             }
         }
 
-        public class GetValueMethod
+        public class GetValueMethod : TypedDataReaderTests
         {
             [Fact]
             public void ReturnsValue()
@@ -41,7 +55,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                         Date = new DateTimeOffset(new DateTime(2010, 11, 14, 12, 0, 0), TimeSpan.FromHours(1)),
                     },
                 };
-                var reader = new TypedDataReader<TestDto>(TestDto.PropertyMappings, items);
+                var reader = new TypedDataReader<TestDto>(entityType, items);
                 reader.Read();
 
                 // Act
@@ -52,7 +66,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
             }
         }
 
-        public class GetOrdinalMethod
+        public class GetOrdinalMethod : TypedDataReaderTests
         {
             [Fact]
             public void ReturnsOrdinal()
@@ -69,7 +83,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                         Date = new DateTimeOffset(new DateTime(2010, 11, 14, 12, 0, 0), TimeSpan.FromHours(1)),
                     },
                 };
-                var reader = new TypedDataReader<TestDto>(TestDto.PropertyMappings, items);
+                var reader = new TypedDataReader<TestDto>(entityType, items);
 
                 // Act
                 var ordinal = reader.GetOrdinal("nullable_text");
@@ -79,7 +93,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
             }
         }
 
-        public class FieldCountProperty
+        public class FieldCountProperty : TypedDataReaderTests
         {
             [Fact]
             public void ReturnsFieldCount()
@@ -96,7 +110,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                         Date = new DateTimeOffset(new DateTime(2010, 11, 14, 12, 0, 0), TimeSpan.FromHours(1)),
                     },
                 };
-                var reader = new TypedDataReader<TestDto>(TestDto.PropertyMappings, items);
+                var reader = new TypedDataReader<TestDto>(entityType, items);
 
                 // Act
                 var fieldCount = reader.FieldCount;
@@ -106,7 +120,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
             }
         }
 
-        public class ReadMethod
+        public class ReadMethod : TypedDataReaderTests
         {
             [Fact]
             public void ReadIsSuccessful_ReturnsTrue()
@@ -123,7 +137,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                         Date = new DateTimeOffset(new DateTime(2010, 11, 14, 12, 0, 0), TimeSpan.FromHours(1)),
                     },
                 };
-                var reader = new TypedDataReader<TestDto>(TestDto.PropertyMappings, items);
+                var reader = new TypedDataReader<TestDto>(entityType, items);
 
                 // Act
                 var isSuccessful = reader.Read();
@@ -147,7 +161,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                         Date = new DateTimeOffset(new DateTime(2010, 11, 14, 12, 0, 0), TimeSpan.FromHours(1)),
                     },
                 };
-                var reader = new TypedDataReader<TestDto>(TestDto.PropertyMappings, items);
+                var reader = new TypedDataReader<TestDto>(entityType, items);
 
                 // Act
                 reader.Read();
@@ -158,27 +172,13 @@ namespace toofz.NecroDancer.Leaderboards.Tests
             }
         }
 
+        private class TestContext : DbContext
+        {
+            public DbSet<TestDto> TestDtos => Set<TestDto>();
+        }
+
         private class TestDto
         {
-            public static IEnumerable<ScalarPropertyMapping> PropertyMappings = new[]
-            {
-                new ScalarPropertyMapping(
-                    EdmProperty.CreatePrimitive("KeyPart1", PrimitiveType.GetEdmPrimitiveType(PrimitiveTypeKind.String)),
-                    EdmProperty.CreatePrimitive("key_part_1", PrimitiveType.GetEdmPrimitiveType(PrimitiveTypeKind.String))),
-                new ScalarPropertyMapping(
-                    EdmProperty.CreatePrimitive("KeyPart2", PrimitiveType.GetEdmPrimitiveType(PrimitiveTypeKind.Int32)),
-                    EdmProperty.CreatePrimitive("key_part_2", PrimitiveType.GetEdmPrimitiveType(PrimitiveTypeKind.Int32))),
-                new ScalarPropertyMapping(
-                    EdmProperty.CreatePrimitive("Text", PrimitiveType.GetEdmPrimitiveType(PrimitiveTypeKind.String)),
-                    EdmProperty.CreatePrimitive("nullable_text", PrimitiveType.GetEdmPrimitiveType(PrimitiveTypeKind.String))),
-                new ScalarPropertyMapping(
-                    EdmProperty.CreatePrimitive("Number", PrimitiveType.GetEdmPrimitiveType(PrimitiveTypeKind.Int32)),
-                    EdmProperty.CreatePrimitive("nullable_number", PrimitiveType.GetEdmPrimitiveType(PrimitiveTypeKind.Int32))),
-                new ScalarPropertyMapping(
-                    EdmProperty.CreatePrimitive("Date", PrimitiveType.GetEdmPrimitiveType(PrimitiveTypeKind.DateTimeOffset)),
-                    EdmProperty.CreatePrimitive("nullable_datetimeoffset", PrimitiveType.GetEdmPrimitiveType(PrimitiveTypeKind.DateTimeOffset))),
-            };
-
             public string KeyPart1 { get; set; }
             public short KeyPart2 { get; set; }
             public string Text { get; set; }
