@@ -46,7 +46,6 @@ namespace toofz.NecroDancer.Leaderboards
             command.CommandText = @"SELECT referenced_entity_name
 FROM sys.dm_sql_referenced_entities (@viewName, 'OBJECT')
 WHERE referenced_minor_name IS NULL;";
-            // NOTE: Assumes schema is 'dbo'.
             command.Parameters.Add("@viewName", SqlDbType.NVarChar).Value = $"{Quote(schemaName)}.{Quote(viewName)}";
 
             return command;
@@ -268,6 +267,8 @@ FROM {Quote(baseTableName)};";
             var command = SqlCommandAdapter.FromConnection(connection);
 
             var generator = new SqlServerMigrationSqlGenerator();
+            // Using "2008" for a provider manifest token should be safe for most cases.
+            // https://romiller.com/2014/06/10/reducing-code-first-database-chatter/#post-628
             command.CommandText = generator.Generate(new[] { operation }, "2008").Single().Sql;
 
             return command;

@@ -11,7 +11,7 @@ SELECT @name = dc.name
 FROM sys.columns c
 JOIN sys.default_constraints dc ON dc.object_id = c.default_object_id
 WHERE c.object_id = OBJECT_ID('{table}')
-AND c.name = '{column}'
+  AND c.name = '{column}'
 
 IF @name IS NOT NULL
     EXECUTE ('ALTER TABLE {table} DROP CONSTRAINT ' + @name)";
