@@ -1,26 +1,28 @@
 ﻿using System;
-using System.Data.SqlClient;
+using Xunit;
 
 namespace toofz.NecroDancer.Leaderboards.Tests
 {
+    // This class handles database initialization and cleanup for ALL database-related tests (including tests that 
+    // don't use LeaderboardsContext).
+    [Collection("Uses SQL Server")]
     public abstract class DatabaseTestsBase : IDisposable
     {
-        public DatabaseTestsBase(DatabaseFixture fixture)
+        public DatabaseTestsBase()
         {
-            Connection = fixture.Connection;
-            Db = fixture.Db;
+            connectionString = DatabaseHelper.GetConnectionString();
+            db = new LeaderboardsContext(connectionString);
 
-            Db.Database.Delete();  // Make sure it really dropped - needed for dirty database
-            Db.Database.Initialize(force: true);
+            db.Database.Delete();  // Make sure it really dropped - needed for dirty database
+            db.Database.Initialize(force: true);
         }
 
-        public SqlConnection Connection { get; }
-        public LeaderboardsContext Db { get; }
+        protected readonly string connectionString;
+        protected readonly LeaderboardsContext db;
 
         public void Dispose()
         {
-            Connection.Close();
-            Db.Database.Delete();
+            db.Database.Delete();
         }
     }
 }

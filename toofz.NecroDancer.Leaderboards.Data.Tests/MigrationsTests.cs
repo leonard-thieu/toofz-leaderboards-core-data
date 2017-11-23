@@ -14,16 +14,11 @@ namespace toofz.NecroDancer.Leaderboards.Tests
         #region From https://stackoverflow.com/a/42643788/414137
 
         [Trait("Category", "Uses SQL Server")]
-        [Collection(DatabaseCollection.Name)]
         public class IntegrationTests : DatabaseTestsBase
         {
-            public IntegrationTests(DatabaseFixture fixture) : base(fixture) { }
-
             [Fact]
             public void MigrationsUpDownTest()
             {
-                var db = Db;
-
                 var configuration = new Configuration();
                 var migrator = new DbMigrator(configuration);
 
@@ -49,25 +44,25 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                     Assert.True(false, "Should not have any errors when running migrations up and down: " + ex.Errors[0].Message.ToString());
                 }
             }
-        }
 
-        [Fact]
-        public void PendingModelChangesTest()
-        {
-            // NOTE: Using MigratorScriptingDecorator so changes won't be made to the database
-            var targetDatabase = new DbConnectionInfo(nameof(LeaderboardsContext));
-            var migrationsConfiguration = new Configuration { TargetDatabase = targetDatabase };
-            var migrator = new DbMigrator(migrationsConfiguration);
-            var scriptingMigrator = new MigratorScriptingDecorator(migrator);
+            [Fact]
+            public void PendingModelChangesTest()
+            {
+                // NOTE: Using MigratorScriptingDecorator so changes won't be made to the database
+                var targetDatabase = new DbConnectionInfo(nameof(LeaderboardsContext));
+                var migrationsConfiguration = new Configuration { TargetDatabase = targetDatabase };
+                var migrator = new DbMigrator(migrationsConfiguration);
+                var scriptingMigrator = new MigratorScriptingDecorator(migrator);
 
-            try
-            {
-                // NOTE: Using InitialDatabase so history won't be read from the database
-                scriptingMigrator.ScriptUpdate(DbMigrator.InitialDatabase, null);
-            }
-            catch (AutomaticMigrationsDisabledException)
-            {
-                Assert.True(false, "Should be no pending model changes/migrations should cover all model changes.");
+                try
+                {
+                    // NOTE: Using InitialDatabase so history won't be read from the database
+                    scriptingMigrator.ScriptUpdate(DbMigrator.InitialDatabase, null);
+                }
+                catch (AutomaticMigrationsDisabledException)
+                {
+                    Assert.True(false, "Should be no pending model changes/migrations should cover all model changes.");
+                }
             }
         }
 

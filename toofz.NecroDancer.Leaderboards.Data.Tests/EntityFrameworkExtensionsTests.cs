@@ -7,120 +7,99 @@ namespace toofz.NecroDancer.Leaderboards.Tests
     public class EntityFrameworkExtensionsTests
     {
         [Trait("Category", "Uses SQL Server")]
-        [Collection(DatabaseCollection.Name)]
-        public class GetMappingFragmentMethod
+        public class GetMappingFragmentMethod : DatabaseTestsBase
         {
             [Fact]
             public void ReturnsMappingFragment()
             {
-                // Arrange
-                using (var db = new LeaderboardsContext())
-                {
-                    // Act
-                    var mappingFragment = db.GetMappingFragment<Entry>();
+                // Arrange -> Act
+                var mappingFragment = db.GetMappingFragment<Entry>();
 
-                    // Assert
-                    Assert.IsAssignableFrom<MappingFragment>(mappingFragment);
-                }
+                // Assert
+                Assert.IsAssignableFrom<MappingFragment>(mappingFragment);
             }
         }
 
         [Trait("Category", "Uses SQL Server")]
-        [Collection(DatabaseCollection.Name)]
-        public class GetTableNameMethod
+        public class GetTableNameMethod : DatabaseTestsBase
         {
             [Fact]
             public void ReturnsTableName()
             {
                 // Arrange
-                using (var db = new LeaderboardsContext())
-                {
-                    var mappingFragment = db.GetMappingFragment<Entry>();
+                var mappingFragment = db.GetMappingFragment<Entry>();
 
-                    // Act
-                    var tableName = mappingFragment.GetTableName();
+                // Act
+                var tableName = mappingFragment.GetTableName();
 
-                    // Assert
-                    Assert.Equal("Entries", tableName);
-                }
+                // Assert
+                Assert.Equal("Entries", tableName);
             }
         }
 
         [Trait("Category", "Uses SQL Server")]
-        [Collection(DatabaseCollection.Name)]
-        public class GetScalarPropertyMappingsMethod
+        public class GetScalarPropertyMappingsMethod : DatabaseTestsBase
         {
             [Fact]
             public void ReturnsScalarPropertyMappings()
             {
                 // Arrange
-                using (var db = new LeaderboardsContext())
-                {
-                    var mappingFragment = db.GetMappingFragment<Entry>();
+                var mappingFragment = db.GetMappingFragment<Entry>();
 
-                    // Act
-                    var mappings = mappingFragment.GetScalarPropertyMappings();
+                // Act
+                var mappings = mappingFragment.GetScalarPropertyMappings();
 
-                    // Assert
-                    Assert.IsAssignableFrom<IEnumerable<ScalarPropertyMapping>>(mappings);
-                }
+                // Assert
+                Assert.IsAssignableFrom<IEnumerable<ScalarPropertyMapping>>(mappings);
             }
         }
 
         [Trait("Category", "Uses SQL Server")]
-        [Collection(DatabaseCollection.Name)]
-        public class GetColumnNamesMethod
+        public class GetColumnNamesMethod : DatabaseTestsBase
         {
             [Fact]
             public void ReturnsColumnNames()
             {
                 // Arrange
-                using (var db = new LeaderboardsContext())
+                var mappingFragment = db.GetMappingFragment<Entry>();
+
+                // Act
+                var columnNames = mappingFragment.GetColumnNames();
+
+                // Assert
+                var expected = new[]
                 {
-                    var mappingFragment = db.GetMappingFragment<Entry>();
-
-                    // Act
-                    var columnNames = mappingFragment.GetColumnNames();
-
-                    // Assert
-                    var expected = new[]
-                    {
-                        nameof(Entry.LeaderboardId),
-                        nameof(Entry.Rank),
-                        nameof(Entry.SteamId),
-                        nameof(Entry.ReplayId),
-                        nameof(Entry.Score),
-                        nameof(Entry.Zone),
-                        nameof(Entry.Level),
-                    };
-                    Assert.Equal(expected, columnNames);
-                }
+                    nameof(Entry.LeaderboardId),
+                    nameof(Entry.Rank),
+                    nameof(Entry.SteamId),
+                    nameof(Entry.ReplayId),
+                    nameof(Entry.Score),
+                    nameof(Entry.Zone),
+                    nameof(Entry.Level),
+                };
+                Assert.Equal(expected, columnNames);
             }
         }
 
         [Trait("Category", "Uses SQL Server")]
-        [Collection(DatabaseCollection.Name)]
-        public class GetPrimaryKeyColumnNamesMethod
+        public class GetPrimaryKeyColumnNamesMethod : DatabaseTestsBase
         {
             [Fact]
             public void ReturnsPrimaryKeyColumnNames()
             {
                 // Arrange
-                using (var db = new LeaderboardsContext())
+                var mappingFragment = db.GetMappingFragment<Entry>();
+
+                // Act
+                var primaryKeyColumnNames = mappingFragment.GetPrimaryKeyColumnNames();
+
+                // Assert
+                var expected = new[]
                 {
-                    var mappingFragment = db.GetMappingFragment<Entry>();
-
-                    // Act
-                    var primaryKeyColumnNames = mappingFragment.GetPrimaryKeyColumnNames();
-
-                    // Assert
-                    var expected = new[]
-                    {
-                        nameof(Entry.LeaderboardId),
-                        nameof(Entry.Rank),
-                    };
-                    Assert.Equal(expected, primaryKeyColumnNames);
-                }
+                    nameof(Entry.LeaderboardId),
+                    nameof(Entry.Rank),
+                };
+                Assert.Equal(expected, primaryKeyColumnNames);
             }
         }
     }
