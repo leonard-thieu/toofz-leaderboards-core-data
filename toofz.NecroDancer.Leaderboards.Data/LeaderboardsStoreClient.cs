@@ -10,9 +10,13 @@ namespace toofz.NecroDancer.Leaderboards
 {
     public sealed class LeaderboardsStoreClient : ILeaderboardsStoreClient
     {
-        public LeaderboardsStoreClient(SqlConnection connection)
+        /// <summary>
+        /// Initializes an instance of the <see cref="LeaderboardsStoreClient"/> class.
+        /// </summary>
+        /// <param name="connectionString">The connection used to open the SQL Server database.</param>
+        public LeaderboardsStoreClient(string connectionString)
         {
-            this.connection = connection ?? throw new ArgumentNullException(nameof(connection));
+            connection = new SqlConnection(connectionString);
         }
 
         private readonly SqlConnection connection;
@@ -144,5 +148,23 @@ namespace toofz.NecroDancer.Leaderboards
                 }
             }
         }
+
+        #region IDisposable Members
+
+        private bool disposed;
+
+        /// <summary>
+        /// Disposes of resources used by <see cref="LeaderboardsStoreClient"/>.
+        /// </summary>
+        public void Dispose()
+        {
+            if (disposed) { return; }
+
+            connection.Dispose();
+
+            disposed = true;
+        }
+
+        #endregion
     }
 }

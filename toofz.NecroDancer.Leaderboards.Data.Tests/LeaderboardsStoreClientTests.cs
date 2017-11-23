@@ -1,50 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace toofz.NecroDancer.Leaderboards.Tests
 {
-    public class LeaderboardsStoreClientTests
+    public class LeaderboardsStoreClientTests : IDisposable
     {
+        public LeaderboardsStoreClientTests()
+        {
+            var connectionString = DatabaseHelper.GetConnectionString();
+            storeClient = new LeaderboardsStoreClient(connectionString);
+        }
+
+        private readonly LeaderboardsStoreClient storeClient;
+
+        public void Dispose()
+        {
+            storeClient.Dispose();
+        }
+
         public class Constructor
         {
-            [Fact]
-            public void ConnectionIsNull_ThrowsArgumentNullException()
-            {
-                // Arrange
-                SqlConnection connection = null;
-
-                // Act -> Assert
-                Assert.Throws<ArgumentNullException>(() =>
-                {
-                    new LeaderboardsStoreClient(connection);
-                });
-            }
-
             [Fact]
             public void ReturnsInstance()
             {
                 // Arrange
-                var connection = new SqlConnection();
+                var connectionString = "Data Source=localhost;Integrated Security=SSPI";
 
                 // Act
-                var storeClient = new LeaderboardsStoreClient(connection);
+                var storeClient = new LeaderboardsStoreClient(connectionString);
 
                 // Assert
                 Assert.IsAssignableFrom<LeaderboardsStoreClient>(storeClient);
             }
         }
 
-        public class InsertAsyncMethod
+        public class InsertAsyncMethod : LeaderboardsStoreClientTests
         {
             [Fact]
             public async Task ItemsIsNull_ThrowsArgumentNullException()
             {
                 // Arrange
-                var connection = new SqlConnection();
-                var storeClient = new LeaderboardsStoreClient(connection);
                 IEnumerable<Entry> items = null;
 
                 // Act -> Assert
@@ -54,39 +51,36 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 });
             }
 
-            [Collection(DatabaseCollection.Name)]
             [Trait("Category", "Uses SQL Server")]
             public class IntegrationTests : DatabaseTestsBase
             {
-                public IntegrationTests(DatabaseFixture fixture) : base(fixture) { }
-
                 [Fact]
                 public async Task BulkInsertsItems()
                 {
                     // Arrange
-                    var storeClient = new LeaderboardsStoreClient(Connection);
-                    var items = new[]
+                    using (var storeClient = new LeaderboardsStoreClient(connectionString))
                     {
-                        new Entry(),
-                    };
+                        var items = new[]
+                        {
+                            new Entry(),
+                        };
 
-                    // Act
-                    var rowsAffected = await storeClient.BulkInsertAsync(items, default);
+                        // Act
+                        var rowsAffected = await storeClient.BulkInsertAsync(items, default);
 
-                    // Assert
-                    Assert.Equal(items.Length, rowsAffected);
+                        // Assert
+                        Assert.Equal(items.Length, rowsAffected);
+                    }
                 }
             }
         }
 
-        public class UpsertAsyncMethod
+        public class UpsertAsyncMethod : LeaderboardsStoreClientTests
         {
             [Fact]
             public async Task ItemsIsNull_ThrowsArgumentNullException()
             {
                 // Arrange
-                var connection = new SqlConnection();
-                var storeClient = new LeaderboardsStoreClient(connection);
                 IEnumerable<Player> items = null;
 
                 // Act -> Assert
@@ -100,8 +94,6 @@ namespace toofz.NecroDancer.Leaderboards.Tests
             public async Task ItemsIsEmpty_ShortCircuits()
             {
                 // Arrange
-                var connection = new SqlConnection();
-                var storeClient = new LeaderboardsStoreClient(connection);
                 var items = new List<Replay>();
 
                 // Act
@@ -111,27 +103,26 @@ namespace toofz.NecroDancer.Leaderboards.Tests
                 Assert.Equal(0, rowsAffected);
             }
 
-            [Collection(DatabaseCollection.Name)]
             [Trait("Category", "Uses SQL Server")]
             public class IntegrationTests : DatabaseTestsBase
             {
-                public IntegrationTests(DatabaseFixture fixture) : base(fixture) { }
-
                 [Fact]
                 public async Task UpsertsItems()
                 {
                     // Arrange
-                    var storeClient = new LeaderboardsStoreClient(Connection);
-                    var items = new[]
+                    using (var storeClient = new LeaderboardsStoreClient(connectionString))
                     {
-                        new Player(),
-                    };
+                        var items = new[]
+                        {
+                            new Player(),
+                        };
 
-                    // Act
-                    var rowsAffected = await storeClient.BulkUpsertAsync(items, default);
+                        // Act
+                        var rowsAffected = await storeClient.BulkUpsertAsync(items, default);
 
-                    // Assert
-                    Assert.Equal(1, rowsAffected);
+                        // Assert
+                        Assert.Equal(1, rowsAffected);
+                    }
                 }
             }
         }
