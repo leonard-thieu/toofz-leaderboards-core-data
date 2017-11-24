@@ -89,6 +89,23 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Resources\Characters.json" />
+    <None Include="Resources\DailyLeaderboards.json" />
+    <None Include="Resources\Leaderboards.json" />
+    <None Include="Resources\Modes.json" />
+    <None Include="Resources\Products.json" />
+    <None Include="Resources\Runs.json" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Migrations\201710131410491_InitialCreate.cs" />
     <Compile Include="Migrations\201710131410491_InitialCreate.Designer.cs">
       <DependentUpon>201710131410491_InitialCreate.cs</DependentUpon>
@@ -152,6 +169,7 @@
       <DependentUpon>ILeaderboardsStoreClient.cs</DependentUpon>
     </Compile>
     <Compile Include="LeaderboardConfiguration.cs" />
+    <Compile Include="LeaderboardsContextInitializer.cs" />
     <Compile Include="ModeConfiguration.cs" />
     <Compile Include="PlayerConfiguration.cs" />
     <Compile Include="ProductConfiguration.cs" />

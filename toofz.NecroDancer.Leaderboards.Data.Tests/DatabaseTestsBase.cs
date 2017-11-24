@@ -8,13 +8,16 @@ namespace toofz.NecroDancer.Leaderboards.Tests
     [Collection("Uses SQL Server")]
     public abstract class DatabaseTestsBase : IDisposable
     {
-        public DatabaseTestsBase()
+        public DatabaseTestsBase(bool initialize = true)
         {
             connectionString = DatabaseHelper.GetConnectionString();
             db = new LeaderboardsContext(connectionString);
 
-            db.Database.Delete();  // Make sure it really dropped - needed for dirty database
-            db.Database.Initialize(force: true);
+            db.Database.Delete(); // Make sure it really dropped - needed for dirty database
+            if (initialize)
+            {
+                db.Database.Initialize(force: true);
+            }
         }
 
         protected readonly string connectionString;

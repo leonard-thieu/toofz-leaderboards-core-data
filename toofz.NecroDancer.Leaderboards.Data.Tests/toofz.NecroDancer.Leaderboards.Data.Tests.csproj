@@ -118,6 +118,7 @@
     <Compile Include="DatabaseHelper.cs" />
     <Compile Include="DatabaseTestsBase.cs" />
     <Compile Include="EntityFrameworkExtensionsTests.cs" />
+    <Compile Include="LeaderboardsContextInitializerTests.cs" />
     <Compile Include="LeaderboardsContextTests.cs" />
     <Compile Include="LeaderboardsStoreClientTests.cs" />
     <Compile Include="MigrationsTests.cs" />
