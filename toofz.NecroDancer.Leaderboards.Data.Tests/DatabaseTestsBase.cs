@@ -10,7 +10,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
     {
         public DatabaseTestsBase(bool initialize = true)
         {
-            connectionString = DatabaseHelper.GetConnectionString();
+            connectionString = StorageHelper.GetDatabaseConnectionString();
             db = new LeaderboardsContext(connectionString);
 
             db.Database.Delete(); // Make sure it really dropped - needed for dirty database

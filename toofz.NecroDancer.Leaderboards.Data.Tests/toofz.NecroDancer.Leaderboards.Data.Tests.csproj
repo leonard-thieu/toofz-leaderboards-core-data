@@ -115,7 +115,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatabaseHelper.cs" />
     <Compile Include="DatabaseTestsBase.cs" />
     <Compile Include="EntityFrameworkExtensionsTests.cs" />
     <Compile Include="LeaderboardsContextInitializerTests.cs" />
@@ -126,6 +125,7 @@
     <Compile Include="SqlCommandAdapterTests.cs" />
     <Compile Include="SqlCommandExceptionTests.cs" />
     <Compile Include="SqlConnectionExtensionsTests.cs" />
+    <Compile Include="StorageHelper.cs" />
     <Compile Include="TypedDataReaderTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

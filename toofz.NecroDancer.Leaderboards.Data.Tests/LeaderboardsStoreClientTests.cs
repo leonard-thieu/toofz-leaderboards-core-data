@@ -9,7 +9,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
     {
         public LeaderboardsStoreClientTests()
         {
-            var connectionString = DatabaseHelper.GetConnectionString();
+            var connectionString = StorageHelper.GetDatabaseConnectionString();
             storeClient = new LeaderboardsStoreClient(connectionString);
         }
 
@@ -26,7 +26,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
             public void ReturnsInstance()
             {
                 // Arrange
-                var connectionString = "Data Source=localhost;Integrated Security=SSPI";
+                var connectionString = StorageHelper.GetDatabaseConnectionString();
 
                 // Act
                 var storeClient = new LeaderboardsStoreClient(connectionString);
