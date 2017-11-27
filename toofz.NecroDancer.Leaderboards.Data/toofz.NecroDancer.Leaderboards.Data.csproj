@@ -168,6 +168,7 @@
     <Compile Include="LeaderboardsStoreClient.cs">
       <DependentUpon>ILeaderboardsStoreClient.cs</DependentUpon>
     </Compile>
+    <Compile Include="ILeaderboardsStoreClientExtensions.cs" />
     <Compile Include="LeaderboardConfiguration.cs" />
     <Compile Include="LeaderboardsContextInitializer.cs" />
     <Compile Include="ModeConfiguration.cs" />

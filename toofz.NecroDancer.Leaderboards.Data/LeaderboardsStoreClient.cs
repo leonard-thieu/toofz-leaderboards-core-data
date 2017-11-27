@@ -74,14 +74,6 @@ namespace toofz.NecroDancer.Leaderboards
             return items.Count();
         }
 
-        public Task<int> BulkUpsertAsync<TEntity>(
-            IEnumerable<TEntity> items,
-            CancellationToken cancellationToken)
-            where TEntity : class
-        {
-            return BulkUpsertAsync(items, null, cancellationToken);
-        }
-
         public async Task<int> BulkUpsertAsync<TEntity>(
             IEnumerable<TEntity> items,
             BulkUpsertOptions options,
