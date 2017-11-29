@@ -176,7 +176,6 @@
     <Compile Include="ProductConfiguration.cs" />
     <Compile Include="ReplayConfiguration.cs" />
     <Compile Include="RunConfiguration.cs" />
-    <Compile Include="ScalarPropertyMappingContext.cs" />
     <Compile Include="SqlClientUtil.cs" />
     <Compile Include="SqlCommandAdapter.cs" />
     <Compile Include="SqlCommandException.cs" />

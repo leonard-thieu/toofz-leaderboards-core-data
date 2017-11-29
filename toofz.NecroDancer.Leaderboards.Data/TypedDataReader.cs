@@ -2,19 +2,38 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity.Core.Mapping;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace toofz.NecroDancer.Leaderboards
 {
     internal sealed class TypedDataReader<T> : IDataReader
     {
+        private static Func<object, object> CreatePropertyGetter(Type type, string propertyName)
+        {
+            var propertyInfo = type.GetTypeInfo().GetDeclaredProperty(propertyName) ??
+                throw new ArgumentException($"Unable to find property '{propertyName}' on '{type.Name}'.");
+
+            var propertyType = propertyInfo.PropertyType;
+            var entityParameter = Expression.Parameter(typeof(object), "entity");
+            Expression getterExpression = Expression.Property(Expression.Convert(entityParameter, type), propertyInfo);
+
+            if (propertyType.GetTypeInfo().IsValueType)
+            {
+                getterExpression = Expression.Convert(getterExpression, typeof(object));
+            }
+
+            return Expression.Lambda<Func<object, object>>(getterExpression, entityParameter).Compile();
+        }
+
         public TypedDataReader(IEnumerable<ScalarPropertyMapping> scalarPropertyMappings, IEnumerable<T> items)
         {
             var type = typeof(T);
             foreach (var scalarPropertyMapping in scalarPropertyMappings)
             {
+                var getter = CreatePropertyGetter(type, scalarPropertyMapping.Property.Name);
+                getters.Add(getter);
                 ordinals.Add(scalarPropertyMapping.Column.Name, fieldCount);
-                var context = new ScalarPropertyMappingContext(scalarPropertyMapping, type);
-                getters.Add(context.ValueGetter);
                 fieldCount++;
             }
             this.items = items.GetEnumerator();
