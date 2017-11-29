@@ -38,6 +38,25 @@ namespace toofz.NecroDancer.Leaderboards.Tests
             }
         }
 
+        public class InnerExceptionProperty
+        {
+            [Fact]
+            public void ReturnsSqlException()
+            {
+                // Arrange
+                var message = "myMessage";
+                var innerException = SqlClientUtil.CreateSqlException();
+                var commandText = "myCommandText";
+                var ex = new SqlCommandException(message, innerException, commandText);
+
+                // Act
+                var innerException2 = ex.InnerException;
+
+                // Assert
+                Assert.IsAssignableFrom<SqlException>(innerException2);
+            }
+        }
+
         public class ToStringMethod
         {
             [Fact]

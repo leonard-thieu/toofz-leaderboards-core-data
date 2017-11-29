@@ -1,5 +1,8 @@
 ﻿namespace toofz.NecroDancer.Leaderboards
 {
+    /// <summary>
+    /// Options for <see cref="ILeaderboardsStoreClient.BulkUpsertAsync{TEntity}(System.Collections.Generic.IEnumerable{TEntity}, BulkUpsertOptions, System.Threading.CancellationToken)"/>.
+    /// </summary>
     public sealed class BulkUpsertOptions
     {
         /// <summary>

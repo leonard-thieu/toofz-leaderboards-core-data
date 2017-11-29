@@ -117,6 +117,7 @@
   <ItemGroup>
     <Compile Include="DatabaseTestsBase.cs" />
     <Compile Include="EntityFrameworkExtensionsTests.cs" />
+    <Compile Include="ILeaderboardsStoreClientExtensionsTests.cs" />
     <Compile Include="LeaderboardsContextInitializerTests.cs" />
     <Compile Include="LeaderboardsContextTests.cs" />
     <Compile Include="LeaderboardsStoreClientTests.cs" />

@@ -1,11 +1,28 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Linq;
 using Xunit;
 
 namespace toofz.NecroDancer.Leaderboards.Tests
 {
     public class SqlClientUtilTests
     {
+        public class CreateSqlErrorMethod_Int32
+        {
+            [Fact]
+            public void ReturnsInstance()
+            {
+                // Arrange
+                int infoNumber = 0;
+
+                // Act
+                var error = SqlClientUtil.CreateSqlError(infoNumber);
+
+                // Assert
+                Assert.IsAssignableFrom<SqlError>(error);
+            }
+        }
+
         public class CreateSqlErrorMethod
         {
             [Fact]
@@ -32,13 +49,26 @@ namespace toofz.NecroDancer.Leaderboards.Tests
         public class CreateSqlErrorCollectionMethod
         {
             [Fact]
-            public void ReturnsInstance()
+            public void NoParams_ReturnsInstance()
             {
                 // Arrange -> Act
                 var errorCollection = SqlClientUtil.CreateSqlErrorCollection();
 
                 // Assert
                 Assert.IsAssignableFrom<SqlErrorCollection>(errorCollection);
+            }
+
+            [Fact]
+            public void HasParams_ReturnsInstanceWithErrors()
+            {
+                // Arrange
+                var sqlError = SqlClientUtil.CreateSqlError(0);
+
+                // Act
+                var errorCollection = SqlClientUtil.CreateSqlErrorCollection(sqlError);
+
+                // Assert
+                Assert.Contains(sqlError, errorCollection.OfType<SqlError>());
             }
         }
 
@@ -67,18 +97,73 @@ namespace toofz.NecroDancer.Leaderboards.Tests
             }
         }
 
+        public class CreateSqlExceptionMethod_Params_Array_SqlError
+        {
+            [Fact]
+            public void NoParams_ReturnsInstance()
+            {
+                // Arrange -> Act
+                var ex = SqlClientUtil.CreateSqlException();
+
+                // Assert
+                Assert.IsAssignableFrom<SqlException>(ex);
+            }
+
+            [Fact]
+            public void HasParams_ReturnsInstanceWithErrors()
+            {
+                // Arrange
+                var sqlError = SqlClientUtil.CreateSqlError(0);
+
+                // Act
+                var ex = SqlClientUtil.CreateSqlException(sqlError);
+
+                // Assert
+                Assert.Contains(sqlError, ex.Errors.OfType<SqlError>());
+            }
+        }
+
+        public class CreateSqlExceptionMethod_String_Exception_Guid_Params_Array_SqlError
+        {
+            private readonly string message = "myMessage";
+            private readonly Exception innerException = new Exception();
+            private readonly Guid conId = new Guid();
+
+            [Fact]
+            public void NoParams_ReturnsInstance()
+            {
+                // Arrange -> Act
+                var ex = SqlClientUtil.CreateSqlException(message, innerException, conId);
+
+                // Assert
+                Assert.IsAssignableFrom<SqlException>(ex);
+            }
+
+            [Fact]
+            public void HasParams_ReturnsInstanceWithErrors()
+            {
+                // Arrange
+                var sqlError = SqlClientUtil.CreateSqlError(0);
+
+                // Act
+                var ex = SqlClientUtil.CreateSqlException(message, innerException, conId, sqlError);
+
+                // Assert
+                Assert.Contains(sqlError, ex.Errors.OfType<SqlError>());
+            }
+        }
+
         public class CreateSqlExceptionMethod
         {
+            private readonly string message = "myMessage";
+            private readonly SqlErrorCollection errorCollection = SqlClientUtil.CreateSqlErrorCollection();
+            private readonly Exception innerException = new Exception();
+            private readonly Guid conId = new Guid();
+
             [Fact]
             public void ReturnsInstance()
             {
-                // Arrange
-                string message = null;
-                SqlErrorCollection errorCollection = null;
-                Exception innerException = null;
-                Guid conId = default;
-
-                // Act
+                // Arrange -> Act
                 var sqlException = SqlClientUtil.CreateSqlException(message, errorCollection, innerException, conId);
 
                 // Assert

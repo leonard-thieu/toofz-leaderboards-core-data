@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace toofz.NecroDancer.Leaderboards
 {
+    /// <summary>
+    /// Contains extension methods for <see cref="ILeaderboardsStoreClient"/>.
+    /// </summary>
     public static class ILeaderboardsStoreClientExtensions
     {
         public static Task<int> BulkUpsertAsync<TEntity>(
