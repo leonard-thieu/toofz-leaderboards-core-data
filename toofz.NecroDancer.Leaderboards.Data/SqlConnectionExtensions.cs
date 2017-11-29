@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity.Migrations.Model;
-using System.Data.Entity.SqlServer;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -224,6 +222,7 @@ FROM {Quote(baseTableName)};";
 
         #endregion
 
+#if FEATURE_DROP_PRIMARY_KEYS
         #region AlterPrimaryKey
 
         public static async Task DropPrimaryKeyAsync(
@@ -274,7 +273,8 @@ FROM {Quote(baseTableName)};";
             return command;
         }
 
-        #endregion
+        #endregion 
+#endif
 
         #region AlterNonclusteredIndexes
 
