@@ -5,7 +5,7 @@ using toofz.NecroDancer.Leaderboards.Properties;
 
 namespace toofz.NecroDancer.Leaderboards
 {
-    public sealed class LeaderboardsContextInitializer : CreateDatabaseIfNotExists<LeaderboardsContext>
+    public class LeaderboardsContextInitializer : CreateDatabaseIfNotExists<LeaderboardsContext>
     {
         protected override void Seed(LeaderboardsContext context)
         {
