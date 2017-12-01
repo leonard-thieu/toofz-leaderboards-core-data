@@ -12,7 +12,7 @@ namespace toofz.NecroDancer.Leaderboards.Tests
             if (connectionString != null) { return connectionString; }
 
             var connectionFactory = new LocalDbConnectionFactory("mssqllocaldb");
-            using (var connection = connectionFactory.CreateConnection("TestReplaysService"))
+            using (var connection = connectionFactory.CreateConnection("TestLeaderboardsData"))
             {
                 return connection.ConnectionString;
             }
