@@ -49,18 +49,11 @@ namespace toofz.NecroDancer.Leaderboards
                 $"{viewName}_A";
 
             await connection.DisableNonclusteredIndexesAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
-#if FEATURE_DROP_PRIMARY_KEYS
-            await connection.DropPrimaryKeyAsync(schemaName, stagingTableName, cancellationToken).ConfigureAwait(false);
-#endif
             // Cannot assume that the staging table is empty even though it's truncated afterwards.
             // This can happen when initially working with a database that was modified by legacy code. Legacy code 
             // truncated at the beginning instead of after.
             await connection.TruncateTableAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
             await BulkCopyAsync(items, stagingTableName, mappingFragment, true, cancellationToken).ConfigureAwait(false);
-#if FEATURE_DROP_PRIMARY_KEYS
-            var primaryKeyColumnNames = mappingFragment.GetPrimaryKeyColumnNames();
-            await connection.AddPrimaryKeyAsync(schemaName, stagingTableName, primaryKeyColumnNames, cancellationToken).ConfigureAwait(false);
-#endif
             await connection.RebuildNonclusteredIndexesAsync(stagingTableName, cancellationToken).ConfigureAwait(false);
             await connection.SwitchTableAsync(
                 viewName,
