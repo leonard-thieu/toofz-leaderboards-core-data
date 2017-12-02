@@ -20,6 +20,52 @@ namespace toofz.NecroDancer.Leaderboards.Tests
             storeClient.Dispose();
         }
 
+        public class IsTransientMethod
+        {
+            [Fact]
+            public void ExIsSqlCommandExceptionAndContainsSqlErrorWithNumberIs2_ReturnsTrue()
+            {
+                // Arrange
+                var sqlError = SqlClientUtil.CreateSqlError(-2);
+                var sqlException = SqlClientUtil.CreateSqlException(sqlError);
+                var ex = new SqlCommandException(null, sqlException, null);
+
+                // Act
+                var isTransient = LeaderboardsStoreClient.IsTransient(ex);
+
+                // Assert
+                Assert.True(isTransient);
+            }
+
+            [Fact]
+            public void ExIsSqlCommandExceptionAndDoesNotContainSqlErrorWithNumberIs2_ReturnsFalse()
+            {
+                // Arrange
+                var sqlError = SqlClientUtil.CreateSqlError(0);
+                var sqlException = SqlClientUtil.CreateSqlException(sqlError);
+                var ex = new SqlCommandException(null, sqlException, null);
+
+                // Act
+                var isTransient = LeaderboardsStoreClient.IsTransient(ex);
+
+                // Assert
+                Assert.False(isTransient);
+            }
+
+            [Fact]
+            public void ExIsNotSqlCommandException_ReturnsFalse()
+            {
+                // Arrange
+                var ex = new Exception();
+
+                // Act
+                var isTransient = LeaderboardsStoreClient.IsTransient(ex);
+
+                // Assert
+                Assert.False(isTransient);
+            }
+        }
+
         public class Constructor
         {
             [Fact]

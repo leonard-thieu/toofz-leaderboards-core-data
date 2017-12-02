@@ -11,6 +11,28 @@ namespace toofz.NecroDancer.Leaderboards
     public sealed class LeaderboardsStoreClient : ILeaderboardsStoreClient
     {
         /// <summary>
+        /// Indicates if an exception is a transient fault for <see cref="LeaderboardsStoreClient"/>.
+        /// </summary>
+        /// <param name="ex">The exception to check.</param>
+        /// <returns>
+        /// true, if the exception is a transient fault for <see cref="LeaderboardsStoreClient"/>; otherwise, false.
+        /// </returns>
+        public static bool IsTransient(Exception ex)
+        {
+            if (ex is SqlCommandException sce)
+            {
+                // Connection timeout
+                // https://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlerror.number(v=vs.110).aspx#Remarks
+                return sce.InnerException
+                    .Errors
+                    .OfType<SqlError>()
+                    .Any(err => err.Number == -2);
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Initializes an instance of the <see cref="LeaderboardsStoreClient"/> class.
         /// </summary>
         /// <param name="connectionString">The connection used to open the SQL Server database.</param>
