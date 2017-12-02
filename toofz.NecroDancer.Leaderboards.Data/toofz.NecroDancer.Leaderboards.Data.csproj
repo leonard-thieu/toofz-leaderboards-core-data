@@ -15,7 +15,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-    <PackageVersion>13.3.0</PackageVersion>
+    <PackageVersion>13.3.1</PackageVersion>
     <Authors>Leonard Thieu</Authors>
     <Title>toofz Leaderboards Core (Data)</Title>
     <Description>Provides a context for working with types from toofz Leaderboards Core in a database.</Description>
