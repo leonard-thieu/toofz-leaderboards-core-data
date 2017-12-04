@@ -38,46 +38,13 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Flurl, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Flurl.2.5.0\lib\net40\Flurl.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ApplicationInsights, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.2.4.0\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Win32.Registry, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Win32.Registry.4.4.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Polly, Version=5.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Polly.5.5.0\lib\net45\Polly.dll</HintPath>
-    </Reference>
-    <Reference Include="protobuf-net, Version=2.1.0.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
-      <HintPath>..\packages\protobuf-net.2.1.0\lib\net451\protobuf-net.dll</HintPath>
-    </Reference>
-    <Reference Include="SteamKit2, Version=4.1.2.45, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\toofz.SteamKit2.4.1.2\lib\netstandard2.0\SteamKit2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.4.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.AccessControl, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.AccessControl.4.4.0\lib\net461\System.Security.AccessControl.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Principal.Windows, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Security.Principal.Windows.4.4.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
-    </Reference>
     <Reference Include="System.Xml" />
-    <Reference Include="toofz.NecroDancer.Leaderboards, Version=19.0.2.335, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\toofz.NecroDancer.Leaderboards.19.0.2\lib\netstandard2.0\toofz.NecroDancer.Leaderboards.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -152,10 +119,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BulkUpsertOptions.cs" />
+    <Compile Include="Character.cs" />
     <Compile Include="CharacterConfiguration.cs" />
+    <Compile Include="DailyEntry.cs" />
     <Compile Include="DailyEntryConfiguration.cs" />
+    <Compile Include="DailyLeaderboard.cs" />
     <Compile Include="DailyLeaderboardConfiguration.cs" />
     <Compile Include="EntityFrameworkExtensions.cs" />
+    <Compile Include="Entry.cs" />
     <Compile Include="EntryConfiguration.cs" />
     <Compile Include="ILeaderboardsContext.cs" />
     <Compile Include="LeaderboardsContext.cs">
@@ -169,12 +140,18 @@
       <DependentUpon>ILeaderboardsStoreClient.cs</DependentUpon>
     </Compile>
     <Compile Include="ILeaderboardsStoreClientExtensions.cs" />
+    <Compile Include="Leaderboard.cs" />
     <Compile Include="LeaderboardConfiguration.cs" />
     <Compile Include="LeaderboardsContextInitializer.cs" />
+    <Compile Include="Mode.cs" />
     <Compile Include="ModeConfiguration.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="PlayerConfiguration.cs" />
+    <Compile Include="Product.cs" />
     <Compile Include="ProductConfiguration.cs" />
+    <Compile Include="Replay.cs" />
     <Compile Include="ReplayConfiguration.cs" />
+    <Compile Include="Run.cs" />
     <Compile Include="RunConfiguration.cs" />
     <Compile Include="SqlClientUtil.cs" />
     <Compile Include="SqlCommandAdapter.cs" />

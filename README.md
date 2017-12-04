@@ -6,7 +6,7 @@
 
 ## Overview
 
-**toofz Leaderboards Core (Data)** serves as the data access layer (DAL) for **toofz Leaderboards Core**. Retrieving data is done through an Entity Framework Code First model. 
+**toofz Leaderboards Core (Data)** serves as the data access layer (DAL) for **toofz** leaderboards. Retrieving data is done through an Entity Framework Code First model. 
 Modifying data uses a combination of `SqlBulkCopy` and raw SQL for performant bulk inserting and upserting.
 
 ---
@@ -20,10 +20,6 @@ Information about other projects that support **toofz** can be found in the [met
 * [toofz Players Service](https://github.com/leonard-thieu/players-service)
 * [toofz Replays Service](https://github.com/leonard-thieu/replays-service)
 * [toofz API](https://github.com/leonard-thieu/api.toofz.com)
-
-### Dependencies
-
-* [toofz Leaderboards Core](https://github.com/leonard-thieu/toofz-leaderboards-core)
 
 ## Requirements
 
