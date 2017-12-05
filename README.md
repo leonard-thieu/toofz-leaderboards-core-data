@@ -6,7 +6,7 @@
 
 ## Overview
 
-**toofz Leaderboards Core (Data)** serves as the data access layer (DAL) for **toofz** leaderboards. Retrieving data is done through an Entity Framework Code First model. 
+**toofz Leaderboards Core (Data)** serves as the data access layer (DAL) for leaderboards, players, and replays. Retrieving data is done through an Entity Framework Code First model. 
 Modifying data uses a combination of `SqlBulkCopy` and raw SQL for performant bulk inserting and upserting.
 
 ---
